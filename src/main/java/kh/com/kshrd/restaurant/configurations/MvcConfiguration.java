@@ -20,7 +20,7 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackages = { "kh.com.kshrd.restaurant.restcontrollers" })
+@ComponentScan(basePackages = { "kh.com.kshrd.restaurant.restcontrollers", "kh.com.kshrd.restaurant.configurations" })
 @PropertySource("classpath:application.properties")
 public class MvcConfiguration extends WebMvcConfigurerAdapter {
 
@@ -29,6 +29,8 @@ public class MvcConfiguration extends WebMvcConfigurerAdapter {
 
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
+		registry.addResourceHandler("swagger-ui.html").addResourceLocations("classpath:/META-INF/resources/");
+		registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
 		registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
 	}
 
@@ -58,7 +60,8 @@ public class MvcConfiguration extends WebMvcConfigurerAdapter {
 
 	@Override
 	public void addCorsMappings(CorsRegistry registry) {
-		registry.addMapping("/**").allowedMethods("GET", "POST", "DELETE", "PUT", "OPTIONS", "PATCH")
+		registry.addMapping("/**")
+				.allowedMethods("GET", "POST", "DELETE", "PUT", "OPTIONS", "PATCH")
 				.allowedOrigins("*");
 	}
 
