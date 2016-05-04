@@ -27,4 +27,17 @@ public class RestCategoryController {
 		model.put("PAGINATION", null);
 		return new ResponseEntity<Map<String, Object>>(model, HttpStatus.OK);
 	}
+	
+	@RequestMapping(method=RequestMethod.POST)
+	public ResponseEntity<Map<String, Object>> addNewCategory(){
+		Map<String, Object> model = new HashMap<String, Object>();
+		List<String> strs = new ArrayList<String>();
+		strs.add("PIRANG");
+		strs.add("KOKPHENG");
+		model.put("DATA", strs);
+		model.put("MESSAGE", "WELCOME TO RESTAURANT APPLICATION");
+		model.put("CODE", "0000");
+		model.put("PAGINATION", null);
+		return new ResponseEntity<Map<String, Object>>(model, HttpStatus.OK);
+	}
 }
