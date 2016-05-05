@@ -11,6 +11,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class User implements UserDetails{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7783302294535892142L;
+
 	@JsonProperty("ID")
 	private Long id;
 	
