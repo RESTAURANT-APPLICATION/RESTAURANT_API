@@ -9,12 +9,14 @@ public class RestaurantApiBootstrap extends AbstractAnnotationConfigDispatcherSe
  
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        return new Class[] { RootContextConfiguration.class };
+        return new Class[] { RootContextConfiguration.class};
+    	//return null;
     }
   
     @Override
     protected Class<?>[] getServletConfigClasses() {
-        return new Class[] { MvcConfiguration.class };
+    	return null;
+        //return new Class[] { MvcConfiguration.class };
     }
   
     @Override

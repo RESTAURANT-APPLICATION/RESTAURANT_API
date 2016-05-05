@@ -20,7 +20,7 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackages = { "kh.com.kshrd.restaurant.restcontrollers", "kh.com.kshrd.restaurant.configurations" })
+@ComponentScan(basePackages = { "kh.com.kshrd.restaurant.restcontrollers" })
 @PropertySource("classpath:application.properties")
 public class MvcConfiguration extends WebMvcConfigurerAdapter {
 

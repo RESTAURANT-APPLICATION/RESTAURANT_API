@@ -1,5 +1,7 @@
 package kh.com.kshrd.restaurant.bootstraps;
 
-public class RestaurantApiSecurityBootstrap {
+import org.springframework.security.web.context.AbstractSecurityWebApplicationInitializer;
+
+public class RestaurantApiSecurityBootstrap extends AbstractSecurityWebApplicationInitializer {
 
 }
