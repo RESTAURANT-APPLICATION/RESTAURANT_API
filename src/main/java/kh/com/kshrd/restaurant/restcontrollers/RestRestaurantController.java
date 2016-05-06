@@ -15,8 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import kh.com.kshrd.restaurant.filters.RestaurantFilter;
 import kh.com.kshrd.restaurant.models.Restaurant;
 import kh.com.kshrd.restaurant.services.RestaurantService;
+import kh.com.kshrd.restaurant.utilities.Pagination;
 
 @RestController
 @RequestMapping(value = "/v1/api/restaurants")
@@ -28,16 +30,24 @@ public class RestRestaurantController {
 	
 	@RequestMapping(method = RequestMethod.GET)
 	@ApiOperation("TO FIND ALL RESTAURANTS BY FILTER AND PAGINATION.")
-	public ResponseEntity<Map<String, Object>> findAllRestaurants() {
+	public ResponseEntity<Map<String, Object>> findAllRestaurants(RestaurantFilter filter, Pagination pagination) {
 		Map<String, Object> model = new HashMap<String, Object>();
-		List<String> strs = new ArrayList<String>();
-		strs.add("PIRANG");
-		strs.add("KOKPHENG");		
-		model.put("DATA", strs);
-		model.put("MESSAGE", "WELCOME TO RESTAURANT APPLICATION");
-		model.put("CODE", "0000");
-		model.put("PAGINATION", null);
-		return new ResponseEntity<Map<String, Object>>(model, HttpStatus.OK);
+		Map<String, Object> responseData = new HashMap<String, Object>();
+		List<Restaurant> restaurants = new ArrayList<Restaurant>();
+		restaurants = restaurantService.findAllRestaurants(filter, pagination);
+		if(restaurants!=null){
+			responseData.put("RESTAURANTS", restaurants);
+			responseData.put("MENUS", "");
+			model.put("DATA", responseData);
+			model.put("MESSAGE", "RESTAURANTS HAS BEEN FIND SUCCESSFULLY.");
+			model.put("CODE", "0000");
+			model.put("PAGINATION", pagination);
+			return new ResponseEntity<Map<String, Object>>(model, HttpStatus.OK);
+		}
+		model.put("MESSAGE", "RESTAURANTS HAVE NOT FOUND...");
+		model.put("CODE", "9999");
+		return new ResponseEntity<Map<String, Object>>(model, HttpStatus.NOT_FOUND);
+		
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
@@ -45,7 +55,7 @@ public class RestRestaurantController {
 		Map<String, Object> model = new HashMap<String, Object>();
 		restaurantService.addNewRestaurant(restaurant);
 		model.put("DATA", "");
-		model.put("MESSAGE", "WELCOME TO RESTAURANT APPLICATION");
+		model.put("MESSAGE", "RESTAURANTS HAS BEEN REGISTER SUCCESSFULLY.");
 		model.put("CODE", "0000");
 		return new ResponseEntity<Map<String, Object>>(model, HttpStatus.OK);
 	}

@@ -1,8 +1,10 @@
 package kh.com.kshrd.restaurant.models;
 
+import java.io.Serializable;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class Restaurant {
+public class Restaurant implements Serializable{
 
 	@JsonProperty("ID")
 	private Long id;
@@ -33,13 +35,16 @@ public class Restaurant {
 	
 	@JsonProperty("IS_DELIVERY")
 	private String isDelivery;
+	
+	@JsonProperty("THUMBNAIL")
+	private String thumbnail;
 
 	public Restaurant(){
 		
 	}
-
+	
 	public Restaurant(Long id, String name, String description, String createdDate, String updatedDate, User createdBy,
-			User updatedBy, String status, String address, String isDelivery) {
+			User updatedBy, String status, String address, String isDelivery, String thumbnail) {
 		this.id = id;
 		this.name = name;
 		this.description = description;
@@ -50,6 +55,7 @@ public class Restaurant {
 		this.status = status;
 		this.address = address;
 		this.isDelivery = isDelivery;
+		this.thumbnail = thumbnail;
 	}
 
 	public Long getId() {
@@ -132,11 +138,20 @@ public class Restaurant {
 		this.isDelivery = isDelivery;
 	}
 
+	public String getThumbnail() {
+		return thumbnail;
+	}
+
+	public void setThumbnail(String thumbnail) {
+		this.thumbnail = thumbnail;
+	}
+
 	@Override
 	public String toString() {
 		return "Restaurant [id=" + id + ", name=" + name + ", description=" + description + ", createdDate="
 				+ createdDate + ", updatedDate=" + updatedDate + ", createdBy=" + createdBy + ", updatedBy=" + updatedBy
-				+ ", status=" + status + ", address=" + address + ", isDelivery=" + isDelivery + "]";
+				+ ", status=" + status + ", address=" + address + ", isDelivery=" + isDelivery + ", thumbnail="
+				+ thumbnail + "]";
 	}
-	
+
 }

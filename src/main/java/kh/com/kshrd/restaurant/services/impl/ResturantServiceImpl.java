@@ -19,7 +19,12 @@ public class ResturantServiceImpl implements RestaurantService {
 
 	@Override
 	public List<Restaurant> findAllRestaurants(RestaurantFilter filter, Pagination pagination) {
-		return null;
+		try{
+			return restaurantRepository.findAllRestaurants(filter, pagination);
+		}catch(Exception ex){
+			ex.printStackTrace();
+			return null;
+		}
 	}
 
 	@Override
