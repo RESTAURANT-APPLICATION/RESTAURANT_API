@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.websocket.server.PathParam;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -45,6 +47,26 @@ public class RestRestaurantController {
 			return new ResponseEntity<Map<String, Object>>(model, HttpStatus.OK);
 		}
 		model.put("MESSAGE", "RESTAURANTS HAVE NOT FOUND...");
+		model.put("CODE", "9999");
+		return new ResponseEntity<Map<String, Object>>(model, HttpStatus.NOT_FOUND);
+		
+	}
+	
+	@RequestMapping(value="/{id}", method = RequestMethod.GET)
+	@ApiOperation("TO FIND A RESTAURANT BY ID")
+	public ResponseEntity<Map<String, Object>> findRestaurantById(@PathVariable("id") Long id) {
+		Map<String, Object> model = new HashMap<String, Object>();
+		Map<String, Object> responseData = new HashMap<String, Object>();
+		Restaurant restaurant = restaurantService.findRestaurantById(id);
+		if(restaurant!=null){
+			responseData.put("RESTAURANT", restaurant);
+			responseData.put("MENUS", "");
+			model.put("DATA", responseData);
+			model.put("MESSAGE", "RESTAURANT HAS BEEN FIND SUCCESSFULLY.");
+			model.put("CODE", "0000");
+			return new ResponseEntity<Map<String, Object>>(model, HttpStatus.OK);
+		}
+		model.put("MESSAGE", "RESTAURANT HAS NOT FOUND...");
 		model.put("CODE", "9999");
 		return new ResponseEntity<Map<String, Object>>(model, HttpStatus.NOT_FOUND);
 		
