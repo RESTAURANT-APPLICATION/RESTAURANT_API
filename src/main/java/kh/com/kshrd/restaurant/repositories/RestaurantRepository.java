@@ -8,7 +8,7 @@ import kh.com.kshrd.restaurant.utilities.Pagination;
 
 public interface RestaurantRepository {
 
-	public boolean save(Restaurant restaurant);
+	public Long save(Restaurant restaurant);
 	public List<Restaurant> findAllRestaurants(RestaurantFilter filter, Pagination pagination);
 	public Restaurant findRestaurantById(Long id);
 	

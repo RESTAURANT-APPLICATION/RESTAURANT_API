@@ -1,16 +1,17 @@
 package kh.com.kshrd.restaurant.restcontrollers;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.websocket.server.PathParam;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,9 +19,13 @@ import org.springframework.web.bind.annotation.RestController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import kh.com.kshrd.restaurant.filters.RestaurantFilter;
+import kh.com.kshrd.restaurant.forms.RestaurantAdd;
+import kh.com.kshrd.restaurant.forms.RestaurantUpdate;
 import kh.com.kshrd.restaurant.models.Restaurant;
+import kh.com.kshrd.restaurant.models.User;
 import kh.com.kshrd.restaurant.services.RestaurantService;
 import kh.com.kshrd.restaurant.utilities.Pagination;
+import kh.com.restaurant.exceptions.InvalidRequestException;
 
 @RestController
 @RequestMapping(value = "/v1/api/restaurants")
@@ -35,11 +40,9 @@ public class RestRestaurantController {
 	public ResponseEntity<Map<String, Object>> findAllRestaurants(RestaurantFilter filter, Pagination pagination) {
 		Map<String, Object> model = new HashMap<String, Object>();
 		Map<String, Object> responseData = new HashMap<String, Object>();
-		List<Restaurant> restaurants = new ArrayList<Restaurant>();
-		restaurants = restaurantService.findAllRestaurants(filter, pagination);
+		List<Restaurant> restaurants = restaurantService.findAllRestaurants(filter, pagination);
 		if(restaurants!=null){
 			responseData.put("RESTAURANTS", restaurants);
-			responseData.put("MENUS", "");
 			model.put("DATA", responseData);
 			model.put("MESSAGE", "RESTAURANTS HAS BEEN FIND SUCCESSFULLY.");
 			model.put("CODE", "0000");
@@ -73,41 +76,66 @@ public class RestRestaurantController {
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity<Map<String, Object>> addNewCategory(Restaurant restaurant) {
+	@ApiOperation("TO REGISTER RESTAURANT.")
+	public ResponseEntity<Map<String, Object>> addNewCategory(@Valid @RequestBody RestaurantAdd form, BindingResult result) {
+		//TODO: TO CHECK VALIDATION
+		if(result.hasErrors()){
+			System.err.println("REGISTERING NEW RESTAURANT VALIDATION ERRORS ==> " + result.getAllErrors());
+			throw new InvalidRequestException("INVALID USER WHEN REGISTERING.", result);
+		}
 		Map<String, Object> model = new HashMap<String, Object>();
-		restaurantService.addNewRestaurant(restaurant);
-		model.put("DATA", "");
-		model.put("MESSAGE", "RESTAURANTS HAS BEEN REGISTER SUCCESSFULLY.");
-		model.put("CODE", "0000");
+		Restaurant restaurant = new Restaurant();
+		restaurant.setName(form.getName());
+		restaurant.setAddress(form.getAddress());
+		User user = new User();
+		user.setId(1L);
+		restaurant.setCreatedBy(user);
+		restaurant.setDescription(form.getDescription());
+		restaurant.setIsDelivery(form.getIsDelivery());
+		restaurant.setStatus(form.getStatus());
+		restaurant.setThumbnail("");
+		if(restaurantService.addNewRestaurant(restaurant)){
+			model.put("MESSAGE", "RESTAURANT HAS BEEN REGISTER SUCCESSFULLY.");
+			model.put("CODE", "0000");
+			return new ResponseEntity<Map<String, Object>>(model, HttpStatus.OK);
+		}
+		model.put("MESSAGE", "RESTAURANT HAS BEEN ERROR WHEN REGISTER.");
+		model.put("CODE", "9999");
 		return new ResponseEntity<Map<String, Object>>(model, HttpStatus.OK);
 	}
 	
 	
 	@RequestMapping(value="/{id}", method = RequestMethod.PUT)
-	@ApiOperation("TO UPDATE CATEGORY BY ID.")
-	public ResponseEntity<Map<String, Object>> updateCategory(@PathVariable("id") Long id) {
+	@ApiOperation("TO UPDATE RESTAURANT BY ID.")
+	public ResponseEntity<Map<String, Object>> updateCategory(@PathVariable("id") Long id, @Valid RestaurantUpdate form, BindingResult result) {
+		//TODO: TO CHECK VALIDATION
+		if(result.hasErrors()){
+			System.err.println("UPDATING EXISTING RESTAURANT VALIDATION ERRORS ==> " + result.getAllErrors());
+			throw new InvalidRequestException("INVALID USER WHEN UPDATING.", result);
+		}
 		Map<String, Object> model = new HashMap<String, Object>();
-		List<String> strs = new ArrayList<String>();
-		strs.add("PIRANG");
-		strs.add("KOKPHENG");
-		model.put("DATA", strs);
-		model.put("MESSAGE", "WELCOME TO RESTAURANT APPLICATION");
-		model.put("CODE", "0000");
-		model.put("PAGINATION", null);
+		Restaurant restaurant = new Restaurant();
+		if(restaurantService.updateExistRestaurant(restaurant)){
+			model.put("MESSAGE", "RESTAURANT HAS BEEN UPDATED SUCCESSFULLY.");
+			model.put("CODE", "0000");
+			return new ResponseEntity<Map<String, Object>>(model, HttpStatus.OK);
+		}
+		model.put("MESSAGE", "RESTAURANT HAS BEEN ERROR WHEN UPDATING.");
+		model.put("CODE", "9999");
 		return new ResponseEntity<Map<String, Object>>(model, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value="/{id}", method = RequestMethod.DELETE)
-	@ApiOperation("TO REMOVE CATEGORY BY ID.")
+	@ApiOperation("TO REMOVE RESTAURANT BY ID.")
 	public ResponseEntity<Map<String, Object>> removeCategory(@PathVariable("id") Long id) {
 		Map<String, Object> model = new HashMap<String, Object>();
-		List<String> strs = new ArrayList<String>();
-		strs.add("PIRANG");
-		strs.add("KOKPHENG");
-		model.put("DATA", strs);
-		model.put("MESSAGE", "WELCOME TO RESTAURANT APPLICATION");
-		model.put("CODE", "0000");
-		model.put("PAGINATION", null);
+		if(restaurantService.deleteRestaurant(id)){
+			model.put("MESSAGE", "RESTAURANT HAS BEEN DELETED SUCCESSFULLY.");
+			model.put("CODE", "0000");
+			return new ResponseEntity<Map<String, Object>>(model, HttpStatus.OK);
+		}
+		model.put("MESSAGE", "RESTAURANT HAS BEEN ERROR WHEN DELETING.");
+		model.put("CODE", "9999");
 		return new ResponseEntity<Map<String, Object>>(model, HttpStatus.OK);
 	}
 }

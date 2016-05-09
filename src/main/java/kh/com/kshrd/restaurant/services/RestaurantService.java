@@ -20,4 +20,7 @@ public interface RestaurantService {
 	
 	//TODO: TO UPDATE AN EXIST RESTAURANT
 	public Boolean updateExistRestaurant(Restaurant restaurant);
+	
+	//TODO: TO DELETE AN EXIST RESTAURANT
+	public Boolean deleteRestaurant(Long id);
 }
