@@ -3,8 +3,6 @@ package kh.com.restaurant.exceptions;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -15,16 +13,15 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
-
-import kh.com.kshrd.restaurant.locales.MessageSourceService;
 
 @ControllerAdvice
 public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
 
-	@Autowired
+/*	@Autowired
 	@Qualifier("fileMessageSourceService")
-	private MessageSourceService messageSource;
+	private MessageSourceService messageSource;*/
 	
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	@ExceptionHandler({ InvalidRequestException.class })
@@ -38,7 +35,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 			fieldErrorResource.setResource(fieldError.getObjectName());
 			fieldErrorResource.setField(fieldError.getField());
 			fieldErrorResource.setCode(fieldError.getCode().toLowerCase()+"."+fieldError.getObjectName().toLowerCase()+"."+fieldError.getField().toLowerCase());
-			fieldErrorResource.setMessage(messageSource.getMessage(fieldError));
+			fieldErrorResource.setMessage(fieldError.getDefaultMessage());
 			fieldErrorResources.add(fieldErrorResource);
 		}
 

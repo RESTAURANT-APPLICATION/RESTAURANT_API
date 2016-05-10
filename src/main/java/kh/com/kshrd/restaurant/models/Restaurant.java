@@ -47,6 +47,9 @@ public class Restaurant implements Serializable{
 	
 	@JsonProperty("MENUS")
 	private List<Image> menus;
+	
+	@JsonProperty("CATEGORIES")
+	private List<Category> categories;
 
 	public Restaurant(){
 		
@@ -162,13 +165,21 @@ public class Restaurant implements Serializable{
 	public void setMenus(List<Image> menus) {
 		this.menus = menus;
 	}
+	
+	public List<Category> getCategories() {
+		return categories;
+	}
+
+	public void setCategories(List<Category> categories) {
+		this.categories = categories;
+	}
 
 	@Override
 	public String toString() {
 		return "Restaurant [id=" + id + ", name=" + name + ", description=" + description + ", createdDate="
 				+ createdDate + ", updatedDate=" + updatedDate + ", createdBy=" + createdBy + ", updatedBy=" + updatedBy
 				+ ", status=" + status + ", address=" + address + ", isDelivery=" + isDelivery + ", thumbnail="
-				+ thumbnail + ", menus=" + menus + "]";
+				+ thumbnail + ", menus=" + menus + ", categories=" + categories + "]";
 	}
 
 }

@@ -3,7 +3,6 @@ package kh.com.kshrd.restaurant.configurations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -14,7 +13,6 @@ import org.springframework.util.Base64Utils;
 
 @Configuration
 @EnableWebSecurity
-@Order(1)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Autowired
@@ -44,8 +42,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		web.ignoring().antMatchers("/webjars/**");
 	}
 	
-	/*public static void main(String[] args) {
+	public static void main(String[] args) {
 		//Authorization: Basic cmVzdGF1cmFudEFETUlOOnJlc3RhdXJhbnRQQFNTV09SRA==
 		System.out.println(Base64Utils.encodeToString("restaurantADMIN:restaurantP@SSWORD".getBytes()));
-	}*/
+	}
 }

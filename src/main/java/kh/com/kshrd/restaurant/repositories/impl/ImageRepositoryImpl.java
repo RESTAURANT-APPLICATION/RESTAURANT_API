@@ -68,7 +68,7 @@ public class ImageRepositoryImpl implements ImageRepository{
 									  + "status, "
 									  + "created_date, "
 									  + "created_by) "
-					+ "VALUES(?, ?, ?, ?, ?, ?, TO_CHAR(NOW(),'YYYYMMDDHHMMSS'), ?)";
+					+ "VALUES(?, ?, ?, ?, ?, ?, TO_CHAR(NOW(),'YYYYMMDDHHMISS'), ?)";
 		int results[]= jdbcTemplate.batchUpdate(sql,new BatchPreparedStatementSetter() {
 			    @Override
 			    public void setValues(PreparedStatement ps, int i) throws SQLException {

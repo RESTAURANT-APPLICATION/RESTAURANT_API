@@ -26,14 +26,14 @@ public class RestaurantRepositoryImpl implements RestaurantRepository {
 		try{
 			Long id = jdbcTemplate.queryForObject("SELECT nextval('restaurants_id_seq')",Long.class);
 			int result = jdbcTemplate.update("INSERT INTO restaurants(id, "
-													 + "name, "
-							 						 + "description, "
-							 						 + "created_date, "
-							 						 + "created_by, "
-							 						 + "status, "
-							 						 + "address, "
-							 						 + "is_delivery) "
-							 + "VALUES(?, ?, ?, TO_CHAR(NOW(),'YYYYMMDDHHMMSS'), ?, ?, ?, ?)"
+												 + "name, "
+						 						 + "description, "
+						 						 + "created_date, "
+						 						 + "created_by, "
+						 						 + "status, "
+						 						 + "address, "
+						 						 + "is_delivery) "
+							 + "VALUES(?, ?, ?, TO_CHAR(NOW(),'YYYYMMDDHHMISS'), ?, ?, ?, ?)"
 							 , new Object[]{
 									 		id,
 									 		restaurant.getName(),

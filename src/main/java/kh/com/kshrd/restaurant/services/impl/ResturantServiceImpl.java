@@ -6,8 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kh.com.kshrd.restaurant.filters.RestaurantFilter;
+import kh.com.kshrd.restaurant.models.Category;
 import kh.com.kshrd.restaurant.models.Image;
 import kh.com.kshrd.restaurant.models.Restaurant;
+import kh.com.kshrd.restaurant.repositories.CategoryRepository;
 import kh.com.kshrd.restaurant.repositories.ImageRepository;
 import kh.com.kshrd.restaurant.repositories.RestaurantRepository;
 import kh.com.kshrd.restaurant.services.RestaurantService;
@@ -21,6 +23,9 @@ public class ResturantServiceImpl implements RestaurantService {
 	
 	@Autowired
 	private ImageRepository imageRepository;
+	
+	@Autowired
+	private CategoryRepository categoryRepository;
 
 	@Override
 	public List<Restaurant> findAllRestaurants(RestaurantFilter filter, Pagination pagination) {
@@ -28,7 +33,9 @@ public class ResturantServiceImpl implements RestaurantService {
 			List<Restaurant> restaurants = restaurantRepository.findAllRestaurants(filter, pagination);
 			for(int i=0; i<restaurants.size(); i++){
 				List<Image> menus = imageRepository.findAllMenusByRestaurantId(restaurants.get(i).getId());
+				List<Category> categories = categoryRepository.getAllCategoriesByRestaurantId(restaurants.get(i).getId()); 
 				restaurants.get(i).setMenus(menus);
+				restaurants.get(i).setCategories(categories);
 			}
 			return restaurants;
 		}catch(Exception ex){
@@ -40,7 +47,9 @@ public class ResturantServiceImpl implements RestaurantService {
 	@Override
 	public Restaurant findRestaurantById(Long id) {
 		try{
-			return restaurantRepository.findRestaurantById(id);
+			Restaurant restaurant = restaurantRepository.findRestaurantById(id);
+			restaurant.setMenus(imageRepository.findAllMenusByRestaurantId(restaurant.getId()));
+			return restaurant;
 		}catch(Exception ex){
 			ex.printStackTrace();
 		}

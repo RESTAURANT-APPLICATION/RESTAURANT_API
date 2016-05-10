@@ -1,13 +1,38 @@
 package kh.com.kshrd.restaurant.forms;
 
-public class RestaurantAdd {
+import javax.validation.constraints.Size;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+public class RestaurantForm {
 	
+	@JsonIgnore
+	private Long id;
+	
+	@JsonProperty(value="NAME")
 	private String name;
+	
+	@JsonProperty(value="DESCRIPTION")
 	private String description;
+	
+	@JsonProperty(value="ADDRESS")
 	private String address;
+	
+	@JsonProperty(value="IS_DELIVERY")
+	@Size(max=1)
 	private String isDelivery;
+	
+	@JsonProperty(value="STATUS")
+	@Size(max=1)
 	private String status;
 	
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
 	public String getName() {
 		return name;
 	}
@@ -40,8 +65,8 @@ public class RestaurantAdd {
 	}
 	@Override
 	public String toString() {
-		return "RestaurantAdd [name=" + name + ", description=" + description + ", address=" + address + ", isDelivery="
-				+ isDelivery + ", status=" + status + "]";
+		return "RestaurantForm [id=" + id + ", name=" + name + ", description=" + description + ", address=" + address
+				+ ", isDelivery=" + isDelivery + ", status=" + status + "]";
 	}
 	
 }

@@ -1,7 +1,6 @@
 package kh.com.kshrd.restaurant.models;
 
 import java.io.Serializable;
-import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -9,7 +8,7 @@ import kh.com.kshrd.restaurant.enums.ImageType;
 
 public class Image implements Serializable {
 
-	/**
+	/**	
 	 * 
 	 */
 	private static final long serialVersionUID = 4602078173925266957L;

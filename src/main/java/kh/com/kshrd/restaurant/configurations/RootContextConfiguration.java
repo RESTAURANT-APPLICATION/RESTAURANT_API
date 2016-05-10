@@ -5,9 +5,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @ComponentScan(basePackages={ 
-		"kh.com.kshrd.restaurant.configurations",
-		"kh.com.kshrd.restaurant.repositories",
-		"kh.com.kshrd.restaurant.services"
+		"kh.com.kshrd.restaurant"
 		})
 public class RootContextConfiguration {
 

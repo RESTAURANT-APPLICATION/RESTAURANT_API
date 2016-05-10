@@ -17,7 +17,6 @@ public class SwaggerConfiguration {
 
 	private SpringSwaggerConfig springSwaggerConfig;
 
-    @SuppressWarnings("SpringJavaAutowiringInspection")
     @Autowired
     public void setSpringSwaggerConfig(SpringSwaggerConfig springSwaggerConfig) {
         this.springSwaggerConfig = springSwaggerConfig;
@@ -34,13 +33,12 @@ public class SwaggerConfiguration {
 
     private ApiInfo apiInfo() {
         ApiInfo apiInfo = new ApiInfo(
-                "KhmerAcademy  REST API" ,
-//              "API KEY : "+header+"  (eg. header {'Authorization' , 'Basic "+header+"'} )",
-                "API KEY : Please contact to WS Developer for Key",
-                "KA API",
+                "RESTAURANT APPLICATION API" ,
+                "API KEY : PLEASE CONTACT US TO GET THE API KEY...",
+                "RESTAURANT APPLICATION API",
                 "info.kshrd@gmail.com",
                 "API License",
-                "http://khmeracademy.org"
+                "http://www.kshrd.com.kh"
         );        
         return apiInfo;
     }
