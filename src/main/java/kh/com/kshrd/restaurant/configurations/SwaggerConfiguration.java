@@ -23,6 +23,7 @@ public class SwaggerConfiguration {
         this.springSwaggerConfig = springSwaggerConfig;
     }
 
+    
     @Bean
     public SwaggerSpringMvcPlugin customImplementation(){
 
