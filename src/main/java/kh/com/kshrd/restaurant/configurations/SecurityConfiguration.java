@@ -44,8 +44,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		web.ignoring().antMatchers("/webjars/**");
 	}
 	
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 		//Authorization: Basic cmVzdGF1cmFudEFETUlOOnJlc3RhdXJhbnRQQFNTV09SRA==
 		System.out.println(Base64Utils.encodeToString("restaurantADMIN:restaurantP@SSWORD".getBytes()));
-	}
+	}*/
 }

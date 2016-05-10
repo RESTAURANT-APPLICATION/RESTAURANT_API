@@ -36,7 +36,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackages = { "kh.com.kshrd.restaurant.restcontrollers" })
+@ComponentScan(basePackages = { "kh.com.kshrd.restaurant.restcontrollers","kh.com.kshrd.restaurant.controller" })
 @PropertySource("classpath:application.properties")
 public class MvcConfiguration extends WebMvcConfigurerAdapter {
 
@@ -53,7 +53,7 @@ public class MvcConfiguration extends WebMvcConfigurerAdapter {
 	@Bean
 	public ViewResolver getViewResolver() {
 		InternalResourceViewResolver resolver = new InternalResourceViewResolver();
-		resolver.setPrefix("/WEB-INF/views/");
+		resolver.setPrefix("/WEB-INF/");
 		resolver.setSuffix(".jsp");
 		return resolver;
 	}

@@ -1,64 +1,46 @@
 package kh.com.kshrd.restaurant.configurations;
 
-import java.util.List;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
-import com.google.common.collect.Lists;
-
-import springfox.documentation.builders.ApiInfoBuilder;
-import springfox.documentation.builders.PathSelectors;
-import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.service.ApiInfo;
-import springfox.documentation.service.ApiKey;
-import springfox.documentation.service.AuthorizationScope;
-import springfox.documentation.service.SecurityReference;
-import springfox.documentation.spi.DocumentationType;
-import springfox.documentation.spi.service.contexts.SecurityContext;
-import springfox.documentation.spring.web.plugins.Docket;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
+import com.mangofactory.swagger.configuration.SpringSwaggerConfig;
+import com.mangofactory.swagger.models.dto.ApiInfo;
+import com.mangofactory.swagger.plugin.EnableSwagger;
+import com.mangofactory.swagger.plugin.SwaggerSpringMvcPlugin;
 
 @Configuration
-@EnableSwagger2
+@EnableSwagger
+@EnableWebMvc
 public class SwaggerConfiguration {
 
-	@Bean
-	public Docket api() {
-		return new Docket(DocumentationType.SWAGGER_2)
-				.select()
-				.apis(RequestHandlerSelectors.any())
-				.paths(PathSelectors.any())
-				.build()
-				.apiInfo(apiInfo())
-				.securitySchemes(Lists.newArrayList(apiKey()))
-				.securityContexts(Lists.newArrayList(securityContext()));
-	}
-	
-	private ApiKey apiKey() {
-        return new ApiKey("Authorization", "Basic cmVzdGF1cmFudEFETUlOOnJlc3RhdXJhbnRQQFNTV09SRA==", "header");
+	private SpringSwaggerConfig springSwaggerConfig;
+
+    @SuppressWarnings("SpringJavaAutowiringInspection")
+    @Autowired
+    public void setSpringSwaggerConfig(SpringSwaggerConfig springSwaggerConfig) {
+        this.springSwaggerConfig = springSwaggerConfig;
+    }
+
+    @Bean
+    public SwaggerSpringMvcPlugin customImplementation(){
+
+        return new SwaggerSpringMvcPlugin(this.springSwaggerConfig)
+                .apiInfo(apiInfo())
+               .includePatterns(".*api.*"); // assuming the API lives at something like http://myapp/api
     }
 
     private ApiInfo apiInfo() {
-        return new ApiInfoBuilder()
-                .title("RESTAURANT APPLICATION V01")
-                .description("RESTAURANT APPLICATION V01")
-                .termsOfServiceUrl("")
-                .contact("")
-                .license("")
-                .licenseUrl("")
-                .version("1.0")
-                .build();
-    }
-    
-    private SecurityContext securityContext() {
-        return SecurityContext.builder().securityReferences(defaultAuth()).forPaths(PathSelectors.regex("/v1/api/*")).build();
-    }
-
-    private List<SecurityReference> defaultAuth() {
-        AuthorizationScope authorizationScope = new AuthorizationScope("global", "accessEverything");
-        AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
-        authorizationScopes[0] = authorizationScope;
-        return Lists.newArrayList(new SecurityReference("Authorization", authorizationScopes));
+        ApiInfo apiInfo = new ApiInfo(
+                "KhmerAcademy  REST API" ,
+//              "API KEY : "+header+"  (eg. header {'Authorization' , 'Basic "+header+"'} )",
+                "API KEY : Please contact to WS Developer for Key",
+                "KA API",
+                "info.kshrd@gmail.com",
+                "API License",
+                "http://khmeracademy.org"
+        );        
+        return apiInfo;
     }
 }
