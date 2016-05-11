@@ -78,7 +78,7 @@ public class CategoryRepositoryImpl implements CategoryRepository {
 					  + "		A.status, "
 					  + "		A.level, "
 					  + "		A.created_date, "
-					  + "		A.created_by"
+					  + "		A.created_by "
 					  + "FROM categories A "
 					  + "LEFT JOIN categories B ON A.parent_id = B.id "
 					  + "INNER JOIN restaurant_categories C ON B.id = C.category_id "
