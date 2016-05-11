@@ -58,36 +58,40 @@ public class ImageRepositoryImpl implements ImageRepository{
 	}
 
 	@Override
-	public Long save(List<Image> images) {
-		String sql = "INSERT INTO images("
-									  + "restaurant_id, "
-									  + "title, "
-									  + "description, "
-									  + "url, "
-									  + "type, "
-									  + "status, "
-									  + "created_date, "
-									  + "created_by) "
-					+ "VALUES(?, ?, ?, ?, ?, ?, TO_CHAR(NOW(),'YYYYMMDDHHMISS'), ?)";
-		int results[]= jdbcTemplate.batchUpdate(sql,new BatchPreparedStatementSetter() {
-			    @Override
-			    public void setValues(PreparedStatement ps, int i) throws SQLException {
-			        Image image = images.get(i);
-			        ps.setLong(1, image.getRestaurant().getId());
-			        ps.setString(2, image.getTitle());
-			        ps.setString(3, image.getDescription());
-			        ps.setString(4, image.getUrl());
-			        ps.setString(5, image.getType().toString());
-			        ps.setString(6, image.getStatus());
-			        ps.setLong(7, image.getCreatedBy().getId());
-			    }
-			    
-			    @Override
-			    public int getBatchSize() {
-			        return images.size();
-			    }
-		  });
-		
+	public int[] save(List<Image> images) {
+		try{
+			String sql = "INSERT INTO images("
+										  + "restaurant_id, "
+										  + "title, "
+										  + "description, "
+										  + "url, "
+										  + "type, "
+										  + "status, "
+										  + "created_date, "
+										  + "created_by) "
+						+ "VALUES(?, ?, ?, ?, ?, ?, TO_CHAR(NOW(),'YYYYMMDDHHMISS'), ?)";
+			int results[]= jdbcTemplate.batchUpdate(sql,new BatchPreparedStatementSetter() {
+				    @Override
+				    public void setValues(PreparedStatement ps, int i) throws SQLException {
+				        Image image = images.get(i);
+				        ps.setLong(1, image.getRestaurant().getId());
+				        ps.setString(2, image.getTitle());
+				        ps.setString(3, image.getDescription());
+				        ps.setString(4, image.getUrl());
+				        ps.setString(5, image.getType().toString());
+				        ps.setString(6, image.getStatus());
+				        ps.setLong(7, image.getCreatedBy().getId());
+				    }
+				    
+				    @Override
+				    public int getBatchSize() {
+				        return images.size();
+				    }
+			  });
+			return results;
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
 		return null;
 	}
 

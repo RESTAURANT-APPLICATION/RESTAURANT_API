@@ -1,6 +1,10 @@
 package kh.com.kshrd.restaurant.forms;
 
+import java.util.List;
+
 import javax.validation.constraints.Size;
+
+import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -26,6 +30,12 @@ public class RestaurantForm {
 	@JsonProperty(value="STATUS")
 	@Size(max=1)
 	private String status;
+	
+	@JsonProperty(value="MENU_IMAGES")
+	List<MultipartFile> menuImages;
+	
+	@JsonProperty(value="RESTAURANT_IMAGES")
+	List<MultipartFile> restaurantImages;
 	
 	public Long getId() {
 		return id;
@@ -63,11 +73,23 @@ public class RestaurantForm {
 	public void setStatus(String status) {
 		this.status = status;
 	}
+	public List<MultipartFile> getMenuImages() {
+		return menuImages;
+	}
+	public void setMenuImages(List<MultipartFile> menuImages) {
+		this.menuImages = menuImages;
+	}
+	public List<MultipartFile> getRestaurantImages() {
+		return restaurantImages;
+	}
+	public void setRestaurantImages(List<MultipartFile> restaurantImages) {
+		this.restaurantImages = restaurantImages;
+	}
 	@Override
 	public String toString() {
 		return "RestaurantForm [id=" + id + ", name=" + name + ", description=" + description + ", address=" + address
-				+ ", isDelivery=" + isDelivery + ", status=" + status + "]";
+				+ ", isDelivery=" + isDelivery + ", status=" + status + ", menuImages=" + menuImages
+				+ ", restaurantImages=" + restaurantImages + "]";
 	}
 	
 }
-

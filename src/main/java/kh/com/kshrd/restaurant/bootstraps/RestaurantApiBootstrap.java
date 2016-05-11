@@ -2,6 +2,7 @@ package kh.com.kshrd.restaurant.bootstraps;
 
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
+import kh.com.kshrd.restaurant.configurations.MvcConfiguration;
 import kh.com.kshrd.restaurant.configurations.RootContextConfiguration;
 
 public class RestaurantApiBootstrap extends AbstractAnnotationConfigDispatcherServletInitializer {
@@ -21,5 +22,5 @@ public class RestaurantApiBootstrap extends AbstractAnnotationConfigDispatcherSe
     protected String[] getServletMappings() {
         return new String[] { "/" };
     }
- 
+    
 }

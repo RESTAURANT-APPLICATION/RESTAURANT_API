@@ -3,6 +3,8 @@ package kh.com.restaurant.exceptions;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -12,16 +14,18 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.WebRequest;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-@ControllerAdvice
+import kh.com.kshrd.restaurant.locales.MessageSourceService;
+
+@ControllerAdvice(annotations = RestController.class)
 public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
 
-/*	@Autowired
+	@Autowired
 	@Qualifier("fileMessageSourceService")
-	private MessageSourceService messageSource;*/
+	private MessageSourceService messageSource;
 	
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	@ExceptionHandler({ InvalidRequestException.class })

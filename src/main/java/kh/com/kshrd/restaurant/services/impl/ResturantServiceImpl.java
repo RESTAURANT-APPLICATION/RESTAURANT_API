@@ -4,11 +4,13 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import kh.com.kshrd.restaurant.filters.RestaurantFilter;
 import kh.com.kshrd.restaurant.models.Category;
 import kh.com.kshrd.restaurant.models.Image;
 import kh.com.kshrd.restaurant.models.Restaurant;
+import kh.com.kshrd.restaurant.models.User;
 import kh.com.kshrd.restaurant.repositories.CategoryRepository;
 import kh.com.kshrd.restaurant.repositories.ImageRepository;
 import kh.com.kshrd.restaurant.repositories.RestaurantRepository;
@@ -16,6 +18,7 @@ import kh.com.kshrd.restaurant.services.RestaurantService;
 import kh.com.kshrd.restaurant.utilities.Pagination;
 
 @Service
+@Transactional
 public class ResturantServiceImpl implements RestaurantService {
 	
 	@Autowired
@@ -59,8 +62,18 @@ public class ResturantServiceImpl implements RestaurantService {
 	@Override
 	public Boolean addNewRestaurant(Restaurant restaurant) {
 		try{
-			if(restaurantRepository.save(restaurant)>0){
-				return true;
+			Long restaurantId = restaurantRepository.save(restaurant);
+			restaurant.setId(restaurantId);
+			if(restaurantId > 0){
+				Image image = new Image();
+				image.setId(restaurantId);
+				User user = new User();
+				user.setId(1L);
+				image.setCreatedBy(user);
+				image.setRestaurant(restaurant);
+				if(imageRepository.save(image)>0){
+					return true;
+				}
 			}
 		}catch(Exception ex){
 			ex.printStackTrace();

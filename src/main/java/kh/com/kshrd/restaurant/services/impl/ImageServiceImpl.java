@@ -60,9 +60,8 @@ public class ImageServiceImpl implements ImageService{
 	@Override
 	public Boolean addManyImages(List<Image> images) {
 		try{
-			if(imageRepository.save(images)>0){
-				return true;
-			}
+			int results[] = imageRepository.save(images);
+			return true;
 		}catch(Exception ex){
 			ex.printStackTrace();
 		}

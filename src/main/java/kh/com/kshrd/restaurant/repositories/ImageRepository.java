@@ -9,7 +9,7 @@ import kh.com.kshrd.restaurant.utilities.Pagination;
 public interface ImageRepository {
 
 	public Long save(Image image);
-	public Long save(List<Image> images);
+	public int[] save(List<Image> images);
 	public List<Image> findAllImages(ImageFilter filter, Pagination pagination);
 	public List<Image> findAllMenusByRestaurantId(Long id);
 	public Image findImageById(Long id);
