@@ -2,9 +2,10 @@ package kh.com.kshrd.restaurant.forms;
 
 import java.util.List;
 
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import org.springframework.web.multipart.MultipartFile;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -15,6 +16,8 @@ public class RestaurantForm {
 	private Long id;
 	
 	@JsonProperty(value="NAME")
+	@NotNull
+	@NotEmpty
 	private String name;
 	
 	@JsonProperty(value="DESCRIPTION")
@@ -32,10 +35,19 @@ public class RestaurantForm {
 	private String status;
 	
 	@JsonProperty(value="MENU_IMAGES")
-	List<MultipartFile> menuImages;
+	@NotNull
+	@NotEmpty
+	List<String> menuImages;
 	
 	@JsonProperty(value="RESTAURANT_IMAGES")
-	List<MultipartFile> restaurantImages;
+	@NotNull
+	@NotEmpty
+	List<String> restaurantImages;
+	
+	@JsonProperty(value="RESTAURANT_CATEGORY")
+	@NotNull
+	@NotEmpty
+	private String restaurantCategory;
 	
 	public Long getId() {
 		return id;
@@ -73,23 +85,30 @@ public class RestaurantForm {
 	public void setStatus(String status) {
 		this.status = status;
 	}
-	public List<MultipartFile> getMenuImages() {
+	public List<String> getMenuImages() {
 		return menuImages;
 	}
-	public void setMenuImages(List<MultipartFile> menuImages) {
+	public void setMenuImages(List<String> menuImages) {
 		this.menuImages = menuImages;
 	}
-	public List<MultipartFile> getRestaurantImages() {
+	public List<String> getRestaurantImages() {
 		return restaurantImages;
 	}
-	public void setRestaurantImages(List<MultipartFile> restaurantImages) {
+	public void setRestaurantImages(List<String> restaurantImages) {
 		this.restaurantImages = restaurantImages;
+	}
+	
+	public String getRestaurantCategory() {
+		return restaurantCategory;
+	}
+	public void setRestaurantCategory(String restaurantCategory) {
+		this.restaurantCategory = restaurantCategory;
 	}
 	@Override
 	public String toString() {
 		return "RestaurantForm [id=" + id + ", name=" + name + ", description=" + description + ", address=" + address
 				+ ", isDelivery=" + isDelivery + ", status=" + status + ", menuImages=" + menuImages
-				+ ", restaurantImages=" + restaurantImages + "]";
+				+ ", restaurantImages=" + restaurantImages + ", restaurantCategory=" + restaurantCategory + "]";
 	}
 	
 }

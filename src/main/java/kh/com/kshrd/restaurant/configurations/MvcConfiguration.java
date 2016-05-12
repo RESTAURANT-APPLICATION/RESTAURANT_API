@@ -146,5 +146,11 @@ public class MvcConfiguration extends WebMvcConfigurerAdapter {
 	public MessageSourceAccessor messageSourceAccessor() {
 		return new MessageSourceAccessor(messageSource());
 	}
+	
+    /*@Bean
+    public Base64EncodedImageHttpMessageConverter getImageConverter() { 
+        Base64EncodedImageHttpMessageConverter converter = new Base64EncodedImageHttpMessageConverter();
+        return converter;
+    }*/
 
 }

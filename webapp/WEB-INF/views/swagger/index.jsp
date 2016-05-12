@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>Khmer Academy API UI</title>
+  <title>RESTAURANT APPLICATION API</title>
   <link rel="icon" type="image/png" href="${pageContext.request.contextPath}/resources/dist/images/favicon-32x32.png" sizes="32x32" />
   <link rel="icon" type="image/png" href="${pageContext.request.contextPath}/resources/dist/images/favicon-16x16.png" sizes="16x16" />
   <link href='${pageContext.request.contextPath}/resources/dist/css/typography.css' media='screen' rel='stylesheet' type='text/css'/>
