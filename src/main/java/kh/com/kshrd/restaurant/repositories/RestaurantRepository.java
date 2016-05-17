@@ -11,5 +11,5 @@ public interface RestaurantRepository {
 	public Long save(Restaurant restaurant);
 	public List<Restaurant> findAllRestaurants(RestaurantFilter filter, Pagination pagination);
 	public Restaurant findRestaurantById(Long id);
-	
+	public int count(RestaurantFilter filter);
 }

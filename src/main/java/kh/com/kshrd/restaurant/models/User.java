@@ -24,7 +24,7 @@ public class User implements UserDetails, Serializable{
 	@JsonProperty("EMAIL")
 	private String email;
 	
-	@JsonProperty("PASSWORD")
+	@JsonIgnore	
 	private String password;
 	
 	@JsonProperty("STATUS")

@@ -40,6 +40,7 @@ public class ResturantServiceImpl implements RestaurantService {
 				restaurants.get(i).setMenus(menus);
 				restaurants.get(i).setCategories(categories);
 			}
+			pagination.setTotalCount(restaurantRepository.count(filter));
 			return restaurants;
 		}catch(Exception ex){
 			ex.printStackTrace();
@@ -60,6 +61,7 @@ public class ResturantServiceImpl implements RestaurantService {
 	}
 
 	@Override
+	@Transactional
 	public Boolean addNewRestaurant(Restaurant restaurant) {
 		try{
 			Long restaurantId = restaurantRepository.save(restaurant);

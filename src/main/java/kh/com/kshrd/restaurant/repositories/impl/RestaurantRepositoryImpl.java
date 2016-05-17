@@ -56,7 +56,21 @@ public class RestaurantRepositoryImpl implements RestaurantRepository {
 	@Override
 	public List<Restaurant> findAllRestaurants(RestaurantFilter filter, Pagination pagination) {
 		try{
-			return jdbcTemplate.query("SELECT * FROM restaurants", new RowMapper<Restaurant>(){
+			return jdbcTemplate.query("SELECT A.id, "
+									 + "	  A.name, "
+									 + " 	  A.description, "
+									 + "      A.address, "
+									 + "      A.is_delivery, "
+									 + "      A.created_date, "
+									 + "      A.created_by, "
+									 + "      B.url AS thumbnail, "		
+									 + "      A.status "
+									 + "FROM restaurants A "
+									 + "LEFT JOIN images B ON A.id = B.restaurant_id AND B.is_thumbnail='1' "
+									 + "LIMIT ? "
+									 + "OFFSET ? "									 
+									,new Object[]{ pagination.getLimit(), pagination.offset() }
+									,new RowMapper<Restaurant>(){
 				@Override
 				public Restaurant mapRow(ResultSet rs, int rowNum) throws SQLException {
 					Restaurant restaurant = new Restaurant();
@@ -119,4 +133,8 @@ public class RestaurantRepositoryImpl implements RestaurantRepository {
 		return null;
 	}
 
+	@Override
+	public int count(RestaurantFilter filter) {
+		return jdbcTemplate.queryForObject("SELECT COUNT(1) FROM restaurants ",  new Object[]{}, Integer.class);
+	}
 }

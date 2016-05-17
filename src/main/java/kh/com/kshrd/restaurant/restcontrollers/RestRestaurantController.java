@@ -1,5 +1,6 @@
 package kh.com.kshrd.restaurant.restcontrollers;
 
+import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -28,6 +29,8 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.annotations.ApiResponse;
+import com.wordnik.swagger.annotations.ApiResponses;
 
 import kh.com.kshrd.restaurant.filters.RestaurantFilter;
 import kh.com.kshrd.restaurant.forms.RestaurantForm;
@@ -53,6 +56,10 @@ public class RestRestaurantController {
 	private MessageSourceService messageSource;
 	
 	@RequestMapping(method = RequestMethod.GET)
+	@ApiResponses(value = {
+	        @ApiResponse(code = 9999, message = "RESTAURANTS HAVE NOT FOUND."),
+	        @ApiResponse(code = 0000, message = "RESTAURANTS HAS BEEN FIND SUCCESSFULLY.")
+	})
 	@ApiOperation("TO FIND ALL RESTAURANTS BY FILTER AND PAGINATION.")
 	public ResponseEntity<Map<String, Object>> findAllRestaurants(RestaurantFilter filter, 
 																  @RequestParam(name="page", defaultValue="1", required=false) int page,
@@ -68,7 +75,7 @@ public class RestRestaurantController {
 			model.put("PAGINATION", pagination);
 			return new ResponseEntity<Map<String, Object>>(model, HttpStatus.OK);
 		}
-		model.put("MESSAGE", "RESTAURANTS HAVE NOT FOUND...");
+		model.put("MESSAGE", "RESTAURANTS HAVE NOT FOUND.");
 		model.put("CODE", "9999");
 		return new ResponseEntity<Map<String, Object>>(model, HttpStatus.NOT_FOUND);
 		

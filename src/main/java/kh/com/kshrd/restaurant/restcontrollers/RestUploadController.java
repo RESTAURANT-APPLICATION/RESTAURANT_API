@@ -54,7 +54,7 @@ public class RestUploadController {
                 System.out.println("MESSAGE ==> YOU HAVE BEEN UPLOADED " + savePath + File.separator + filename + " SUCCESSFULLY!");
         		map.put("MESSAGE", "YOU HAVE BEEN UPLOADED SUCCESSFULLY");
         		map.put("CODE", "0000");
-        		map.put("IMAGE_URL", savePath + File.separator + filename);
+        		map.put("IMAGE_URL", getURLWithContextPath(request) + "/resources/images/" + filename);
         		map.put("IMAGE_NAME", filename);
         		return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
             } catch (Exception e) {
@@ -62,7 +62,7 @@ public class RestUploadController {
                 System.out.println("MESSAGE ==> YOU FAILED TO UPLOAD " + filename + " => " + e.getMessage());
                 map.put("MESSAGE", "ERROR " + e.getMessage());
         		map.put("CODE", "8888");
-        		map.put("IMAGE_URL", savePath + File.separator + filename);
+        		map.put("IMAGE_URL", getURLWithContextPath(request) + "/resources/images/" + filename);
         		map.put("IMAGE_NAME", filename);
         		return new ResponseEntity<Map<String, Object>>(map, HttpStatus.INTERNAL_SERVER_ERROR);
             }

@@ -81,8 +81,9 @@ public class CategoryRepositoryImpl implements CategoryRepository {
 					  + "		A.created_by "
 					  + "FROM categories A "
 					  + "LEFT JOIN categories B ON A.parent_id = B.id "
-					  + "INNER JOIN restaurant_categories C ON B.id = C.category_id "
-					  + "WHERE C.restaurant_id = ?";
+					  + "INNER JOIN restaurant_categories C ON A.id = C.category_id "
+					  + "INNER JOIN restaurants D ON D.id = C.restaurant_id "
+					  + "WHERE D.id = ?";
 			return jdbcTemplate.query(sql, new Object[]{ id }, new RowMapper<Category>(){
 				@Override
 				public Category mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -218,7 +219,6 @@ public class CategoryRepositoryImpl implements CategoryRepository {
 					parentCategory.setName(rs.getString("parent_category"));
 					
 					category.setParent(parentCategory);
-					
 					return category;
 				}
 			});
