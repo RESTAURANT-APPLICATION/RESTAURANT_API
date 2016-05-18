@@ -36,6 +36,7 @@ import kh.com.kshrd.restaurant.filters.RestaurantFilter;
 import kh.com.kshrd.restaurant.forms.RestaurantForm;
 import kh.com.kshrd.restaurant.locales.MessageSourceService;
 import kh.com.kshrd.restaurant.models.Image;
+import kh.com.kshrd.restaurant.models.Location;
 import kh.com.kshrd.restaurant.models.Restaurant;
 import kh.com.kshrd.restaurant.models.User;
 import kh.com.kshrd.restaurant.services.RestaurantService;
@@ -120,15 +121,35 @@ public class RestRestaurantController {
 		restaurant.setIsDelivery(form.getIsDelivery());
 		restaurant.setStatus(form.getStatus());
 		restaurant.setThumbnail("");
-		for(String menu : form.getMenuImages()){
+		String isThumbnail = "1";
+		for(String strTitle : form.getMenuImages()){
 			Image image = new Image();
-			image.setTitle(menu);
+			image.setTitle(strTitle);
 			image.setCreatedBy(user);
 			image.setType(ImageType.MENU);
-			image.setIsThumbnail("0");
+			image.setIsThumbnail(isThumbnail);
 			image.setStatus("1");
-			restaurant.getMenus().add(image);			
+			image.setUrl(strTitle);
+			restaurant.getMenus().add(image);
+			isThumbnail = "0";	
 		}
+		
+		for(String strTitle : form.getRestaurantImages()){
+			Image image = new Image();
+			image.setTitle(strTitle);
+			image.setCreatedBy(user);
+			image.setType(ImageType.INSIDE);
+			image.setIsThumbnail("0");
+			image.setUrl(strTitle);
+			image.setStatus("1");
+			restaurant.getRestaurantImages().add(image);
+		}
+		
+		Location location = new Location();
+		location.setLatitude(form.getLatitude());
+		location.setLongitude(form.getLongitude());
+		
+		restaurant.setLocation(location);
 		if(restaurantService.addNewRestaurant(restaurant)){
 			model.put("MESSAGE", "RESTAURANT HAS BEEN REGISTERED SUCCESSFULLY.");
 			model.put("CODE", "0000");
