@@ -106,7 +106,7 @@ public class RestRestaurantController {
 		//TODO: TO CHECK VALIDATION
 		if(result.hasErrors()){
 			System.err.println("REGISTERING NEW RESTAURANT VALIDATION ERRORS ==> " + result.getAllErrors());
-			throw new InvalidRequestException("INVALID USER WHEN REGISTERING.", result);
+			throw new InvalidRequestException("INVALID RESTAURANT WHEN REGISTERING.", result);
 		}
 		Map<String, Object> model = new HashMap<String, Object>();
 		Restaurant restaurant = new Restaurant();
@@ -136,7 +136,7 @@ public class RestRestaurantController {
 		//TODO: TO CHECK VALIDATION
 		if(result.hasErrors()){
 			System.err.println("UPDATING EXISTING RESTAURANT VALIDATION ERRORS ==> " + result.getAllErrors());
-			throw new InvalidRequestException("INVALID USER WHEN UPDATING.", result);
+			throw new InvalidRequestException("INVALID RESTAURANT WHEN UPDATING.", result);
 		}
 		Map<String, Object> model = new HashMap<String, Object>();
 		Restaurant restaurant = new Restaurant();
