@@ -131,6 +131,8 @@ public class RestUploadController {
 		        }
 			}
 			responseMap.put("IMAGES", mapFiles);
+			responseMap.put("MESSAGE", "YOU HAVE BEEN UPLOADED SUCCESSFULLY.");
+			responseMap.put("CODE", "0000");
 		}catch(Exception ex){
 			responseMap.put("MESSAGE", "ERROR " + ex.getMessage());
 			responseMap.put("CODE", "9999");
