@@ -36,17 +36,19 @@ public class ImageRepositoryImpl implements ImageRepository{
 												  + "type, "
 												  + "status, "
 												  + "created_date, "
-												  + "created_by) "
-							 + "VALUES(?, ?, ?, ?, ?, ?, ?, TO_CHAR(NOW(),'YYYYMMDDHHMMSS'), ?)",
+												  + "created_by, "
+												  + "is_thumbnail) "
+							 + "VALUES(?, ?, ?, ?, ?, ?, ?, TO_CHAR(NOW(),'YYYYMMDDHHMMSS'), ?, ?)",
 								new Object[]{
 									id,
 									image.getRestaurant().getId(),
 									image.getTitle(),
 									image.getDescription(),
 									image.getUrl(),
-									image.getType(),
+									image.getType().ordinal(),
 									image.getStatus(),
-									image.getCreatedBy().getId()									
+									image.getCreatedBy().getId(),
+									image.getIsThumbnail()
 								});
 			if(result > 0 ){
 				return id;

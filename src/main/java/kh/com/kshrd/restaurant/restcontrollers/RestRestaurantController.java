@@ -1,6 +1,5 @@
 package kh.com.kshrd.restaurant.restcontrollers;
 
-import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -32,9 +31,11 @@ import com.wordnik.swagger.annotations.ApiOperation;
 import com.wordnik.swagger.annotations.ApiResponse;
 import com.wordnik.swagger.annotations.ApiResponses;
 
+import kh.com.kshrd.restaurant.enums.ImageType;
 import kh.com.kshrd.restaurant.filters.RestaurantFilter;
 import kh.com.kshrd.restaurant.forms.RestaurantForm;
 import kh.com.kshrd.restaurant.locales.MessageSourceService;
+import kh.com.kshrd.restaurant.models.Image;
 import kh.com.kshrd.restaurant.models.Restaurant;
 import kh.com.kshrd.restaurant.models.User;
 import kh.com.kshrd.restaurant.services.RestaurantService;
@@ -102,7 +103,7 @@ public class RestRestaurantController {
 
 	@RequestMapping(method = RequestMethod.POST)
 	@ApiOperation("TO REGISTER RESTAURANT.")
-	public ResponseEntity<Map<String, Object>> addNewCategory(@Valid @RequestBody RestaurantForm form, BindingResult result) {
+	public ResponseEntity<Map<String, Object>> addNewRestaurant(@Valid @RequestBody RestaurantForm form, BindingResult result) {
 		//TODO: TO CHECK VALIDATION
 		if(result.hasErrors()){
 			System.err.println("REGISTERING NEW RESTAURANT VALIDATION ERRORS ==> " + result.getAllErrors());
@@ -119,8 +120,17 @@ public class RestRestaurantController {
 		restaurant.setIsDelivery(form.getIsDelivery());
 		restaurant.setStatus(form.getStatus());
 		restaurant.setThumbnail("");
+		for(String menu : form.getMenuImages()){
+			Image image = new Image();
+			image.setTitle(menu);
+			image.setCreatedBy(user);
+			image.setType(ImageType.MENU);
+			image.setIsThumbnail("0");
+			image.setStatus("1");
+			restaurant.getMenus().add(image);			
+		}
 		if(restaurantService.addNewRestaurant(restaurant)){
-			model.put("MESSAGE", "RESTAURANT HAS BEEN REGISTER SUCCESSFULLY.");
+			model.put("MESSAGE", "RESTAURANT HAS BEEN REGISTERED SUCCESSFULLY.");
 			model.put("CODE", "0000");
 			return new ResponseEntity<Map<String, Object>>(model, HttpStatus.OK);
 		}
@@ -132,7 +142,7 @@ public class RestRestaurantController {
 	
 	@RequestMapping(value="/{id}", method = RequestMethod.PUT)
 	@ApiOperation("TO UPDATE RESTAURANT BY ID.")
-	public ResponseEntity<Map<String, Object>> updateCategory(@PathVariable("id") Long id, @Valid RestaurantForm form, BindingResult result) {
+	public ResponseEntity<Map<String, Object>> updateRestaurant(@PathVariable("id") Long id, @Valid RestaurantForm form, BindingResult result) {
 		//TODO: TO CHECK VALIDATION
 		if(result.hasErrors()){
 			System.err.println("UPDATING EXISTING RESTAURANT VALIDATION ERRORS ==> " + result.getAllErrors());
@@ -152,7 +162,7 @@ public class RestRestaurantController {
 	
 	@RequestMapping(value="/{id}", method = RequestMethod.DELETE)
 	@ApiOperation("TO REMOVE RESTAURANT BY ID.")
-	public ResponseEntity<Map<String, Object>> removeCategory(@PathVariable("id") Long id) {
+	public ResponseEntity<Map<String, Object>> removeRestaurant(@PathVariable("id") Long id) {
 		Map<String, Object> model = new HashMap<String, Object>();
 		if(restaurantService.deleteRestaurant(id)){
 			model.put("MESSAGE", "RESTAURANT HAS BEEN DELETED SUCCESSFULLY.");

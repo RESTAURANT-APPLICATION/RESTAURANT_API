@@ -1,6 +1,7 @@
 package kh.com.kshrd.restaurant.models;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -46,10 +47,10 @@ public class Restaurant implements Serializable{
 	private String thumbnail;
 	
 	@JsonProperty("MENUS")
-	private List<Image> menus;
+	private List<Image> menus = new ArrayList<Image>();
 	
 	@JsonProperty("CATEGORIES")
-	private List<Category> categories;
+	private List<Category> categories = new ArrayList<Category>();
 
 	public Restaurant(){
 		

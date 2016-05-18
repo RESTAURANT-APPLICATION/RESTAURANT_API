@@ -67,15 +67,13 @@ public class ResturantServiceImpl implements RestaurantService {
 			Long restaurantId = restaurantRepository.save(restaurant);
 			restaurant.setId(restaurantId);
 			if(restaurantId > 0){
-				Image image = new Image();
-				image.setId(restaurantId);
-				User user = new User();
-				user.setId(1L);
-				image.setCreatedBy(user);
-				image.setRestaurant(restaurant);
-				if(imageRepository.save(image)>0){
-					return true;
+				for(Image image :restaurant.getMenus()){
+					image.setRestaurant(restaurant);
+					if(imageRepository.save(image)>0){
+						
+					}
 				}
+				return true;
 			}
 		}catch(Exception ex){
 			ex.printStackTrace();
