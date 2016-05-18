@@ -27,10 +27,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		
-		http.authorizeRequests().anyRequest().permitAll();
-		//http.authorizeRequests().anyRequest().authenticated();
-		//http.antMatcher("/v1/api/admin/upload/multiple").authorizeRequests().anyRequest().permitAll();
-		//http.antMatcher("/v1/api/**").authorizeRequests().anyRequest().hasRole("API");
+		http.antMatcher("/v1/api/**").authorizeRequests().anyRequest().hasRole("API");
+		http.authorizeRequests().anyRequest().authenticated();
 
 		http.httpBasic().authenticationEntryPoint(authenticationEntryPoint);
 		http.csrf().disable();
