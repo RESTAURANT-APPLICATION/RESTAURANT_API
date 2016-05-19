@@ -75,7 +75,7 @@ public class RestaurantRepositoryImpl implements RestaurantRepository {
 									 + "      D.telephone "
 									 + "FROM restaurants A "
 									 + "LEFT JOIN images B ON A.id = B.restaurant_id AND B.is_thumbnail='1' "
-									 + "LEFT JOIN restaurant_locations C ON A.id = C.restaurant_id AND C.status = '1'"
+									 + "LEFT JOIN restaurant_locations C ON A.id = C.restaurant_id AND C.status = '1' "
 									 + "LEFT JOIN telephones D ON A.id= D.restaurant_id AND D.status = '1' "
 									 + "LIMIT ? "
 									 + "OFFSET ? "									 
