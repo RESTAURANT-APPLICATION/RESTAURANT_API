@@ -38,14 +38,14 @@ public class ImageRepositoryImpl implements ImageRepository{
 												  + "created_date, "
 												  + "created_by, "
 												  + "is_thumbnail) "
-							 + "VALUES(?, ?, ?, ?, ?, ?, ?, TO_CHAR(NOW(),'YYYYMMDDHHMMSS'), ?, ?)",
+							 + "VALUES(?, ?, ?, ?, ?, ?, ?, TO_CHAR(NOW(),'YYYYMMDDHH24MMSS'), ?, ?)",
 								new Object[]{
 									id,
 									image.getRestaurant().getId(),
 									image.getTitle(),
 									image.getDescription(),
 									image.getUrl(),
-									image.getType().ordinal(),
+									image.getType().ordinal()+"",
 									image.getStatus(),
 									image.getCreatedBy().getId(),
 									image.getIsThumbnail()
@@ -53,6 +53,24 @@ public class ImageRepositoryImpl implements ImageRepository{
 			if(result > 0 ){
 				return id;
 			}
+		}catch(org.springframework.dao.DataIntegrityViolationException  ex)
+        {
+            System.out.println("data integrity ex="+ex.getMessage());
+            Throwable innerex = ex.getMostSpecificCause();
+            if(innerex instanceof java.sql.BatchUpdateException)
+            {
+                java.sql.BatchUpdateException batchex = (java.sql.BatchUpdateException) innerex ;
+                SQLException current = batchex;
+                int count=1;
+                   do {
+
+                       System.out.println("inner ex " + count + " =" + current.getMessage());
+                       count++;
+
+                   } while ((current = current.getNextException()) != null);
+            }
+
+            throw ex;
 		}catch(Exception ex){
 			ex.printStackTrace();
 		}
@@ -60,29 +78,30 @@ public class ImageRepositoryImpl implements ImageRepository{
 	}
 
 	@Override
-	public int[] save(List<Image> images) {
+	public int[] save(List<Image> images, Long restaurantId) {
 		try{
 			String sql = "INSERT INTO images("
-										  + "restaurant_id, "
-										  + "title, "
-										  + "description, "
-										  + "url, "
-										  + "type, "
-										  + "status, "
-										  + "created_date, "
-										  + "created_by) "
-						+ "VALUES(?, ?, ?, ?, ?, ?, TO_CHAR(NOW(),'YYYYMMDDHHMISS'), ?)";
+												  + "restaurant_id, "
+												  + "title, "
+												  + "description, "
+												  + "url, "
+												  + "type, "
+												  + "status, "
+												  + "created_date, "
+												  + "created_by, "
+												  + "is_thumbnail) "
+						 + "VALUES(?, ?, ?, ?, ?, ?, TO_CHAR(NOW(),'YYYYMMDDHHMMSS'), ?, ?);";
 			int results[]= jdbcTemplate.batchUpdate(sql,new BatchPreparedStatementSetter() {
 				    @Override
 				    public void setValues(PreparedStatement ps, int i) throws SQLException {
-				        Image image = images.get(i);
-				        ps.setLong(1, image.getRestaurant().getId());
-				        ps.setString(2, image.getTitle());
-				        ps.setString(3, image.getDescription());
-				        ps.setString(4, image.getUrl());
-				        ps.setString(5, image.getType().toString());
-				        ps.setString(6, image.getStatus());
-				        ps.setLong(7, image.getCreatedBy().getId());
+				        ps.setLong(1, restaurantId);
+				        ps.setString(2, images.get(i).getTitle());
+				        ps.setString(3, images.get(i).getDescription());
+				        ps.setString(4, images.get(i).getUrl());
+				        ps.setString(5, images.get(i).getType().ordinal()+"");
+				        ps.setString(6, images.get(i).getStatus());
+				        ps.setLong(7, images.get(i).getCreatedBy().getId());
+				        ps.setString(8, images.get(i).getIsThumbnail());
 				    }
 				    
 				    @Override
@@ -91,6 +110,24 @@ public class ImageRepositoryImpl implements ImageRepository{
 				    }
 			  });
 			return results;
+		}catch(org.springframework.dao.DataIntegrityViolationException  ex)
+        {
+            System.out.println("data integrity ex="+ex.getMessage());
+            Throwable innerex = ex.getMostSpecificCause();
+            if(innerex instanceof java.sql.BatchUpdateException)
+            {
+                java.sql.BatchUpdateException batchex = (java.sql.BatchUpdateException) innerex ;
+                SQLException current = batchex;
+                int count=1;
+                   do {
+
+                       System.out.println("inner ex " + count + " =" + current.getMessage());
+                       count++;
+
+                   } while ((current = current.getNextException()) != null);
+            }
+
+            throw ex;
 		}catch(Exception ex){
 			ex.printStackTrace();
 		}
@@ -148,7 +185,7 @@ public class ImageRepositoryImpl implements ImageRepository{
 					 + "       A.status, "
 					 + "       A.created_date, "		
 					 + "       A.created_by, "
-					 + "	   A.is_thumbnail "
+					 + "	   A.is_thumbnail, "
 					 + "FROM images A "
 					 + "WHERE A.id = ?";
 			return jdbcTemplate.queryForObject(sql, 

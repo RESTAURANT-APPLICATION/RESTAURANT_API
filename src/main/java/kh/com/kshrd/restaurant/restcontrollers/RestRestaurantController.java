@@ -38,6 +38,7 @@ import kh.com.kshrd.restaurant.locales.MessageSourceService;
 import kh.com.kshrd.restaurant.models.Image;
 import kh.com.kshrd.restaurant.models.Location;
 import kh.com.kshrd.restaurant.models.Restaurant;
+import kh.com.kshrd.restaurant.models.Telephone;
 import kh.com.kshrd.restaurant.models.User;
 import kh.com.kshrd.restaurant.services.RestaurantService;
 import kh.com.kshrd.restaurant.utilities.Pagination;
@@ -105,61 +106,72 @@ public class RestRestaurantController {
 	@RequestMapping(method = RequestMethod.POST)
 	@ApiOperation("TO REGISTER RESTAURANT.")
 	public ResponseEntity<Map<String, Object>> addNewRestaurant(@Valid @RequestBody RestaurantForm form, BindingResult result) {
-		//TODO: TO CHECK VALIDATION
-		if(result.hasErrors()){
-			System.err.println("REGISTERING NEW RESTAURANT VALIDATION ERRORS ==> " + result.getAllErrors());
-			throw new InvalidRequestException("INVALID RESTAURANT WHEN REGISTERING.", result);
-		}
 		Map<String, Object> model = new HashMap<String, Object>();
-		Restaurant restaurant = new Restaurant();
-		restaurant.setName(form.getName());
-		restaurant.setAddress(form.getAddress());
-		User user = new User();
-		user.setId(1L);
-		restaurant.setCreatedBy(user);
-		restaurant.setDescription(form.getDescription());
-		restaurant.setIsDelivery(form.getIsDelivery());
-		restaurant.setStatus(form.getStatus());
-		restaurant.setThumbnail("");
-		String isThumbnail = "1";
-		for(String strTitle : form.getMenuImages()){
-			Image image = new Image();
-			image.setTitle(strTitle);
-			image.setCreatedBy(user);
-			image.setType(ImageType.MENU);
-			image.setIsThumbnail(isThumbnail);
-			image.setStatus("1");
-			image.setUrl(strTitle);
-			restaurant.getMenus().add(image);
-			isThumbnail = "0";	
-		}
-		
-		for(String strTitle : form.getRestaurantImages()){
-			Image image = new Image();
-			image.setTitle(strTitle);
-			image.setCreatedBy(user);
-			image.setType(ImageType.INSIDE);
-			image.setIsThumbnail("0");
-			image.setUrl(strTitle);
-			image.setStatus("1");
-			restaurant.getRestaurantImages().add(image);
-		}
-		
-		Location location = new Location();
-		location.setLatitude(form.getLatitude());
-		location.setLongitude(form.getLongitude());
-		
-		restaurant.setLocation(location);
-		if(restaurantService.addNewRestaurant(restaurant)){
-			model.put("MESSAGE", "RESTAURANT HAS BEEN REGISTERED SUCCESSFULLY.");
-			model.put("CODE", "0000");
+		//try{
+			//TODO: TO CHECK VALIDATION
+			if(result.hasErrors()){
+				System.err.println("REGISTERING NEW RESTAURANT VALIDATION ERRORS ==> " + result.getAllErrors());
+				throw new InvalidRequestException("INVALID RESTAURANT WHEN REGISTERING.", result);
+			}
+			Restaurant restaurant = new Restaurant();
+			restaurant.setName(form.getName());
+			restaurant.setAddress(form.getAddress());
+			User user = new User();
+			user.setId(1L);
+			restaurant.setCreatedBy(user);
+			restaurant.setDescription(form.getDescription());
+			restaurant.setIsDelivery(form.getIsDelivery());
+			restaurant.setStatus(form.getStatus());
+			restaurant.setThumbnail("");
+			restaurant.setCategory(form.getRestaurantCategory());
+			String isThumbnail = "1";
+			for(String strTitle : form.getMenuImages()){
+				Image image = new Image();
+				image.setTitle(strTitle);
+				image.setCreatedBy(user);
+				image.setType(ImageType.MENU);
+				image.setIsThumbnail(isThumbnail);
+				image.setStatus("1");
+				image.setUrl(strTitle);
+				restaurant.getMenus().add(image);
+				isThumbnail = "0";	
+			}
+			
+			for(String strTitle : form.getRestaurantImages()){
+				Image image = new Image();
+				image.setTitle(strTitle);
+				image.setCreatedBy(user);
+				image.setType(ImageType.INSIDE);
+				image.setIsThumbnail("0");
+				image.setUrl(strTitle);
+				image.setStatus("1");
+				restaurant.getRestaurantImages().add(image);
+			}
+			
+			Location location = new Location();
+			location.setLatitude(form.getLatitude());
+			location.setLongitude(form.getLongitude());
+			location.setId(1L);
+			restaurant.setLocation(location);
+			
+			Telephone telephone = new Telephone();
+			telephone.setTelephone(form.getTelephone());
+			restaurant.setTelephone(telephone);
+			
+			if(restaurantService.addNewRestaurant(restaurant)){
+				model.put("MESSAGE", "RESTAURANT HAS BEEN REGISTERED SUCCESSFULLY.");
+				model.put("CODE", "0000");
+				return new ResponseEntity<Map<String, Object>>(model, HttpStatus.OK);
+			}
+			model.put("MESSAGE", "RESTAURANT HAS BEEN ERROR WHEN REGISTER.");
+			model.put("CODE", "9999");
 			return new ResponseEntity<Map<String, Object>>(model, HttpStatus.OK);
-		}
-		model.put("MESSAGE", "RESTAURANT HAS BEEN ERROR WHEN REGISTER.");
-		model.put("CODE", "9999");
-		return new ResponseEntity<Map<String, Object>>(model, HttpStatus.OK);
+		/*}catch(Exception ex){
+			model.put("MESSAGE", ex.getMessage());
+			model.put("CODE", "9999");
+			return new ResponseEntity<Map<String, Object>>(model, HttpStatus.OK);
+		}*/
 	}
-	
 	
 	@RequestMapping(value="/{id}", method = RequestMethod.PUT)
 	@ApiOperation("TO UPDATE RESTAURANT BY ID.")
@@ -211,7 +223,7 @@ public class RestRestaurantController {
 			fieldErrorResources.add(fieldErrorResource);
 		}
 
-		ErrorResource error = new ErrorResource("INVALID REQUEST", ire.getMessage());
+		ErrorResource error = new ErrorResource("7777", ire.getMessage());
 		error.setFieldErrors(fieldErrorResources);
 
 		HttpHeaders headers = new HttpHeaders();

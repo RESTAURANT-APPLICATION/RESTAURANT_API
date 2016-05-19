@@ -1,6 +1,5 @@
 package kh.com.kshrd.restaurant.forms;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 import javax.validation.constraints.NotNull;
@@ -51,10 +50,19 @@ public class RestaurantForm {
 	private String restaurantCategory;
 	
 	@JsonProperty(value="LATITUDE")
+	@NotNull
+	@NotEmpty
 	private String latitude;
 	
 	@JsonProperty(value="LONGITUDE")
+	@NotNull
+	@NotEmpty
 	private String longitude;
+	
+	@JsonProperty(value="TELEPHONE")
+	@NotNull
+	@NotEmpty
+	private String telephone;
 	
 	public Long getId() {
 		return id;
@@ -123,12 +131,18 @@ public class RestaurantForm {
 	public void setLongitude(String longitude) {
 		this.longitude = longitude;
 	}
+	public String getTelephone() {
+		return telephone;
+	}
+	public void setTelephone(String telephone) {
+		this.telephone = telephone;
+	}
 	@Override
 	public String toString() {
 		return "RestaurantForm [id=" + id + ", name=" + name + ", description=" + description + ", address=" + address
 				+ ", isDelivery=" + isDelivery + ", status=" + status + ", menuImages=" + menuImages
 				+ ", restaurantImages=" + restaurantImages + ", restaurantCategory=" + restaurantCategory
-				+ ", latitude=" + latitude + ", longitude=" + longitude + "]";
+				+ ", latitude=" + latitude + ", longitude=" + longitude + ", telephone=" + telephone + "]";
 	}
 	
 }

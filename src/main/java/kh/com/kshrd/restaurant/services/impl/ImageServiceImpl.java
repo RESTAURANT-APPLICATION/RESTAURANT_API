@@ -57,7 +57,7 @@ public class ImageServiceImpl implements ImageService{
 		return null;
 	}
 	
-	@Override
+	/*@Override
 	public Boolean addManyImages(List<Image> images) {
 		try{
 			int results[] = imageRepository.save(images);
@@ -66,6 +66,6 @@ public class ImageServiceImpl implements ImageService{
 			ex.printStackTrace();
 		}
 		return false;
-	}
+	}*/
 
 }

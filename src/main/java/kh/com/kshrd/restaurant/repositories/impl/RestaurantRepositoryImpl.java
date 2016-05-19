@@ -10,7 +10,9 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import kh.com.kshrd.restaurant.filters.RestaurantFilter;
+import kh.com.kshrd.restaurant.models.Location;
 import kh.com.kshrd.restaurant.models.Restaurant;
+import kh.com.kshrd.restaurant.models.Telephone;
 import kh.com.kshrd.restaurant.models.User;
 import kh.com.kshrd.restaurant.repositories.RestaurantRepository;
 import kh.com.kshrd.restaurant.utilities.Pagination;
@@ -32,8 +34,9 @@ public class RestaurantRepositoryImpl implements RestaurantRepository {
 						 						 + "created_by, "
 						 						 + "status, "
 						 						 + "address, "
-						 						 + "is_delivery) "
-							 + "VALUES(?, ?, ?, TO_CHAR(NOW(),'YYYYMMDDHHMISS'), ?, ?, ?, ?)"
+						 						 + "is_delivery, "
+						 						 + "category) "
+							 + "VALUES(?, ?, ?, TO_CHAR(NOW(),'YYYYMMDDHH24MISS'), ?, ?, ?, ?, ?)"
 							 , new Object[]{
 									 		id,
 									 		restaurant.getName(),
@@ -41,7 +44,8 @@ public class RestaurantRepositoryImpl implements RestaurantRepository {
 									 		restaurant.getCreatedBy().getId(),
 									 		restaurant.getStatus(),
 									 		restaurant.getAddress(),
-									 		restaurant.getIsDelivery()
+									 		restaurant.getIsDelivery(),
+									 		restaurant.getCategory()
 							 				});
 			if(result>0){
 				System.out.println(id);
@@ -63,10 +67,16 @@ public class RestaurantRepositoryImpl implements RestaurantRepository {
 									 + "      A.is_delivery, "
 									 + "      A.created_date, "
 									 + "      A.created_by, "
-									 + "      B.url AS thumbnail, "		
-									 + "      A.status "
+									 + "      B.url AS thumbnail, "	
+									 + "	  A.category, "
+									 + "      A.status,"
+									 + "      C.longitude,"
+									 + "      C.latitude,"
+									 + "      D.telephone "
 									 + "FROM restaurants A "
 									 + "LEFT JOIN images B ON A.id = B.restaurant_id AND B.is_thumbnail='1' "
+									 + "LEFT JOIN restaurant_locations C ON A.id = C.restaurant_id AND C.status = '1'"
+									 + "LEFT JOIN telephones D ON A.id= D.restaurant_id AND D.status = '1' "
 									 + "LIMIT ? "
 									 + "OFFSET ? "									 
 									,new Object[]{ pagination.getLimit(), pagination.offset() }
@@ -81,6 +91,17 @@ public class RestaurantRepositoryImpl implements RestaurantRepository {
 					restaurant.setIsDelivery(rs.getString("is_delivery"));
 					restaurant.setStatus(rs.getString("status"));
 					restaurant.setCreatedDate(rs.getString("created_date"));
+					restaurant.setCategory(rs.getString("category"));
+					
+					Location location = new Location();
+					location.setLatitude(rs.getString("latitude"));
+					location.setLongitude(rs.getString("longitude"));
+					restaurant.setLocation(location);
+					
+					Telephone telephone = new Telephone();
+					telephone.setTelephone(rs.getString("telephone"));
+					restaurant.setTelephone(telephone);
+					
 					User user = new User();
 					user.setId(rs.getLong("created_by"));
 					restaurant.setCreatedBy(user);
@@ -103,7 +124,8 @@ public class RestaurantRepositoryImpl implements RestaurantRepository {
 											 + "       A.is_delivery, "
 											 + "       A.created_date, "
 											 + "       A.created_by, "
-											 + "       B.url AS thumbnail, "		
+											 + "       B.url AS thumbnail, "	
+											 + "	   A.category, "
 											 + "       A.status "
 											 + "FROM restaurants A "
 											 + "LEFT JOIN images B ON A.id = B.restaurant_id AND B.is_thumbnail='1' "

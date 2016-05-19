@@ -17,7 +17,10 @@ import org.springframework.core.env.Environment;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.LocaleResolver;
@@ -37,6 +40,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Configuration
 @EnableWebMvc
+@EnableTransactionManagement
 @ComponentScan(basePackages = 
 					{ "kh.com.kshrd.restaurant.restcontrollers", 
 					  "kh.com.kshrd.restaurant.controller"})
@@ -81,6 +85,11 @@ public class MvcConfiguration extends WebMvcConfigurerAdapter {
 	public JdbcTemplate getJdbcTemplate() {
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource());
 		return jdbcTemplate;
+	}
+	
+	@Bean
+	public PlatformTransactionManager dataSourceTransactionManager(){
+		return new DataSourceTransactionManager(dataSource());
 	}
 
 	@Override

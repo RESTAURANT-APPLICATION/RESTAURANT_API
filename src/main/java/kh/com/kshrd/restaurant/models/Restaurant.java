@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Restaurant implements Serializable{
@@ -55,8 +56,14 @@ public class Restaurant implements Serializable{
 	@JsonProperty("CATEGORIES")
 	private List<Category> categories = new ArrayList<Category>();
 	
+	@JsonProperty("CATEGORY")
+	private String category;
+	
 	@JsonProperty("LOCATION")
 	private Location location;
+	
+	@JsonProperty("TELEPHONE")
+	private Telephone telephone;
 
 	public Restaurant(){
 		
@@ -197,13 +204,29 @@ public class Restaurant implements Serializable{
 		this.location = location;
 	}
 
+	public String getCategory() {
+		return category;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
+	}
+
+	public Telephone getTelephone() {
+		return telephone;
+	}
+
+	public void setTelephone(Telephone telephone) {
+		this.telephone = telephone;
+	}
+
 	@Override
 	public String toString() {
 		return "Restaurant [id=" + id + ", name=" + name + ", description=" + description + ", createdDate="
 				+ createdDate + ", updatedDate=" + updatedDate + ", createdBy=" + createdBy + ", updatedBy=" + updatedBy
 				+ ", status=" + status + ", address=" + address + ", isDelivery=" + isDelivery + ", thumbnail="
 				+ thumbnail + ", menus=" + menus + ", restaurantImages=" + restaurantImages + ", categories="
-				+ categories + ", location=" + location + "]";
+				+ categories + ", category=" + category + ", location=" + location + ", telephone=" + telephone + "]";
 	}
-	
+
 }

@@ -1,11 +1,19 @@
 package kh.com.kshrd.restaurant.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Location {
 
+	@JsonIgnore
 	private Long id;
+	@JsonProperty("LONGITUDE")
 	private String longitude;
+	@JsonProperty("LATITUDE")
 	private String latitude;
+	@JsonIgnore
 	private String status;
+	@JsonIgnore
 	private Restaurant restaurant;
 	
 	public Location(){

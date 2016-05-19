@@ -17,7 +17,7 @@ public interface ImageService {
 	//TODO: TO REGISTER A NEW IMAGE
 	public Boolean addNewImage(Image image);
 	
-	public Boolean addManyImages(List<Image> images);
+	//public Boolean addManyImages(List<Image> images);
 	
 	//TODO: TO UPDATE AN EXIST IMAGE
 	public Boolean updateExistImage(Image image);

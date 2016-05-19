@@ -10,10 +10,11 @@ import kh.com.kshrd.restaurant.filters.RestaurantFilter;
 import kh.com.kshrd.restaurant.models.Category;
 import kh.com.kshrd.restaurant.models.Image;
 import kh.com.kshrd.restaurant.models.Restaurant;
-import kh.com.kshrd.restaurant.models.User;
 import kh.com.kshrd.restaurant.repositories.CategoryRepository;
 import kh.com.kshrd.restaurant.repositories.ImageRepository;
+import kh.com.kshrd.restaurant.repositories.LocationRepository;
 import kh.com.kshrd.restaurant.repositories.RestaurantRepository;
+import kh.com.kshrd.restaurant.repositories.TelephoneRepository;
 import kh.com.kshrd.restaurant.services.RestaurantService;
 import kh.com.kshrd.restaurant.utilities.Pagination;
 
@@ -29,6 +30,12 @@ public class ResturantServiceImpl implements RestaurantService {
 	
 	@Autowired
 	private CategoryRepository categoryRepository;
+	
+	@Autowired
+	private LocationRepository locationRepository;
+	
+	@Autowired
+	private TelephoneRepository telephoneRepository;
 
 	@Override
 	public List<Restaurant> findAllRestaurants(RestaurantFilter filter, Pagination pagination) {
@@ -67,19 +74,35 @@ public class ResturantServiceImpl implements RestaurantService {
 			Long restaurantId = restaurantRepository.save(restaurant);
 			restaurant.setId(restaurantId);
 			if(restaurantId > 0){
-				for(Image menu : restaurant.getMenus()){
+				if(imageRepository.save(restaurant.getMenus(), restaurantId)==null){
+					return false;
+				}
+				/*for(Image menu : restaurant.getMenus()){
 					menu.setRestaurant(restaurant);
 					if(imageRepository.save(menu)>0){
 						
 					}
-				}
-				for(Image image: restaurant.getRestaurantImages()){
+				}*/
+				/*for(Image image: restaurant.getRestaurantImages()){
 					image.setRestaurant(restaurant);
 					if(imageRepository.save(image) > 0){
 						
 					}
+				}*/
+				
+				if(imageRepository.save(restaurant.getRestaurantImages(), restaurantId)==null){
+					return false;
 				}
-				return true;
+				restaurant.getLocation().setRestaurant(restaurant);
+				if(locationRepository.save(restaurant.getLocation())){
+				
+				}
+				
+				restaurant.getTelephone().setRestaurant(restaurant);
+				
+				if(telephoneRepository.save(restaurant.getTelephone()) > 0){
+					return true;
+				}
 			}
 		}catch(Exception ex){
 			ex.printStackTrace();

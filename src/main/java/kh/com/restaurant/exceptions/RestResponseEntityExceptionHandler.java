@@ -43,7 +43,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 			fieldErrorResources.add(fieldErrorResource);
 		}
 
-		ErrorResource error = new ErrorResource("INVALID REQUEST", ire.getMessage());
+		ErrorResource error = new ErrorResource("7777", ire.getMessage());
 		error.setFieldErrors(fieldErrorResources);
 
 		HttpHeaders headers = new HttpHeaders();

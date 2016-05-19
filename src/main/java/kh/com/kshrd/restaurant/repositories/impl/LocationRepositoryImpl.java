@@ -2,10 +2,12 @@ package kh.com.kshrd.restaurant.repositories.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Repository;
 
 import kh.com.kshrd.restaurant.models.Location;
 import kh.com.kshrd.restaurant.repositories.LocationRepository;
 
+@Repository
 public class LocationRepositoryImpl implements LocationRepository {
 
 	@Autowired
