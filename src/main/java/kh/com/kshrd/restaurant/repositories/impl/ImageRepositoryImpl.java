@@ -90,7 +90,7 @@ public class ImageRepositoryImpl implements ImageRepository{
 												  + "created_date, "
 												  + "created_by, "
 												  + "is_thumbnail) "
-						 + "VALUES(?, ?, ?, ?, ?, ?, TO_CHAR(NOW(),'YYYYMMDDHHMMSS'), ?, ?);";
+						 + "VALUES(?, ?, ?, ?, ?, ?, TO_CHAR(NOW(),'YYYYMMDDHH24MMSS'), ?, ?);";
 			int results[]= jdbcTemplate.batchUpdate(sql,new BatchPreparedStatementSetter() {
 				    @Override
 				    public void setValues(PreparedStatement ps, int i) throws SQLException {
