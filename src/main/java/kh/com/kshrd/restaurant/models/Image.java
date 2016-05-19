@@ -19,7 +19,7 @@ public class Image implements Serializable {
 	@JsonProperty("TITLE")
 	private String title;
 	
-	@JsonProperty("DESCRIPTION")
+	@JsonIgnore
 	private String description;
 	
 	@JsonIgnore
@@ -28,16 +28,16 @@ public class Image implements Serializable {
 	@JsonProperty("URL")
 	private String url;
 	
-	@JsonProperty("TYPE")
+	@JsonIgnore
 	private ImageType type;
 	
-	@JsonProperty("STATUS")
+	@JsonIgnore
 	private String status;
 	
-	@JsonProperty("CREATED_DATE")
+	@JsonIgnore
 	private String createdDate;
 	
-	@JsonProperty("CREATED_BY")
+	@JsonIgnore
 	private User createdBy;
 	
 	@JsonProperty("IS_THUMBNAIL")
