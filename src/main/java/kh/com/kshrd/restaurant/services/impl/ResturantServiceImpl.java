@@ -43,8 +43,10 @@ public class ResturantServiceImpl implements RestaurantService {
 			List<Restaurant> restaurants = restaurantRepository.findAllRestaurants(filter, pagination);
 			for(int i=0; i<restaurants.size(); i++){
 				List<Image> menus = imageRepository.findAllMenusByRestaurantId(restaurants.get(i).getId());
-				List<Category> categories = categoryRepository.getAllCategoriesByRestaurantId(restaurants.get(i).getId()); 
+				List<Category> categories = categoryRepository.getAllCategoriesByRestaurantId(restaurants.get(i).getId());
+				List<Image> restaurantImages = imageRepository.findAllRestaurantImagesByRestaurantId(restaurants.get(i).getId());
 				restaurants.get(i).setMenus(menus);
+				restaurants.get(i).setRestaurantImages(restaurantImages);
 				restaurants.get(i).setCategories(categories);
 			}
 			pagination.setTotalCount(restaurantRepository.count(filter));

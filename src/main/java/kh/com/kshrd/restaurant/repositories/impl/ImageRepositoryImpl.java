@@ -255,5 +255,48 @@ public class ImageRepositoryImpl implements ImageRepository{
 		}
 		return null;
 	}
+	
+	@Override
+	public List<Image> findAllRestaurantImagesByRestaurantId(Long id) {
+		try{
+			String sql = "SELECT A.id, "
+					 + "	   A.restaurant_id, "
+					 + " 	   A.title, "
+					 + "       A.description, "
+					 + "       A.url, "
+					 + "       A.type, "
+					 + "       A.status, "
+					 + "       A.created_date, "		
+					 + "       A.created_by,"
+					 + "	   A.is_thumbnail "
+					 + "FROM images A "
+					 + "WHERE A.restaurant_id = ? "
+					 + "AND A.type = ? ";
+			return jdbcTemplate.query(sql,
+									new Object[]{ 
+											id, 
+											(ImageType.INSIDE.ordinal()+1)+""},
+								    new RowMapper<Image>(){
+				@Override
+				public Image mapRow(ResultSet rs, int rowNum) throws SQLException {
+					Image image = new Image();
+					image.setId(rs.getLong("id"));
+					image.setTitle(rs.getString("title"));
+					image.setDescription(rs.getString("description"));
+					image.setUrl(rs.getString("url"));
+					image.setType(ImageType.MENU);
+					User user = new User();
+					user.setId(rs.getLong("created_by"));
+					image.setCreatedDate(rs.getString("created_date"));
+					image.setCreatedBy(user);
+					image.setIsThumbnail(rs.getString("is_thumbnail"));
+					return image;
+				}
+			});
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+		return null;
+	}
 
 }

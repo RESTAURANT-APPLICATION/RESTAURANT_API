@@ -12,5 +12,6 @@ public interface ImageRepository {
 	public int[] save(List<Image> images, Long restaurantId);
 	public List<Image> findAllImages(ImageFilter filter, Pagination pagination);
 	public List<Image> findAllMenusByRestaurantId(Long id);
+	public List<Image> findAllRestaurantImagesByRestaurantId(Long id);
 	public Image findImageById(Long id);
 }
