@@ -45,7 +45,7 @@ public class ImageRepositoryImpl implements ImageRepository{
 									image.getTitle(),
 									image.getDescription(),
 									image.getUrl(),
-									image.getType().ordinal()+"",
+									(image.getType().ordinal()+1)+"",
 									image.getStatus(),
 									image.getCreatedBy().getId(),
 									image.getIsThumbnail()
@@ -98,7 +98,7 @@ public class ImageRepositoryImpl implements ImageRepository{
 				        ps.setString(2, images.get(i).getTitle());
 				        ps.setString(3, images.get(i).getDescription());
 				        ps.setString(4, images.get(i).getUrl());
-				        ps.setString(5, images.get(i).getType().ordinal()+"");
+				        ps.setString(5, (images.get(i).getType().ordinal()+1)+"");
 				        ps.setString(6, images.get(i).getStatus());
 				        ps.setLong(7, images.get(i).getCreatedBy().getId());
 				        ps.setString(8, images.get(i).getIsThumbnail());
@@ -232,7 +232,7 @@ public class ImageRepositoryImpl implements ImageRepository{
 			return jdbcTemplate.query(sql,
 									new Object[]{ 
 											id, 
-											ImageType.MENU.ordinal()+""},
+											(ImageType.MENU.ordinal()+1)+""},
 								    new RowMapper<Image>(){
 				@Override
 				public Image mapRow(ResultSet rs, int rowNum) throws SQLException {

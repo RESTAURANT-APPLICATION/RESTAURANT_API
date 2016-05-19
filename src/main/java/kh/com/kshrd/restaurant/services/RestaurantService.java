@@ -23,4 +23,7 @@ public interface RestaurantService {
 	
 	//TODO: TO DELETE AN EXIST RESTAURANT
 	public Boolean deleteRestaurant(Long id);
+	
+	//TODO: TO GET ALL RESTAURANT BY USER ID
+	public List<Restaurant> getAllRestaurantsByUserId(Long id);
 }

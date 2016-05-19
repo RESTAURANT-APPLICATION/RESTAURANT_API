@@ -2,6 +2,7 @@ package kh.com.kshrd.restaurant.models;
 
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import kh.com.kshrd.restaurant.enums.ImageType;
@@ -21,7 +22,7 @@ public class Image implements Serializable {
 	@JsonProperty("DESCRIPTION")
 	private String description;
 	
-	@JsonProperty("RESTARUANT")
+	@JsonIgnore
 	private Restaurant restaurant;
 	
 	@JsonProperty("URL")

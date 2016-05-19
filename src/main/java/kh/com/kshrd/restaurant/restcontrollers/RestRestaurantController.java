@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,7 @@ import com.wordnik.swagger.annotations.ApiResponses;
 import kh.com.kshrd.restaurant.enums.ImageType;
 import kh.com.kshrd.restaurant.filters.RestaurantFilter;
 import kh.com.kshrd.restaurant.forms.RestaurantForm;
+import kh.com.kshrd.restaurant.forms.RestaurantFormMultipart;
 import kh.com.kshrd.restaurant.locales.MessageSourceService;
 import kh.com.kshrd.restaurant.models.Image;
 import kh.com.kshrd.restaurant.models.Location;
@@ -41,6 +43,7 @@ import kh.com.kshrd.restaurant.models.Restaurant;
 import kh.com.kshrd.restaurant.models.Telephone;
 import kh.com.kshrd.restaurant.models.User;
 import kh.com.kshrd.restaurant.services.RestaurantService;
+import kh.com.kshrd.restaurant.services.UploadService;
 import kh.com.kshrd.restaurant.utilities.Pagination;
 import kh.com.restaurant.exceptions.ErrorResource;
 import kh.com.restaurant.exceptions.FieldErrorResource;
@@ -57,6 +60,9 @@ public class RestRestaurantController {
 	@Autowired
 	@Qualifier("fileMessageSourceService")
 	private MessageSourceService messageSource;
+	
+	@Autowired
+	private UploadService uploadService;
 	
 	@RequestMapping(method = RequestMethod.GET)
 	@ApiResponses(value = {
@@ -107,12 +113,76 @@ public class RestRestaurantController {
 	@ApiOperation("TO REGISTER RESTAURANT.")
 	public ResponseEntity<Map<String, Object>> addNewRestaurant(@Valid @RequestBody RestaurantForm form, BindingResult result) {
 		Map<String, Object> model = new HashMap<String, Object>();
-		//try{
+		//TODO: TO CHECK VALIDATION
+		if(result.hasErrors()){
+			System.err.println("REGISTERING NEW RESTAURANT VALIDATION ERRORS ==> " + result.getAllErrors());
+			throw new InvalidRequestException("INVALID RESTAURANT WHEN REGISTERING.", result);
+		}
+		Restaurant restaurant = new Restaurant();
+		restaurant.setName(form.getName());
+		restaurant.setAddress(form.getAddress());
+		User user = new User();
+		user.setId(1L);
+		restaurant.setCreatedBy(user);
+		restaurant.setDescription(form.getDescription());
+		restaurant.setIsDelivery(form.getIsDelivery());
+		restaurant.setStatus(form.getStatus());
+		restaurant.setThumbnail("");
+		restaurant.setCategory(form.getRestaurantCategory());
+		String isThumbnail = "1";
+		for(String strTitle : form.getMenuImages()){
+			Image image = new Image();
+			image.setTitle(strTitle);
+			image.setCreatedBy(user);
+			image.setType(ImageType.MENU);
+			image.setIsThumbnail(isThumbnail);
+			image.setStatus("1");
+			image.setUrl(strTitle);
+			restaurant.getMenus().add(image);
+			isThumbnail = "0";	
+		}
+		
+		for(String strTitle : form.getRestaurantImages()){
+			Image image = new Image();
+			image.setTitle(strTitle);
+			image.setCreatedBy(user);
+			image.setType(ImageType.INSIDE);
+			image.setIsThumbnail("0");
+			image.setUrl(strTitle);
+			image.setStatus("1");
+			restaurant.getRestaurantImages().add(image);
+		}
+		
+		Location location = new Location();
+		location.setLatitude(form.getLatitude());
+		location.setLongitude(form.getLongitude());
+		location.setId(1L);
+		restaurant.setLocation(location);
+		
+		Telephone telephone = new Telephone();
+		telephone.setTelephone(form.getTelephone());
+		restaurant.setTelephone(telephone);
+		
+		if(restaurantService.addNewRestaurant(restaurant)){
+			model.put("MESSAGE", "RESTAURANT HAS BEEN REGISTERED SUCCESSFULLY.");
+			model.put("CODE", "0000");
+			return new ResponseEntity<Map<String, Object>>(model, HttpStatus.OK);
+		}
+		model.put("MESSAGE", "RESTAURANT HAS BEEN ERROR WHEN REGISTER.");
+		model.put("CODE", "9999");
+		return new ResponseEntity<Map<String, Object>>(model, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value="/multiple/register", method = RequestMethod.POST)
+	@ApiOperation("TO REGISTER RESTAURANT.")
+	public ResponseEntity<Map<String, Object>> addNewRestaurantsMultipleParts(@Valid @RequestBody RestaurantFormMultipart form, BindingResult result, HttpServletRequest request) {
+		Map<String, Object> model = new HashMap<String, Object>();
 			//TODO: TO CHECK VALIDATION
 			if(result.hasErrors()){
 				System.err.println("REGISTERING NEW RESTAURANT VALIDATION ERRORS ==> " + result.getAllErrors());
 				throw new InvalidRequestException("INVALID RESTAURANT WHEN REGISTERING.", result);
 			}
+			
 			Restaurant restaurant = new Restaurant();
 			restaurant.setName(form.getName());
 			restaurant.setAddress(form.getAddress());
@@ -125,7 +195,35 @@ public class RestRestaurantController {
 			restaurant.setThumbnail("");
 			restaurant.setCategory(form.getRestaurantCategory());
 			String isThumbnail = "1";
-			for(String strTitle : form.getMenuImages()){
+			
+			if(null!=form.getMenuImages()){
+				List<Image> menus = uploadService.uploadMultipart(form.getMenuImages(), request);
+				if(menus!=null){
+					for(Image menu : menus){
+						menu.setCreatedBy(user);
+						menu.setType(ImageType.MENU);
+						menu.setStatus("1");
+						menu.setIsThumbnail("0");
+						restaurant.getMenus().add(menu);
+					}
+				}
+			}
+			
+			if(null!=form.getRestaurantImages()){
+				List<Image> images = uploadService.uploadMultipart(form.getRestaurantImages(), request);
+				if(images!=null){
+					for(Image image : images){
+						image.setCreatedBy(user);
+						image.setType(ImageType.MENU);
+						image.setStatus("1");
+						image.setIsThumbnail(isThumbnail);
+						restaurant.getRestaurantImages().add(image);
+						isThumbnail = "0";	
+					}
+				}
+			}
+			
+			/*for(String strTitle : form.getMenuImages()){
 				Image image = new Image();
 				image.setTitle(strTitle);
 				image.setCreatedBy(user);
@@ -146,7 +244,7 @@ public class RestRestaurantController {
 				image.setUrl(strTitle);
 				image.setStatus("1");
 				restaurant.getRestaurantImages().add(image);
-			}
+			}*/
 			
 			Location location = new Location();
 			location.setLatitude(form.getLatitude());
@@ -166,11 +264,6 @@ public class RestRestaurantController {
 			model.put("MESSAGE", "RESTAURANT HAS BEEN ERROR WHEN REGISTER.");
 			model.put("CODE", "9999");
 			return new ResponseEntity<Map<String, Object>>(model, HttpStatus.OK);
-		/*}catch(Exception ex){
-			model.put("MESSAGE", ex.getMessage());
-			model.put("CODE", "9999");
-			return new ResponseEntity<Map<String, Object>>(model, HttpStatus.OK);
-		}*/
 	}
 	
 	@RequestMapping(value="/{id}", method = RequestMethod.PUT)

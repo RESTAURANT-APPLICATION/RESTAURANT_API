@@ -53,7 +53,8 @@ public class Restaurant implements Serializable{
 	@JsonProperty("IMAGES")
 	private List<Image> restaurantImages = new ArrayList<Image>();
 	
-	@JsonProperty("CATEGORIES")
+	//@JsonProperty("CATEGORIES")
+	@JsonIgnore
 	private List<Category> categories = new ArrayList<Category>();
 	
 	@JsonProperty("CATEGORY")

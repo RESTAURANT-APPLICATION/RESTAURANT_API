@@ -119,5 +119,10 @@ public class ResturantServiceImpl implements RestaurantService {
 	public Boolean deleteRestaurant(Long id) {
 		return null;
 	}
+	
+	@Override
+	public List<Restaurant> getAllRestaurantsByUserId(Long id) {
+		return null;
+	}
 
 }
