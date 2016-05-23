@@ -22,11 +22,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
+import com.wordnik.swagger.annotations.ApiOperation;
+
 @RestController
 @RequestMapping(value="/v1/api/admin/upload")
 public class RestUploadController {
 
 	@RequestMapping(value="/single", method = RequestMethod.POST)
+	@ApiOperation("TO UPLOAD A SINGLE FILE.")
 	public ResponseEntity<Map<String, Object>> uploadSingle(@RequestParam("file") CommonsMultipartFile file, HttpServletRequest request){
 		System.out.println("FILE ==> "+file.getOriginalFilename());
 		String filename = "";
@@ -76,6 +79,7 @@ public class RestUploadController {
 	}
 		
 	@RequestMapping(value="/multiple", method = RequestMethod.POST)
+	@ApiOperation("TO UPLOAD A MULTIPLE FILES.")
 	public ResponseEntity<Map<String, Object>> uploadMultiple(@RequestParam("files") CommonsMultipartFile[] files, HttpServletRequest request){
 		Map<String, Object> responseMap = new HashMap<String, Object>();
 		try{
@@ -146,6 +150,7 @@ public class RestUploadController {
 	}
 	
 	@RequestMapping(value="/base64single",method = RequestMethod.POST)
+	@ApiOperation("TO UPLOAD A SINGLE FILE WITH BASE64.")
     public @ResponseBody ResponseEntity<Map<String, Object>> uploadImage2(@RequestBody String strBase64,HttpServletRequest request)
     {
 		Map<String, Object> map = new HashMap<String, Object>();

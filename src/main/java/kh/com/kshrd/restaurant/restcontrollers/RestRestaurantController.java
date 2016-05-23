@@ -89,7 +89,6 @@ public class RestRestaurantController {
 		model.put("MESSAGE", "RESTAURANTS HAVE NOT FOUND.");
 		model.put("CODE", "9999");
 		return new ResponseEntity<Map<String, Object>>(model, HttpStatus.NOT_FOUND);
-		
 	}
 	
 	@RequestMapping(value="/{id}", method = RequestMethod.GET)
@@ -134,7 +133,11 @@ public class RestRestaurantController {
 		String isThumbnail = "1";
 		for(String strTitle : form.getMenuImages()){
 			Image image = new Image();
-			image.setTitle(strTitle.substring(0, strTitle.lastIndexOf("/")));
+			try{
+				image.setTitle(strTitle.substring(0, strTitle.lastIndexOf("/")));
+			}catch(Exception ex){
+				image.setTitle(strTitle);
+			}
 			image.setCreatedBy(user);
 			image.setType(ImageType.MENU);
 			image.setIsThumbnail(isThumbnail);
@@ -146,7 +149,11 @@ public class RestRestaurantController {
 		
 		for(String strTitle : form.getRestaurantImages()){
 			Image image = new Image();
-			image.setTitle(strTitle.substring(strTitle.lastIndexOf("/"), strTitle.length()+1));
+			try{
+				image.setTitle(strTitle.substring(0, strTitle.lastIndexOf("/")));
+			}catch(Exception ex){
+				image.setTitle(strTitle);
+			}
 			image.setCreatedBy(user);
 			image.setType(ImageType.INSIDE);
 			image.setIsThumbnail("0");

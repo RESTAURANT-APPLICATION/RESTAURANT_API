@@ -170,6 +170,22 @@ public class RestCategoryController {
 		return new ResponseEntity<Map<String, Object>>(model, HttpStatus.OK);
 	}
 	
+	@RequestMapping(value="/{id}", method = RequestMethod.GET)
+	@ApiOperation("TO GET THE CATEGORY BY ID.")
+	public ResponseEntity<Map<String, Object>> getCategoryById(@PathVariable("id") Long id){
+		Map<String, Object> model = new HashMap<String, Object>();
+		Category category = categoryService.getCategoryById(id);
+		if(category==null){
+			model.put("MESSAGE", "CATEGORY IS NOT FOUND.");
+			model.put("CODE", "9999");
+			return new ResponseEntity<Map<String, Object>>(model, HttpStatus.OK);
+		}
+		model.put("DATA", category);
+		model.put("MESSAGE", "CATEGORY HAS BEEN FOUND.");
+		model.put("CODE", "0000");
+		return new ResponseEntity<Map<String, Object>>(model, HttpStatus.OK);
+	}
+	
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	@ExceptionHandler({ InvalidRequestException.class })
 	protected ResponseEntity<Object> handleInvalidRequest(RuntimeException e, WebRequest request) {

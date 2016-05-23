@@ -36,7 +36,8 @@ public class CategoryRepositoryImpl implements CategoryRepository {
 					  + "		A.created_by "
 					  + "FROM categories A "
 					  + "LEFT JOIN categories B ON A.parent_id = B.id "
-					  + "WHERE A.parent_id IS NOT NULL";
+					  + "WHERE A.parent_id IS NOT NULL "
+					  + "AND A.status = '1'";
 			return jdbcTemplate.query(sql, new RowMapper<Category>(){
 				@Override
 				public Category mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -83,7 +84,8 @@ public class CategoryRepositoryImpl implements CategoryRepository {
 					  + "LEFT JOIN categories B ON A.parent_id = B.id "
 					  + "INNER JOIN restaurant_categories C ON A.id = C.category_id "
 					  + "INNER JOIN restaurants D ON D.id = C.restaurant_id "
-					  + "WHERE D.id = ?";
+					  + "WHERE D.id = ? "
+					  + "AND A.status = '1'";
 			return jdbcTemplate.query(sql, new Object[]{ id }, new RowMapper<Category>(){
 				@Override
 				public Category mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -197,7 +199,8 @@ public class CategoryRepositoryImpl implements CategoryRepository {
 					  + "		A.created_by "
 					  + "FROM categories A "
 					  + "LEFT JOIN categories B ON A.parent_id = B.id "
-					  + "WHERE C.restaurant_id = ?";
+					  + "WHERE A.id = ? "
+					  + "AND A.status = '1'";
 			return jdbcTemplate.queryForObject(sql, new Object[]{ id }, new RowMapper<Category>(){
 				@Override
 				public Category mapRow(ResultSet rs, int rowNum) throws SQLException {

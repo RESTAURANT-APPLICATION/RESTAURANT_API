@@ -40,6 +40,7 @@ public class ResturantServiceImpl implements RestaurantService {
 
 	@Override
 	public List<Restaurant> findAllRestaurants(RestaurantFilter filter, Pagination pagination) {
+		pagination.setTotalCount(restaurantRepository.count(filter));
 		try{
 			List<Restaurant> restaurants = restaurantRepository.findAllRestaurants(filter, pagination);
 			for(int i=0; i<restaurants.size(); i++){
@@ -50,7 +51,6 @@ public class ResturantServiceImpl implements RestaurantService {
 				restaurants.get(i).setRestaurantImages(restaurantImages);
 				restaurants.get(i).setCategories(categories);
 			}
-			pagination.setTotalCount(restaurantRepository.count(filter));
 			return restaurants;
 		}catch(Exception ex){
 			ex.printStackTrace();

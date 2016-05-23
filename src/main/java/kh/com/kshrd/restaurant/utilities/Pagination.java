@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import kh.com.restaurant.exceptions.CustomGenericException;
+
 public class Pagination implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
@@ -84,10 +86,13 @@ public class Pagination implements Serializable{
 
 	public void setTotalCount(int totalCount) {
 		this.totalCount = totalCount;
+		this.totalPages = totalPages();
+		if(this.totalPages() < this.page){
+			throw new CustomGenericException("7777", "THE TOTAL PAGES HAS ONLY " + this.totalPages() +" AND YOUR CURRENT PAGE IS "+ this.page);
+		}
 	}
 
 	public int getTotalPages() {
-		this.totalPages = totalPages();
 		return totalPages;
 	}
 
