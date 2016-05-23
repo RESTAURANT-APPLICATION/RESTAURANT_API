@@ -19,6 +19,7 @@ public class RESTAuthenticationEntryPoint implements AuthenticationEntryPoint{
 
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("application/json");
+		System.out.println(request);
 		response.getWriter().write("{\"MESSAGE\":\""+authException.getMessage()+"\"}");
 	}
 }

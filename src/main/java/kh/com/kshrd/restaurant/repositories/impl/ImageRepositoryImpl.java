@@ -147,7 +147,8 @@ public class ImageRepositoryImpl implements ImageRepository{
 					 + "       A.created_date, "		
 					 + "       A.created_by,"
 					 + "	   A.is_thumbnail "
-					 + "FROM image A ";
+					 + "FROM image A "
+					 + "WHERE status = '1'";
 			return jdbcTemplate.query(sql, 
 								    new RowMapper<Image>(){
 				@Override
@@ -187,7 +188,8 @@ public class ImageRepositoryImpl implements ImageRepository{
 					 + "       A.created_by, "
 					 + "	   A.is_thumbnail, "
 					 + "FROM images A "
-					 + "WHERE A.id = ?";
+					 + "WHERE A.id = ? "
+					 + "AND A.status = '1'";
 			return jdbcTemplate.queryForObject(sql, 
 									new Object[]{id},
 								    new RowMapper<Image>(){
@@ -228,7 +230,8 @@ public class ImageRepositoryImpl implements ImageRepository{
 					 + "	   A.is_thumbnail "
 					 + "FROM images A "
 					 + "WHERE A.restaurant_id = ? "
-					 + "AND A.type = ? ";
+					 + "AND A.type = ? "
+					 + "AND A.status = '1'";
 			return jdbcTemplate.query(sql,
 									new Object[]{ 
 											id, 
@@ -271,7 +274,8 @@ public class ImageRepositoryImpl implements ImageRepository{
 					 + "	   A.is_thumbnail "
 					 + "FROM images A "
 					 + "WHERE A.restaurant_id = ? "
-					 + "AND A.type = ? ";
+					 + "AND A.type = ? "
+					 + "AND A.status = '1'";
 			return jdbcTemplate.query(sql,
 									new Object[]{ 
 											id, 
@@ -297,6 +301,25 @@ public class ImageRepositoryImpl implements ImageRepository{
 			ex.printStackTrace();
 		}
 		return null;
+	}
+
+	@Override
+	public boolean updateStatusByRestaurantId(Long id) {
+		try{
+			int result = jdbcTemplate.update("UPDATE images "
+												 + "SET status = '0' "
+						 						 + "WHERE restaurant_id = ?"
+						 					, new Object[]{
+						 							id
+							 				});
+			if(result>0){
+				System.out.println(id);
+				return true;
+			}
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+		return false;
 	}
 
 }

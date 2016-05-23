@@ -74,9 +74,10 @@ public class RestaurantRepositoryImpl implements RestaurantRepository {
 									 + "      C.latitude,"
 									 + "      D.telephone "
 									 + "FROM restaurants A "
-									 + "LEFT JOIN images B ON A.id = B.restaurant_id AND B.is_thumbnail='1' "
+									 + "LEFT JOIN images B ON A.id = B.restaurant_id AND B.is_thumbnail='1' AND B.status ='1'"
 									 + "LEFT JOIN restaurant_locations C ON A.id = C.restaurant_id AND C.status = '1' "
 									 + "LEFT JOIN telephones D ON A.id= D.restaurant_id AND D.status = '1' "
+									 + "WHERE A.status = '1' "
 									 + "LIMIT ? "
 									 + "OFFSET ? "									 
 									,new Object[]{ pagination.getLimit(), pagination.offset() }
@@ -129,8 +130,8 @@ public class RestaurantRepositoryImpl implements RestaurantRepository {
 											 + "	   A.category, "
 											 + "       A.status "
 											 + "FROM restaurants A "
-											 + "LEFT JOIN images B ON A.id = B.restaurant_id AND B.is_thumbnail='1' "
-											 + "WHERE A.id = ? "
+											 + "LEFT JOIN images B ON A.id = B.restaurant_id AND B.is_thumbnail='1' AND B.status='1'"
+											 + "WHERE A.id = ? AND A.status = '1'"
 											 , new Object[]{id}
 											 , new RowMapper<Restaurant>(){
 				@Override
@@ -158,6 +159,76 @@ public class RestaurantRepositoryImpl implements RestaurantRepository {
 
 	@Override
 	public int count(RestaurantFilter filter) {
-		return jdbcTemplate.queryForObject("SELECT COUNT(1) FROM restaurants ",  new Object[]{}, Integer.class);
+		try{
+			return jdbcTemplate.queryForObject("SELECT COUNT(1) FROM restaurants WHERE status ='1'",  new Object[]{}, Integer.class);
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+		return 0;
+		
+	}
+	
+	@Override
+	public boolean checkRestaurantExist(Long restaurantId) {
+		try{
+			return jdbcTemplate.queryForObject("SELECT COUNT(1) FROM restaurants WHERE id = ? AND status ='1'",  new Object[]{ restaurantId}, Integer.class) > 0;
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+		return false;
+	}
+	
+	@Override
+	public boolean update(Restaurant restaurant) {
+		try{
+			int result = jdbcTemplate.update("UPDATE restaurants "
+												 + "SET name = ?, "
+						 						 + "	description = ?, "
+						 						 + "	updated_date = TO_CHAR(NOW(),'YYYYMMDDHH24MISS'), "
+						 						 + "	updated_by = ?, "
+						 						 + "	status = ?, "
+						 						 + "	address = ?, "
+						 						 + "	is_delivery = ?, "
+						 						 + "	category = ? "
+						 						 + "WHERE id = ?"
+				 						 , new Object[]{
+									 		restaurant.getName(),
+									 		restaurant.getDescription(),
+									 		restaurant.getUpdatedBy().getId(),
+									 		restaurant.getStatus(),
+									 		restaurant.getAddress(),
+									 		restaurant.getIsDelivery(),
+									 		restaurant.getCategory(),
+									 		restaurant.getId()
+							 				});
+			if(result>0){
+				System.out.println(restaurant);
+				return true;
+			}
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+		return false;
+	}
+	
+	@Override
+	public boolean delete(Long id) {
+		System.out.println("DELETING RESTAURANT ID = " + id);
+		try{
+			int result = jdbcTemplate.update("UPDATE restaurants "
+												 + "SET status = '0', "
+												 + "	updated_date = TO_CHAR(NOW(),'YYYYMMDDHH24MISS'), "
+												 + "	updated_by = 1 "
+						 						 + "WHERE id = ?"
+				 						 , new Object[]{
+				 								 id
+							 				});
+			if(result>0){
+				return true;
+			}
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+		return false;
 	}
 }

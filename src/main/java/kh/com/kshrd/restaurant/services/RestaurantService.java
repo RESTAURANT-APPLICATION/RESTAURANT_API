@@ -26,4 +26,5 @@ public interface RestaurantService {
 	
 	//TODO: TO GET ALL RESTAURANT BY USER ID
 	public List<Restaurant> getAllRestaurantsByUserId(Long id);
+	
 }

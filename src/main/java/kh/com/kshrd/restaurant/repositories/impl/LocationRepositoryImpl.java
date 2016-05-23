@@ -37,5 +37,31 @@ public class LocationRepositoryImpl implements LocationRepository {
 		}
 		return false;
 	}
+	
+	@Override
+	public boolean update(Location location) {
+		try{
+			int result = jdbcTemplate.update("UPDATE restaurant_locations "
+												 + "SET longitude = ?, "
+						 						 + "	latitude = ?,"
+						 						 + "	location_id = ?,"
+						 						 + "	status =? "
+						 						 + "WHERE restaurant_id = ?"
+							 , new Object[]{
+									 		location.getLongitude(),
+									 		location.getLatitude(),
+									 		location.getId(),
+									 		location.getStatus(),
+									 		location.getRestaurant().getId()
+							 				});
+			if(result>0){
+				System.out.println(location);
+				return true;
+			}
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+		return false;
+	}
 
 }

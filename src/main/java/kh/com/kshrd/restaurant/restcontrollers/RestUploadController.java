@@ -154,7 +154,6 @@ public class RestUploadController {
             //This will decode the String which is encoded by using Base64 class
             byte[] imageByte=Base64.decodeBase64(strBase64);
             
-            
             String savePath= request.getSession().getServletContext().getRealPath("/resources/images");
 
             UUID uuid = UUID.randomUUID();

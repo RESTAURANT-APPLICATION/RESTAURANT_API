@@ -27,8 +27,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		
-		http.antMatcher("/v1/api/**").authorizeRequests().anyRequest().hasRole("API");
-		http.authorizeRequests().anyRequest().authenticated();
+		//http.antMatcher("/v1/api/**").authorizeRequests().anyRequest().hasRole("API");
+		//http.authorizeRequests().anyRequest().authenticated();
+		http.authorizeRequests().anyRequest().permitAll();
 
 		http.httpBasic().authenticationEntryPoint(authenticationEntryPoint);
 		http.csrf().disable();
@@ -45,5 +46,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	public static void main(String[] args) {
 		//Authorization: Basic cmVzdGF1cmFudEFETUlOOnJlc3RhdXJhbnRQQFNTV09SRA==
 		System.out.println(Base64Utils.encodeToString("restaurantADMIN:restaurantP@SSWORD".getBytes()));
+		
+		//System.out.println("str/Tit/le".substring("str/Tit/le".lastIndexOf("/"), "str/Tit/le".length()+1));
 	}
 }

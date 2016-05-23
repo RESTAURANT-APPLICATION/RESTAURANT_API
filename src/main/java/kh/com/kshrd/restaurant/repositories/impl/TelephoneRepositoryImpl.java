@@ -36,5 +36,27 @@ public class TelephoneRepositoryImpl implements TelephoneRepository {
 		}
 		return 0L;
 	}
+	
+	@Override
+	public boolean update(Telephone telephone) {
+		try{
+			int result = jdbcTemplate.update("UPDATE telephones "
+												 + "SET telephone = ?, "
+						 						 + "	status =? "
+						 						 + "WHERE restaurant_id = ?"
+							 , new Object[]{
+									 		telephone.getTelephone(),
+									 		telephone.getStatus(),
+									 		telephone.getRestaurant().getId()
+							 				});
+			if(result>0){
+				System.out.println(telephone);
+				return true;
+			}
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+		return false;
+	}
 
 }

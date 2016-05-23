@@ -41,10 +41,10 @@ public class Telephone {
 	public void setStatus(String status) {
 		this.status = status;
 	}
-	@Override
+/*	@Override
 	public String toString() {
 		return "Telephone [id=" + id + ", restaurant=" + restaurant + ", telephone=" + telephone + ", status=" + status
 				+ "]";
-	}
+	}*/
 	
 }

@@ -14,4 +14,5 @@ public interface ImageRepository {
 	public List<Image> findAllMenusByRestaurantId(Long id);
 	public List<Image> findAllRestaurantImagesByRestaurantId(Long id);
 	public Image findImageById(Long id);
+	public boolean updateStatusByRestaurantId(Long id);
 }

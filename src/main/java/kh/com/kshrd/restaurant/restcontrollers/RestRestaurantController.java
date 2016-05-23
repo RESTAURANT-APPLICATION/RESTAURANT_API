@@ -45,6 +45,8 @@ import kh.com.kshrd.restaurant.models.User;
 import kh.com.kshrd.restaurant.services.RestaurantService;
 import kh.com.kshrd.restaurant.services.UploadService;
 import kh.com.kshrd.restaurant.utilities.Pagination;
+import kh.com.restaurant.exceptions.CustomGenericException;
+import kh.com.restaurant.exceptions.CustomGenericMessage;
 import kh.com.restaurant.exceptions.ErrorResource;
 import kh.com.restaurant.exceptions.FieldErrorResource;
 import kh.com.restaurant.exceptions.InvalidRequestException;
@@ -132,7 +134,7 @@ public class RestRestaurantController {
 		String isThumbnail = "1";
 		for(String strTitle : form.getMenuImages()){
 			Image image = new Image();
-			image.setTitle(strTitle);
+			image.setTitle(strTitle.substring(0, strTitle.lastIndexOf("/")));
 			image.setCreatedBy(user);
 			image.setType(ImageType.MENU);
 			image.setIsThumbnail(isThumbnail);
@@ -144,7 +146,7 @@ public class RestRestaurantController {
 		
 		for(String strTitle : form.getRestaurantImages()){
 			Image image = new Image();
-			image.setTitle(strTitle);
+			image.setTitle(strTitle.substring(strTitle.lastIndexOf("/"), strTitle.length()+1));
 			image.setCreatedBy(user);
 			image.setType(ImageType.INSIDE);
 			image.setIsThumbnail("0");
@@ -223,29 +225,6 @@ public class RestRestaurantController {
 				}
 			}
 			
-			/*for(String strTitle : form.getMenuImages()){
-				Image image = new Image();
-				image.setTitle(strTitle);
-				image.setCreatedBy(user);
-				image.setType(ImageType.MENU);
-				image.setIsThumbnail(isThumbnail);
-				image.setStatus("1");
-				image.setUrl(strTitle);
-				restaurant.getMenus().add(image);
-				isThumbnail = "0";	
-			}
-			
-			for(String strTitle : form.getRestaurantImages()){
-				Image image = new Image();
-				image.setTitle(strTitle);
-				image.setCreatedBy(user);
-				image.setType(ImageType.INSIDE);
-				image.setIsThumbnail("0");
-				image.setUrl(strTitle);
-				image.setStatus("1");
-				restaurant.getRestaurantImages().add(image);
-			}*/
-			
 			Location location = new Location();
 			location.setLatitude(form.getLatitude());
 			location.setLongitude(form.getLongitude());
@@ -268,7 +247,8 @@ public class RestRestaurantController {
 	
 	@RequestMapping(value="/{id}", method = RequestMethod.PUT)
 	@ApiOperation("TO UPDATE RESTAURANT BY ID.")
-	public ResponseEntity<Map<String, Object>> updateRestaurant(@PathVariable("id") Long id, @Valid RestaurantForm form, BindingResult result) {
+	public ResponseEntity<Map<String, Object>> updateRestaurant(@PathVariable("id") Long id, @RequestBody @Valid RestaurantForm form, BindingResult result) {
+		//System.out.println("RESTAURANT FORM===>" + form.toString());
 		//TODO: TO CHECK VALIDATION
 		if(result.hasErrors()){
 			System.err.println("UPDATING EXISTING RESTAURANT VALIDATION ERRORS ==> " + result.getAllErrors());
@@ -276,6 +256,58 @@ public class RestRestaurantController {
 		}
 		Map<String, Object> model = new HashMap<String, Object>();
 		Restaurant restaurant = new Restaurant();
+		restaurant.setId(id);
+		restaurant.setName(form.getName());
+		restaurant.setAddress(form.getAddress());
+		User user = new User();
+		user.setId(1L);
+		restaurant.setUpdatedBy(user);
+		restaurant.setDescription(form.getDescription());
+		restaurant.setIsDelivery(form.getIsDelivery());
+		restaurant.setStatus(form.getStatus());
+		restaurant.setThumbnail("");
+		restaurant.setCategory(form.getRestaurantCategory());
+		String isThumbnail = "1";
+		for(String strTitle : form.getMenuImages()){
+			Image image = new Image();
+			try{
+				image.setTitle(strTitle.substring(0, strTitle.lastIndexOf("/")));
+			}catch(Exception ex){
+				image.setTitle(strTitle);
+			}
+			image.setCreatedBy(user);
+			image.setType(ImageType.MENU);
+			image.setIsThumbnail(isThumbnail);
+			image.setStatus("1");
+			image.setUrl(strTitle);
+			restaurant.getMenus().add(image);
+			isThumbnail = "0";	
+		}
+		
+		for(String strTitle : form.getRestaurantImages()){
+			Image image = new Image();
+			try{
+				image.setTitle(strTitle.substring(0, strTitle.lastIndexOf("/")));
+			}catch(Exception ex){
+				image.setTitle(strTitle);
+			}
+			image.setCreatedBy(user);
+			image.setType(ImageType.INSIDE);
+			image.setIsThumbnail("0");
+			image.setUrl(strTitle);
+			image.setStatus("1");
+			restaurant.getRestaurantImages().add(image);
+		}
+		
+		Location location = new Location();
+		location.setLatitude(form.getLatitude());
+		location.setLongitude(form.getLongitude());
+		location.setId(1L);
+		restaurant.setLocation(location);
+		
+		Telephone telephone = new Telephone();
+		telephone.setTelephone(form.getTelephone());
+		restaurant.setTelephone(telephone);
 		if(restaurantService.updateExistRestaurant(restaurant)){
 			model.put("MESSAGE", "RESTAURANT HAS BEEN UPDATED SUCCESSFULLY.");
 			model.put("CODE", "0000");
@@ -335,4 +367,10 @@ public class RestRestaurantController {
 		return new ResponseEntity<Object>(model, HttpStatus.BAD_REQUEST);
 	}
 	
+	
+	@ExceptionHandler(CustomGenericException.class)
+	public ResponseEntity<CustomGenericMessage>handleCustomException(CustomGenericException ex) {
+		CustomGenericMessage message = new CustomGenericMessage(ex.getCode(), ex.getMessage());
+		return new ResponseEntity<CustomGenericMessage>(message, HttpStatus.OK);
+	}
 }
