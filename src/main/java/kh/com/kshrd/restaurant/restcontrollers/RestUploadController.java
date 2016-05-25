@@ -80,7 +80,9 @@ public class RestUploadController {
 		
 	@RequestMapping(value="/multiple", method = RequestMethod.POST)
 	@ApiOperation("TO UPLOAD A MULTIPLE FILES.")
-	public ResponseEntity<Map<String, Object>> uploadMultiple(@RequestParam("files") CommonsMultipartFile[] files, HttpServletRequest request){
+	public ResponseEntity<Map<String, Object>> uploadMultiple(@RequestParam("files") CommonsMultipartFile[] files, @RequestParam("name") String restaurantName, HttpServletRequest request){
+		
+		System.out.println("RESTAURANT NAME ======> "+ restaurantName);
 		Map<String, Object> responseMap = new HashMap<String, Object>();
 		try{
 			List<Map<String, Object>> mapFiles = new ArrayList<Map<String, Object>>();
