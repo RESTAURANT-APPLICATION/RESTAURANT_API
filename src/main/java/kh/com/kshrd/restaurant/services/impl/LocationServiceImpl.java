@@ -28,9 +28,9 @@ public class LocationServiceImpl implements LocationService{
 	}
 	
 	@Override
-	public List<Location> getAllDistrictsByCityId(Long id) {
+	public List<Location> getAllDistrictsByCityId(Long cityId) {
 		try{
-			return locationRepository.getAllLocationByParentIdAndTypeCode(id, "1");
+			return locationRepository.getAllLocationByParentIdAndTypeCode(cityId, "1");
 		}catch(Exception ex){
 			ex.printStackTrace();
 		}
@@ -38,9 +38,19 @@ public class LocationServiceImpl implements LocationService{
 	}
 	
 	@Override
-	public List<Location> getAllCommunesByDistrictById(Long id) {
+	public List<Location> getAllCommunesByDistrictById(Long districtId) {
 		try{
-			return locationRepository.getAllLocationByParentIdAndTypeCode(id, "2");
+			return locationRepository.getAllLocationByParentIdAndTypeCode(districtId, "2");
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+		return null;
+	}
+	
+	@Override
+	public List<Location> getAllVillagesByCommuneId(Long communeId) {
+		try{
+			return locationRepository.getAllLocationByParentIdAndTypeCode(communeId, "3");
 		}catch(Exception ex){
 			ex.printStackTrace();
 		}

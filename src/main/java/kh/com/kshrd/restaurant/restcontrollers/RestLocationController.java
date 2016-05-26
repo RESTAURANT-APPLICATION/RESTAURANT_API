@@ -20,7 +20,7 @@ public class RestLocationController {
 	private LocationService locationService;
 
 	@RequestMapping(value="/v1/api/admin/cities", method= RequestMethod.GET)
-	public ResponseEntity<Map<String, Object>> getAllCities(@PathVariable("countryId") Long countryId){
+	public ResponseEntity<Map<String, Object>> getAllCities(){
 		Map<String, Object> model = new HashMap<String, Object>();
 		model.put("DATA", locationService.getAllCities());
 		model.put("MESSAGE", "ALL CITIES HAVE BEEN FIND SUCCESSFULLY.");
@@ -28,8 +28,8 @@ public class RestLocationController {
 		return new ResponseEntity<Map<String, Object>>(model, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value="/v1/api/admin/cities/{cityId}", method= RequestMethod.GET)
-	public ResponseEntity<Map<String, Object>> getAllDistrict(@PathVariable("cityId")Long cityId){
+	@RequestMapping(value="/v1/api/admin/cities/{cityId}/districts", method= RequestMethod.GET)
+	public ResponseEntity<Map<String, Object>> getAllDistrictsByCityId(@PathVariable("cityId")Long cityId){
 		Map<String, Object> model = new HashMap<String, Object>();
 		model.put("DATA", locationService.getAllDistrictsByCityId(cityId));
 		model.put("MESSAGE", "ALL DISTRICTS HAVE BEEN FIND SUCCESSFULLY.");
@@ -37,11 +37,20 @@ public class RestLocationController {
 		return new ResponseEntity<Map<String, Object>>(model, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value="/v1/api/admin/cities/{cityId}/districts/{districtId}", method= RequestMethod.GET)
-	public ResponseEntity<Map<String, Object>> getAllDistrict(@PathVariable("cityId")Long cityId,@PathVariable("districtId") Long districtId){
+	@RequestMapping(value="/v1/api/admin/districts/{districtId}/commnunes", method= RequestMethod.GET)
+	public ResponseEntity<Map<String, Object>> getAllCommunesByDistrictId(@PathVariable("districtId")Long districtId){
 		Map<String, Object> model = new HashMap<String, Object>();
 		model.put("DATA", locationService.getAllCommunesByDistrictById(districtId));
 		model.put("MESSAGE", "ALL COMMUNES HAVE BEEN FIND SUCCESSFULLY.");
+		model.put("CODE", "0000");
+		return new ResponseEntity<Map<String, Object>>(model, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value="/v1/api/admin/commnunes/{communeId}/villages", method= RequestMethod.GET)
+	public ResponseEntity<Map<String, Object>> getAllVillagesByCommuneId(@PathVariable("communeId") Long communeId){
+		Map<String, Object> model = new HashMap<String, Object>();
+		model.put("DATA", locationService.getAllCommunesByDistrictById(communeId));
+		model.put("MESSAGE", "ALL VILLAGES HAVE BEEN FIND SUCCESSFULLY.");
 		model.put("CODE", "0000");
 		return new ResponseEntity<Map<String, Object>>(model, HttpStatus.OK);
 	}

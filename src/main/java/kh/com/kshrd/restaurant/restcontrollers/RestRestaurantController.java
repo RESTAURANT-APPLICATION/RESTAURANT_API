@@ -200,7 +200,7 @@ public class RestRestaurantController {
 	public ResponseEntity<Map<String, Object>> addNewRestaurantsMultipleParts(
 			@RequestParam(value="NAME", defaultValue="KA RESTAURANT NAME", required=true) String name,
 			@RequestParam(value="DESCRIPTION", defaultValue="DESCRIPTION", required=true) String description,
-			@RequestParam(value="ADDRESS", defaultValue="ADDRESS", required=true) String address,
+			@RequestParam(value="ADDRESS", defaultValue="ADDRESS", required=false) String address,
 			@RequestParam(value="IS_DELIVERY", defaultValue="IS DELIVERY 1 = DELIVERY , 0 = NOT DELIVERY ", required=true) String isDelivery,
 			@RequestParam(value="MENU_IMAGES", defaultValue="MENUS IMAGES(MULTIPART DATA)", required=false) List<CommonsMultipartFile> menuImages,
 			@RequestParam(value="RESTAURANT_IMAGES", defaultValue="RESTAURANT IMAGES(MULTIPART DATA)",required=false) List<CommonsMultipartFile> restaurantImages,
@@ -296,8 +296,101 @@ public class RestRestaurantController {
 	
 	@RequestMapping(value="/{id}", method = RequestMethod.PUT)
 	@ApiOperation("TO UPDATE RESTAURANT BY ID.")
-	public ResponseEntity<Map<String, Object>> updateRestaurant(@PathVariable("id") Long id, @RequestBody @Valid RestaurantForm form, BindingResult result) {
-		//System.out.println("RESTAURANT FORM===>" + form.toString());
+	public ResponseEntity<Map<String, Object>> updateRestaurant(
+			@PathVariable("id") Long id, 
+			@RequestParam(value="NAME", defaultValue="KA RESTAURANT NAME", required=true) String name,
+			@RequestParam(value="DESCRIPTION", defaultValue="DESCRIPTION", required=true) String description,
+			@RequestParam(value="ADDRESS", defaultValue="ADDRESS", required=false) String address,
+			@RequestParam(value="IS_DELIVERY", defaultValue="IS DELIVERY 1 = DELIVERY , 0 = NOT DELIVERY ", required=true) String isDelivery,
+			@RequestParam(value="MENU_IMAGES", defaultValue="MENUS IMAGES(MULTIPART DATA)", required=false) List<CommonsMultipartFile> menuImages,
+			@RequestParam(value="RESTAURANT_IMAGES", defaultValue="RESTAURANT IMAGES(MULTIPART DATA)",required=false) List<CommonsMultipartFile> restaurantImages,
+			@RequestParam(value="RESTAURANT_CATEGORY", required=false) String category,
+			@RequestParam(value="LATITUDE", defaultValue="LATITUDE", required=true) String latitude,
+			@RequestParam(value="LONGITUDE", defaultValue="LONGITUDE", required=true) String longitude,
+			@RequestParam(value="TELEPHONE", defaultValue="TELEPHONE", required=false) String phone,
+			@RequestParam(value="STATUS", defaultValue="STATUS", required=false) String status, 
+			HttpServletRequest request) {
+		
+		RestaurantFormMultipart form = new RestaurantFormMultipart();
+		form.setName(name);
+		form.setDescription(description);
+		form.setAddress(address);
+		form.setIsDelivery(isDelivery);
+		form.setMenuImages(menuImages);
+		form.setRestaurantImages(restaurantImages);
+		form.setRestaurantCategory(category);
+		form.setLatitude(latitude);
+		form.setLongitude(longitude);
+		form.setTelephone(phone);
+		form.setStatus(status);
+		
+//		TODO: TO CHECK VALIDATION
+//		if(result.hasErrors()){
+//			System.err.println("UPDATING EXISTING RESTAURANT VALIDATION ERRORS ==> " + result.getAllErrors());
+//			throw new InvalidRequestException("INVALID RESTAURANT WHEN UPDATING.", result);
+//		}
+		
+		Map<String, Object> model = new HashMap<String, Object>();
+		Restaurant restaurant = new Restaurant();
+		restaurant.setName(form.getName());
+		restaurant.setAddress(form.getAddress());
+		User user = new User();
+		user.setId(1L);
+		restaurant.setCreatedBy(user);
+		restaurant.setDescription(form.getDescription());
+		restaurant.setIsDelivery(form.getIsDelivery());
+		restaurant.setStatus(form.getStatus());
+		restaurant.setThumbnail("");
+		restaurant.setCategory(form.getRestaurantCategory());
+		String isThumbnail = "1";
+		
+		if(null!=form.getMenuImages()){
+			List<Image> menus = uploadService.uploadMultipart(form.getMenuImages(), request);
+			if(menus!=null){
+				for(Image menu : menus){
+					menu.setCreatedBy(user);
+					menu.setType(ImageType.MENU);
+					menu.setStatus("1");
+					menu.setIsThumbnail("0");
+					restaurant.getMenus().add(menu);
+				}
+			}
+		}
+		
+		if(null!=form.getRestaurantImages()){
+			List<Image> images = uploadService.uploadMultipart(form.getRestaurantImages(), request);
+			if(images!=null){
+				for(Image image : images){
+					image.setCreatedBy(user);
+					image.setType(ImageType.INSIDE);
+					image.setStatus("1");
+					image.setIsThumbnail(isThumbnail);
+					restaurant.getRestaurantImages().add(image);
+					isThumbnail = "0";	
+				}
+			}
+		}
+		
+		RestaurantLocation location = new RestaurantLocation();
+		location.setLatitude(form.getLatitude());
+		location.setLongitude(form.getLongitude());
+		location.setId(1L);
+		restaurant.setLocation(location);
+		
+		Telephone telephone = new Telephone();
+		telephone.setTelephone(form.getTelephone());
+		restaurant.setTelephone(telephone);
+		if(restaurantService.updateExistRestaurant(restaurant)){
+			model.put("MESSAGE", "RESTAURANT HAS BEEN UPDATED SUCCESSFULLY.");
+			model.put("CODE", "0000");
+			return new ResponseEntity<Map<String, Object>>(model, HttpStatus.OK);
+		}
+		model.put("MESSAGE", "RESTAURANT HAS BEEN ERROR WHEN UPDATING.");
+		model.put("CODE", "9999");
+		return new ResponseEntity<Map<String, Object>>(model, HttpStatus.OK);
+	}
+	
+	/*public ResponseEntity<Map<String, Object>> updateRestaurant(@PathVariable("id") Long id, @RequestBody @Valid RestaurantForm form, BindingResult result) {
 		//TODO: TO CHECK VALIDATION
 		if(result.hasErrors()){
 			System.err.println("UPDATING EXISTING RESTAURANT VALIDATION ERRORS ==> " + result.getAllErrors());
@@ -365,7 +458,7 @@ public class RestRestaurantController {
 		model.put("MESSAGE", "RESTAURANT HAS BEEN ERROR WHEN UPDATING.");
 		model.put("CODE", "9999");
 		return new ResponseEntity<Map<String, Object>>(model, HttpStatus.OK);
-	}
+	}*/
 	
 	@RequestMapping(value="/{id}", method = RequestMethod.DELETE)
 	@ApiOperation("TO REMOVE RESTAURANT BY ID.")

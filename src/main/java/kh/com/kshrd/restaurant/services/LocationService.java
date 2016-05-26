@@ -8,7 +8,9 @@ public interface LocationService {
 
 	List<Location> getAllCities();
 	
-	List<Location> getAllDistrictsByCityId(Long id);
+	List<Location> getAllDistrictsByCityId(Long cityId);
 	
-	List<Location> getAllCommunesByDistrictById(Long id);
+	List<Location> getAllCommunesByDistrictById(Long districtId);
+	
+	List<Location> getAllVillagesByCommuneId(Long communeId);
 }
