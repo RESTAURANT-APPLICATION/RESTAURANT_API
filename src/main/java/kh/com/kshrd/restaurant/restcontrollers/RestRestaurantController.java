@@ -134,6 +134,7 @@ public class RestRestaurantController {
 			}
 			Restaurant restaurant = new Restaurant();
 			restaurant.setName(form.getName());
+				
 			restaurant.setAddress(form.getAddress());
 			User user = new User();
 			user.setId(1L);
@@ -180,6 +181,14 @@ public class RestRestaurantController {
 			location.setLongitude(form.getLongitude());
 			location.setId(1L);
 			restaurant.setLocation(location);
+			String addresses[] = form.getAddress().split("|");
+			/*for(String address : addresses){
+				try{
+					location.setPro
+				}catch(Exception ex){
+					
+				}
+			}*/
 			
 			Telephone telephone = new Telephone();
 			telephone.setTelephone(form.getTelephone());
@@ -202,8 +211,8 @@ public class RestRestaurantController {
 			@RequestParam(value="DESCRIPTION", defaultValue="DESCRIPTION", required=true) String description,
 			@RequestParam(value="ADDRESS", defaultValue="ADDRESS", required=false) String address,
 			@RequestParam(value="IS_DELIVERY", defaultValue="0", required=true) String isDelivery,
-			@RequestParam(value="MENU_IMAGES", defaultValue="MENUS IMAGES(MULTIPART DATA)", required=false) List<CommonsMultipartFile> menuImages,
-			@RequestParam(value="RESTAURANT_IMAGES", defaultValue="RESTAURANT IMAGES(MULTIPART DATA)",required=false) List<CommonsMultipartFile> restaurantImages,
+			@RequestParam(value="MENU_IMAGES", required=false) List<CommonsMultipartFile> menuImages,
+			@RequestParam(value="RESTAURANT_IMAGES", required=false) List<CommonsMultipartFile> restaurantImages,
 			@RequestParam(value="RESTAURANT_CATEGORY", required=false) String category,
 			@RequestParam(value="LATITUDE", defaultValue="12122323", required=true) String latitude,
 			@RequestParam(value="LONGITUDE", defaultValue="12121212", required=true) String longitude,
@@ -302,8 +311,8 @@ public class RestRestaurantController {
 			@RequestParam(value="DESCRIPTION", defaultValue="DESCRIPTION", required=true) String description,
 			@RequestParam(value="ADDRESS", defaultValue="ADDRESS", required=false) String address,
 			@RequestParam(value="IS_DELIVERY", defaultValue="0", required=true) String isDelivery,
-			@RequestParam(value="MENU_IMAGES", defaultValue="MENUS IMAGES(MULTIPART DATA)", required=false) List<CommonsMultipartFile> menuImages,
-			@RequestParam(value="RESTAURANT_IMAGES", defaultValue="RESTAURANT IMAGES(MULTIPART DATA)",required=false) List<CommonsMultipartFile> restaurantImages,
+			@RequestParam(value="MENU_IMAGES", required=false) List<CommonsMultipartFile> menuImages,
+			@RequestParam(value="RESTAURANT_IMAGES", required=false) List<CommonsMultipartFile> restaurantImages,
 			@RequestParam(value="RESTAURANT_CATEGORY", required=false) String category,
 			@RequestParam(value="LATITUDE", defaultValue="12122323", required=true) String latitude,
 			@RequestParam(value="LONGITUDE", defaultValue="12121212", required=true) String longitude,

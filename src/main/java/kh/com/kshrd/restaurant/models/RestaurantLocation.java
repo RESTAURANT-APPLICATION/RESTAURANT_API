@@ -13,8 +13,8 @@ public class RestaurantLocation {
 	private String latitude;
 	@JsonProperty("COUNTRY")
 	private Long country;
-	@JsonProperty("CITY")
-	private Long city;
+	@JsonProperty("PROVINCE")
+	private Long province;
 	@JsonProperty("DISTRCIT")
 	private Long district;
 	@JsonProperty("COMMUNE")
@@ -71,11 +71,11 @@ public class RestaurantLocation {
 	public void setCountry(Long country) {
 		this.country = country;
 	}
-	public Long getCity() {
-		return city;
+	public Long getProvince() {
+		return province;
 	}
-	public void setCity(Long city) {
-		this.city = city;
+	public void setProvince(Long province) {
+		this.province = province;
 	}
 	public Long getDistrict() {
 		return district;
