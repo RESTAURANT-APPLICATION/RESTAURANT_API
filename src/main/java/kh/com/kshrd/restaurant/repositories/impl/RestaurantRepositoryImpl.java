@@ -78,6 +78,7 @@ public class RestaurantRepositoryImpl implements RestaurantRepository {
 									 + "LEFT JOIN restaurant_locations C ON A.id = C.restaurant_id AND C.status = '1' "
 									 + "LEFT JOIN telephones D ON A.id= D.restaurant_id AND D.status = '1' "
 									 + "WHERE A.status = '1' "
+									 + "ORDER BY created_date DESC "
 									 + "LIMIT ? "
 									 + "OFFSET ? "									 
 									,new Object[]{ pagination.getLimit(), pagination.offset() }
