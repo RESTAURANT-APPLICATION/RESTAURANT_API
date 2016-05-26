@@ -10,7 +10,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import kh.com.kshrd.restaurant.filters.RestaurantFilter;
-import kh.com.kshrd.restaurant.models.Location;
+import kh.com.kshrd.restaurant.models.RestaurantLocation;
 import kh.com.kshrd.restaurant.models.Restaurant;
 import kh.com.kshrd.restaurant.models.Telephone;
 import kh.com.kshrd.restaurant.models.User;
@@ -95,7 +95,7 @@ public class RestaurantRepositoryImpl implements RestaurantRepository {
 					restaurant.setCategory(rs.getString("category"));
 					restaurant.setThumbnail(rs.getString("thumbnail"));
 					
-					Location location = new Location();
+					RestaurantLocation location = new RestaurantLocation();
 					location.setLatitude(rs.getString("latitude"));
 					location.setLongitude(rs.getString("longitude"));
 					restaurant.setLocation(location);

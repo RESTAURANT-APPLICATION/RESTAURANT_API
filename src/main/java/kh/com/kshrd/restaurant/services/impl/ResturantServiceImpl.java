@@ -12,7 +12,7 @@ import kh.com.kshrd.restaurant.models.Image;
 import kh.com.kshrd.restaurant.models.Restaurant;
 import kh.com.kshrd.restaurant.repositories.CategoryRepository;
 import kh.com.kshrd.restaurant.repositories.ImageRepository;
-import kh.com.kshrd.restaurant.repositories.LocationRepository;
+import kh.com.kshrd.restaurant.repositories.RestaurantLocationRepository;
 import kh.com.kshrd.restaurant.repositories.RestaurantRepository;
 import kh.com.kshrd.restaurant.repositories.TelephoneRepository;
 import kh.com.kshrd.restaurant.services.RestaurantService;
@@ -33,7 +33,7 @@ public class ResturantServiceImpl implements RestaurantService {
 	private CategoryRepository categoryRepository;
 	
 	@Autowired
-	private LocationRepository locationRepository;
+	private RestaurantLocationRepository locationRepository;
 	
 	@Autowired
 	private TelephoneRepository telephoneRepository;

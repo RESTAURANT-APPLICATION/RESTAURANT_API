@@ -61,7 +61,7 @@ public class Restaurant implements Serializable{
 	private String category;
 	
 	@JsonProperty("LOCATION")
-	private Location location;
+	private RestaurantLocation location;
 	
 	@JsonProperty("TELEPHONE")
 	private Telephone telephone;
@@ -197,11 +197,11 @@ public class Restaurant implements Serializable{
 		this.restaurantImages = restaurantImages;
 	}
 
-	public Location getLocation() {
+	public RestaurantLocation getLocation() {
 		return location;
 	}
 
-	public void setLocation(Location location) {
+	public void setLocation(RestaurantLocation location) {
 		this.location = location;
 	}
 

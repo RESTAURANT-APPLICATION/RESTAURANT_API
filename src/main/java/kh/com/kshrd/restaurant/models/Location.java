@@ -5,50 +5,51 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Location {
 
-	@JsonIgnore
+	@JsonProperty("ID")
 	private Long id;
-	@JsonProperty("LONGITUDE")
-	private String longitude;
-	@JsonProperty("LATITUDE")
-	private String latitude;
+	@JsonProperty("NAME")
+	private String name;
 	@JsonIgnore
-	private String status;
+	private String typeCode;
 	@JsonIgnore
-	private Restaurant restaurant;
+	private String code;
+	@JsonIgnore
+	private Long parentId;
 	
-	public Location(){
-		this.status = "1";
-	}
 	public Long getId() {
 		return id;
 	}
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public String getLongitude() {
-		return longitude;
+	public String getName() {
+		return name;
 	}
-	public void setLongitude(String longitude) {
-		this.longitude = longitude;
+	public void setName(String name) {
+		this.name = name;
 	}
-	public String getLatitude() {
-		return latitude;
+	public String getTypeCode() {
+		return typeCode;
 	}
-	public void setLatitude(String latitude) {
-		this.latitude = latitude;
+	public void setTypeCode(String typeCode) {
+		this.typeCode = typeCode;
 	}
-	public String getStatus() {
-		return status;
+	public String getCode() {
+		return code;
 	}
-	public void setStatus(String status) {
-		this.status = status;
+	public void setCode(String code) {
+		this.code = code;
 	}
-	public Restaurant getRestaurant() {
-		return restaurant;
+	public Long getParentId() {
+		return parentId;
 	}
-	public void setRestaurant(Restaurant restaurant) {
-		this.restaurant = restaurant;
+	public void setParentId(Long parentId) {
+		this.parentId = parentId;
 	}
-	
+	@Override
+	public String toString() {
+		return "Location [id=" + id + ", name=" + name + ", typeCode=" + typeCode + ", code=" + code + ", parentId="
+				+ parentId + "]";
+	}
 	
 }

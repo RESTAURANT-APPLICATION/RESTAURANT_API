@@ -1,5 +1,6 @@
 package kh.com.kshrd.restaurant.forms;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.validation.constraints.NotNull;
@@ -10,8 +11,13 @@ import org.hibernate.validator.constraints.NotEmpty;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class RestaurantForm {
+public class RestaurantForm implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -9196608724179622053L;
+
 	@JsonIgnore
 	private Long id;
 	
@@ -40,13 +46,13 @@ public class RestaurantForm {
 	List<String> menuImages;
 	
 	@JsonProperty(value="RESTAURANT_IMAGES")
-	@NotNull
-	@NotEmpty
+	/*@NotNull
+	@NotEmpty*/
 	List<String> restaurantImages;
 	
 	@JsonProperty(value="RESTAURANT_CATEGORY")
-	@NotNull
-	@NotEmpty
+	/*@NotNull
+	@NotEmpty*/
 	private String restaurantCategory;
 	
 	@JsonProperty(value="LATITUDE")

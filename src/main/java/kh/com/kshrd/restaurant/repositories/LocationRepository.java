@@ -1,9 +1,10 @@
 package kh.com.kshrd.restaurant.repositories;
 
+import java.util.List;
+
 import kh.com.kshrd.restaurant.models.Location;
 
 public interface LocationRepository {
 
-	public boolean save(Location location);
-	public boolean update(Location location);
+	public List<Location> getAllLocationByParentIdAndTypeCode(Long id, String typeCode);
 }

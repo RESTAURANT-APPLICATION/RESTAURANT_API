@@ -6,7 +6,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotEmpty;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -37,13 +37,9 @@ public class RestaurantFormMultipart {
 	private String status;
 	
 	@JsonProperty(value="MENU_IMAGES")
-	@NotNull
-	@NotEmpty
 	List<CommonsMultipartFile> menuImages;
 	
 	@JsonProperty(value="RESTAURANT_IMAGES")
-	@NotNull
-	@NotEmpty
 	List<CommonsMultipartFile> restaurantImages;
 	
 	@JsonProperty(value="RESTAURANT_CATEGORY")
