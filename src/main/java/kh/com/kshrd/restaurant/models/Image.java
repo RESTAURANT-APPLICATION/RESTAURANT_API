@@ -40,7 +40,10 @@ public class Image implements Serializable {
 	@JsonIgnore
 	private User createdBy;
 	
-	@JsonProperty("IS_THUMBNAIL")
+	@JsonProperty
+	private Integer index;
+	
+	@JsonIgnore
 	private String isThumbnail;
 	
 	public Long getId() {
