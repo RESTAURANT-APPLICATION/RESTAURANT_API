@@ -21,7 +21,7 @@ public class RestaurantLocationRepositoryImpl implements RestaurantLocationRepos
 						 						 + "longitude, "
 						 						 + "latitude, "
 						 						 + "status)"
-							 + "VALUES(?, ?, ?, ?, ?)"
+							 + "VALUES(?, ?, ?, ?)"
 							 , new Object[]{
 									 		location.getRestaurant().getId(),
 									 		location.getLongitude(),

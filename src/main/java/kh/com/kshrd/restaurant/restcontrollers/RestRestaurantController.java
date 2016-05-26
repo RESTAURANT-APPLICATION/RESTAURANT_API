@@ -208,7 +208,8 @@ public class RestRestaurantController {
 			@RequestParam(value="LATITUDE", defaultValue="LATITUDE", required=true) String latitude,
 			@RequestParam(value="LONGITUDE", defaultValue="LONGITUDE", required=true) String longitude,
 			@RequestParam(value="TELEPHONE", defaultValue="TELEPHONE", required=false) String phone,
-			BindingResult result, HttpServletRequest request) {
+			@RequestParam(value="STATUS", defaultValue="STATUS", required=false) String status,
+			HttpServletRequest request) {
 		System.out.println("RESTAURANT NAME ===>" + name);
 		RestaurantFormMultipart form = new RestaurantFormMultipart();
 		form.setName(name);
@@ -221,16 +222,17 @@ public class RestRestaurantController {
 		form.setLatitude(latitude);
 		form.setLongitude(longitude);
 		form.setTelephone(phone);
+		form.setStatus(status);
 		Map<String, Object> model = new HashMap<String, Object>();
 	
 		//Validation code
-	    validation.validate(form, result);
+	    //validation.validate(form, result);
 	    
 		//TODO: TO CHECK VALIDATION
-		if(result.hasErrors()){
-			System.err.println("REGISTERING NEW RESTAURANT VALIDATION ERRORS ==> " + result.getAllErrors());
-			throw new InvalidRequestException("INVALID RESTAURANT WHEN REGISTERING.", result);
-		}
+//		if(result.hasErrors()){
+//			System.err.println("REGISTERING NEW RESTAURANT VALIDATION ERRORS ==> " + result.getAllErrors());
+//			throw new InvalidRequestException("INVALID RESTAURANT WHEN REGISTERING.", result);
+//		}
 		
 		Restaurant restaurant = new Restaurant();
 		restaurant.setName(form.getName());
