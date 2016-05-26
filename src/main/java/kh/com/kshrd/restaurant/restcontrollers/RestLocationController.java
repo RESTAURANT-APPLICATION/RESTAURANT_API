@@ -19,7 +19,7 @@ public class RestLocationController {
 	@Autowired
 	private LocationService locationService;
 
-	@RequestMapping(value="/v1/api/admin/countries/{countryId}/cities", method= RequestMethod.GET)
+	@RequestMapping(value="/v1/api/admin/cities", method= RequestMethod.GET)
 	public ResponseEntity<Map<String, Object>> getAllCities(@PathVariable("countryId") Long countryId){
 		Map<String, Object> model = new HashMap<String, Object>();
 		model.put("DATA", locationService.getAllCities());
@@ -28,8 +28,8 @@ public class RestLocationController {
 		return new ResponseEntity<Map<String, Object>>(model, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value="/v1/api/admin/countries/{countryId}/cities/{cityId}", method= RequestMethod.GET)
-	public ResponseEntity<Map<String, Object>> getAllDistrict(@PathVariable("countryId") Long countryId, @PathVariable("cityId")Long cityId){
+	@RequestMapping(value="/v1/api/admin/cities/{cityId}", method= RequestMethod.GET)
+	public ResponseEntity<Map<String, Object>> getAllDistrict(@PathVariable("cityId")Long cityId){
 		Map<String, Object> model = new HashMap<String, Object>();
 		model.put("DATA", locationService.getAllDistrictsByCityId(cityId));
 		model.put("MESSAGE", "ALL DISTRICTS HAVE BEEN FIND SUCCESSFULLY.");
@@ -37,8 +37,8 @@ public class RestLocationController {
 		return new ResponseEntity<Map<String, Object>>(model, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value="/v1/api/admin/countries/{countryId}/cities/{cityId}/districts/{districtId}", method= RequestMethod.GET)
-	public ResponseEntity<Map<String, Object>> getAllDistrict(@PathVariable("countryId") Long countryId, @PathVariable("cityId")Long cityId,@PathVariable("districtId") Long districtId){
+	@RequestMapping(value="/v1/api/admin/cities/{cityId}/districts/{districtId}", method= RequestMethod.GET)
+	public ResponseEntity<Map<String, Object>> getAllDistrict(@PathVariable("cityId")Long cityId,@PathVariable("districtId") Long districtId){
 		Map<String, Object> model = new HashMap<String, Object>();
 		model.put("DATA", locationService.getAllCommunesByDistrictById(districtId));
 		model.put("MESSAGE", "ALL COMMUNES HAVE BEEN FIND SUCCESSFULLY.");
