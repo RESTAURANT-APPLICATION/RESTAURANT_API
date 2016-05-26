@@ -201,14 +201,14 @@ public class RestRestaurantController {
 			@RequestParam(value="NAME", defaultValue="KA RESTAURANT NAME", required=true) String name,
 			@RequestParam(value="DESCRIPTION", defaultValue="DESCRIPTION", required=true) String description,
 			@RequestParam(value="ADDRESS", defaultValue="ADDRESS", required=false) String address,
-			@RequestParam(value="IS_DELIVERY", defaultValue="IS DELIVERY 1 = DELIVERY , 0 = NOT DELIVERY ", required=true) String isDelivery,
+			@RequestParam(value="IS_DELIVERY", defaultValue="0", required=true) String isDelivery,
 			@RequestParam(value="MENU_IMAGES", defaultValue="MENUS IMAGES(MULTIPART DATA)", required=false) List<CommonsMultipartFile> menuImages,
 			@RequestParam(value="RESTAURANT_IMAGES", defaultValue="RESTAURANT IMAGES(MULTIPART DATA)",required=false) List<CommonsMultipartFile> restaurantImages,
 			@RequestParam(value="RESTAURANT_CATEGORY", required=false) String category,
-			@RequestParam(value="LATITUDE", defaultValue="LATITUDE", required=true) String latitude,
-			@RequestParam(value="LONGITUDE", defaultValue="LONGITUDE", required=true) String longitude,
-			@RequestParam(value="TELEPHONE", defaultValue="TELEPHONE", required=false) String phone,
-			@RequestParam(value="STATUS", defaultValue="STATUS", required=false) String status,
+			@RequestParam(value="LATITUDE", defaultValue="12122323", required=true) String latitude,
+			@RequestParam(value="LONGITUDE", defaultValue="12121212", required=true) String longitude,
+			@RequestParam(value="TELEPHONE", defaultValue="086961919", required=false) String phone,
+			@RequestParam(value="STATUS", defaultValue="1", required=false) String status, 
 			HttpServletRequest request) {
 		System.out.println("RESTAURANT NAME ===>" + name);
 		RestaurantFormMultipart form = new RestaurantFormMultipart();
@@ -301,14 +301,14 @@ public class RestRestaurantController {
 			@RequestParam(value="NAME", defaultValue="KA RESTAURANT NAME", required=true) String name,
 			@RequestParam(value="DESCRIPTION", defaultValue="DESCRIPTION", required=true) String description,
 			@RequestParam(value="ADDRESS", defaultValue="ADDRESS", required=false) String address,
-			@RequestParam(value="IS_DELIVERY", defaultValue="IS DELIVERY 1 = DELIVERY , 0 = NOT DELIVERY ", required=true) String isDelivery,
+			@RequestParam(value="IS_DELIVERY", defaultValue="0", required=true) String isDelivery,
 			@RequestParam(value="MENU_IMAGES", defaultValue="MENUS IMAGES(MULTIPART DATA)", required=false) List<CommonsMultipartFile> menuImages,
 			@RequestParam(value="RESTAURANT_IMAGES", defaultValue="RESTAURANT IMAGES(MULTIPART DATA)",required=false) List<CommonsMultipartFile> restaurantImages,
 			@RequestParam(value="RESTAURANT_CATEGORY", required=false) String category,
-			@RequestParam(value="LATITUDE", defaultValue="LATITUDE", required=true) String latitude,
-			@RequestParam(value="LONGITUDE", defaultValue="LONGITUDE", required=true) String longitude,
-			@RequestParam(value="TELEPHONE", defaultValue="TELEPHONE", required=false) String phone,
-			@RequestParam(value="STATUS", defaultValue="STATUS", required=false) String status, 
+			@RequestParam(value="LATITUDE", defaultValue="12122323", required=true) String latitude,
+			@RequestParam(value="LONGITUDE", defaultValue="12121212", required=true) String longitude,
+			@RequestParam(value="TELEPHONE", defaultValue="086961919", required=false) String phone,
+			@RequestParam(value="STATUS", defaultValue="1", required=false) String status, 
 			HttpServletRequest request) {
 		
 		RestaurantFormMultipart form = new RestaurantFormMultipart();
