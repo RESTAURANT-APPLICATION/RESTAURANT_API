@@ -29,19 +29,15 @@ public class Image implements Serializable {
 	private String url;
 	
 	@JsonIgnore
-	@JsonProperty("TYPE")
 	private ImageType type;
 	
 	@JsonIgnore
-	@JsonProperty("STATUS")
 	private String status;
 	
 	@JsonIgnore
-	@JsonProperty("CREATED_DATE")
 	private String createdDate;
 	
 	@JsonIgnore
-	@JsonProperty("CREATED_BY")
 	private User createdBy;
 	
 	@JsonProperty("IS_THUMBNAIL")
