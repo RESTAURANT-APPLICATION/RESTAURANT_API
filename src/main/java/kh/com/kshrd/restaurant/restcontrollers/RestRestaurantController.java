@@ -265,7 +265,7 @@ public class RestRestaurantController {
 			if(images!=null){
 				for(Image image : images){
 					image.setCreatedBy(user);
-					image.setType(ImageType.MENU);
+					image.setType(ImageType.INSIDE);
 					image.setStatus("1");
 					image.setIsThumbnail(isThumbnail);
 					restaurant.getRestaurantImages().add(image);
