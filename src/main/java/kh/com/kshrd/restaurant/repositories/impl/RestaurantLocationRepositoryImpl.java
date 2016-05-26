@@ -16,14 +16,13 @@ public class RestaurantLocationRepositoryImpl implements RestaurantLocationRepos
 	@Override
 	public boolean save(RestaurantLocation location) {
 		try{
-			int result = jdbcTemplate.update("INSERT INTO restaurant_locations(location_id, "
+			int result = jdbcTemplate.update("INSERT INTO restaurant_locations("
 												 + "restaurant_id, "
 						 						 + "longitude, "
 						 						 + "latitude, "
 						 						 + "status)"
 							 + "VALUES(?, ?, ?, ?, ?)"
 							 , new Object[]{
-									 		location.getId(),
 									 		location.getRestaurant().getId(),
 									 		location.getLongitude(),
 									 		location.getLatitude(),
@@ -44,13 +43,11 @@ public class RestaurantLocationRepositoryImpl implements RestaurantLocationRepos
 			int result = jdbcTemplate.update("UPDATE restaurant_locations "
 												 + "SET longitude = ?, "
 						 						 + "	latitude = ?,"
-						 						 + "	location_id = ?,"
 						 						 + "	status =? "
 						 						 + "WHERE restaurant_id = ?"
 							 , new Object[]{
 									 		location.getLongitude(),
 									 		location.getLatitude(),
-									 		location.getId(),
 									 		location.getStatus(),
 									 		location.getRestaurant().getId()
 							 				});
