@@ -303,7 +303,7 @@ public class RestRestaurantController {
 		return new ResponseEntity<Map<String, Object>>(model, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value="/{id}", method = RequestMethod.PUT)
+	@RequestMapping(value="/{id}", method = RequestMethod.POST)
 	@ApiOperation("TO UPDATE RESTAURANT BY ID.")
 	public ResponseEntity<Map<String, Object>> updateRestaurant(
 			@PathVariable("id") Long id, 
@@ -312,7 +312,7 @@ public class RestRestaurantController {
 			@RequestParam(value="ADDRESS", defaultValue="ADDRESS", required=false) String address,
 			@RequestParam(value="IS_DELIVERY", defaultValue="0", required=true) String isDelivery,
 			@RequestParam(value="MENU_IMAGES", required=false) List<CommonsMultipartFile> menuImages,
-			@RequestParam(value="RESTAURANT_IMAGES", required=false) List<CommonsMultipartFile> restaurantImages,
+			@RequestParam(value="RESTAURANT_IMAGES",required=false) List<CommonsMultipartFile> restaurantImages,
 			@RequestParam(value="RESTAURANT_CATEGORY", required=false) String category,
 			@RequestParam(value="LATITUDE", defaultValue="12122323", required=true) String latitude,
 			@RequestParam(value="LONGITUDE", defaultValue="12121212", required=true) String longitude,
@@ -341,11 +341,12 @@ public class RestRestaurantController {
 		
 		Map<String, Object> model = new HashMap<String, Object>();
 		Restaurant restaurant = new Restaurant();
+		restaurant.setId(id);
 		restaurant.setName(form.getName());
 		restaurant.setAddress(form.getAddress());
 		User user = new User();
 		user.setId(1L);
-		restaurant.setCreatedBy(user);
+		restaurant.setUpdatedBy(user);
 		restaurant.setDescription(form.getDescription());
 		restaurant.setIsDelivery(form.getIsDelivery());
 		restaurant.setStatus(form.getStatus());
