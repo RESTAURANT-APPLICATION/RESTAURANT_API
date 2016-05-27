@@ -49,7 +49,7 @@ public class RestLocationController {
 	@RequestMapping(value="/v1/api/admin/commnunes/{communeId}/villages", method= RequestMethod.GET)
 	public ResponseEntity<Map<String, Object>> getAllVillagesByCommuneId(@PathVariable("communeId") Long communeId){
 		Map<String, Object> model = new HashMap<String, Object>();
-		model.put("DATA", locationService.getAllCommunesByDistrictById(communeId));
+		model.put("DATA", locationService.getAllVillagesByCommuneId(communeId));
 		model.put("MESSAGE", "ALL VILLAGES HAVE BEEN FIND SUCCESSFULLY.");
 		model.put("CODE", "0000");
 		return new ResponseEntity<Map<String, Object>>(model, HttpStatus.OK);
