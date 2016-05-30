@@ -79,14 +79,14 @@ public class ResturantServiceImpl implements RestaurantService {
 			if(restaurantId > 0){
 				if(imageRepository.save(restaurant.getMenus(), restaurantId)==null){
 					System.out.println("RESTAURANT IMAGE(S) NOT SAVED SUCCESSFULLY.");
-					return false;
+					throw new CustomGenericException("1003", "RESTAURANT RESTAURANT MENU(S) NOT SAVED SUCCESSFULLY.");
 				}else{
 					System.out.println("RESTAURANT RESTAURANT(S) SAVED SUCCESSFULLY.");
 				}
 				
 				if(imageRepository.save(restaurant.getRestaurantImages(), restaurantId)==null){
 					System.out.println("RESTAURANT IMAGE(S) NOT SAVED SUCCESSFULLY.");
-					return false;
+					throw new CustomGenericException("1004", "RESTAURANT IMAGE(S) NOT SAVED SUCCESSFULLY.");
 				}else{
 					System.out.println("RESTAURANT IMAGE(S) SAVED SUCCESSFULLY.");
 				}
@@ -95,7 +95,7 @@ public class ResturantServiceImpl implements RestaurantService {
 					System.out.println("RESTAURANT LOCATION SAVED SUCCESSFULLY.");
 				}else{
 					System.out.println("RESTAURANT LOCATION NOT SAVED SUCCESSFULLY.");
-					return false;
+					throw new CustomGenericException("1004", "RESTAURANT IMAGE(S) NOT SAVED SUCCESSFULLY.");
 				}
 				
 				restaurant.getTelephone().setRestaurant(restaurant);
@@ -104,7 +104,7 @@ public class ResturantServiceImpl implements RestaurantService {
 					System.out.println("RESTAURANT TELEPHONE SAVED SUCCESSFULLY.");
 				}else{
 					System.out.println("RESTAURANT TELEPHONE NOT SAVED SUCCESSFULLY.");
-					return false;
+					throw new CustomGenericException("1006", "RESTAURANT TELEPHONE NOT SAVED SUCCESSFULLY.");
 				}
 			}
 			System.out.println("RESTAURANT HAS BEEN SAVED SUCCESSFULLY.");

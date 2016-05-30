@@ -182,14 +182,17 @@ public class RestRestaurantController {
 			location.setId(1L);
 			restaurant.setLocation(location);
 			String addresses[] = form.getAddress().split("|");
-			/*for(String address : addresses){
-				try{
-					location.setPro
-				}catch(Exception ex){
-					
-				}
-			}*/
-			
+			try{
+				location.setProvince(Long.valueOf(addresses[0]));
+				location.setDistrict(Long.valueOf(addresses[1]));
+				location.setCommune(Long.valueOf(addresses[2]));
+				location.setVillage(Long.valueOf(addresses[3]));
+				location.setStreet(addresses[4]);
+				location.setNo(addresses[5]);
+				location.setBranch(addresses[6]);
+			}catch(Exception ex){
+				
+			}
 			Telephone telephone = new Telephone();
 			telephone.setTelephone(form.getTelephone());
 			restaurant.setTelephone(telephone);

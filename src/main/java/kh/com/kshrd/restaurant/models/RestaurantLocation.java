@@ -34,6 +34,8 @@ public class RestaurantLocation {
 	
 	public RestaurantLocation(){
 		this.status = "1";
+		this.no = "";
+		this.street = "";
 	}
 	public Long getId() {
 		return id;

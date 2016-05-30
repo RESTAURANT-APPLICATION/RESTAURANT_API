@@ -17,15 +17,27 @@ public class RestaurantLocationRepositoryImpl implements RestaurantLocationRepos
 	public boolean save(RestaurantLocation location) {
 		try{
 			int result = jdbcTemplate.update("INSERT INTO restaurant_locations("
-												 + "restaurant_id, "
-						 						 + "longitude, "
-						 						 + "latitude, "
-						 						 + "status)"
+											 + "restaurant_id, "
+					 						 + "longitude, "
+					 						 + "latitude,"
+					 						 + "province,"
+					 						 + "district, "
+					 						 + "commune, "
+					 						 + "village, "
+					 						 + "street, "
+					 						 + "no, "
+					 						 + "status)"
 							 + "VALUES(?, ?, ?, ?)"
 							 , new Object[]{
 									 		location.getRestaurant().getId(),
 									 		location.getLongitude(),
 									 		location.getLatitude(),
+									 		location.getProvince(),
+									 		location.getDistrict(),
+									 		location.getCommune(),
+									 		location.getVillage(),
+									 		location.getStreet(),
+									 		location.getNo(),
 									 		location.getStatus()
 							 				});
 			if(result>0){
