@@ -63,6 +63,7 @@ public class ResturantServiceImpl implements RestaurantService {
 		try{
 			Restaurant restaurant = restaurantRepository.findRestaurantById(id);
 			restaurant.setMenus(imageRepository.findAllMenusByRestaurantId(restaurant.getId()));
+			restaurant.setRestaurantImages(imageRepository.findAllRestaurantImagesByRestaurantId(restaurant.getId()));
 			return restaurant;
 		}catch(Exception ex){
 			ex.printStackTrace();
