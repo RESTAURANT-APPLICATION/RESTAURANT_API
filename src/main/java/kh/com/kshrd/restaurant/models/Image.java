@@ -40,7 +40,8 @@ public class Image implements Serializable {
 	@JsonIgnore
 	private User createdBy;
 	
-	@JsonProperty("INDEX")
+	//@JsonProperty("INDEX")
+	@JsonIgnore
 	private Integer index;
 	
 	@JsonIgnore
