@@ -1,8 +1,10 @@
 package kh.com.kshrd.restaurant.services.impl;
 
+import java.awt.AlphaComposite;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.io.BufferedOutputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
@@ -14,9 +16,6 @@ import java.util.UUID;
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 
-import org.imgscalr.Scalr;
-import org.imgscalr.Scalr.Method;
-import org.imgscalr.Scalr.Mode;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
@@ -35,6 +34,7 @@ public class UploadServiceImpl implements UploadService {
 				if (!file.isEmpty()) {
 					Image image = new Image();
 					String savePath= request.getSession().getServletContext().getRealPath("/resources/images");
+					String savePathThumbnail = request.getSession().getServletContext().getRealPath("/resources/images/thumbnails");
 					Map<String, Object> map = new HashMap<String, Object>();
 		            try { 
 		            	filename = file.getOriginalFilename();
@@ -54,35 +54,47 @@ public class UploadServiceImpl implements UploadService {
 		                stream.write(bytes);
 		                stream.close();
 		                
-		                long startTime = System.currentTimeMillis();
-		                File f = new File(getURLWithContextPath(request) + "/resources/images/" + filename);
-		                BufferedImage img = ImageIO.read(f); // load image
-
-		                //Quality indicate that the scaling implementation should do everything
-		                 // create as nice of a result as possible , other options like speed
-		                 // will return result as fast as possible
-		              //Automatic mode will calculate the resultant dimensions according
-		              //to image orientation .so resultant image may be size of 50*36.if you want
-		              //fixed size like 50*50 then use FIT_EXACT
-		              //other modes like FIT_TO_WIDTH..etc also available.
-
-		                BufferedImage thumbImg = Scalr.resize(img, Method.QUALITY,Mode.AUTOMATIC, 
-		                           50,
-		                                 50, Scalr.OP_ANTIALIAS);
-		                 //convert bufferedImage to outpurstream 
-		                ByteArrayOutputStream os = new ByteArrayOutputStream();
-		                ImageIO.write(thumbImg,"jpg",os);
+//		                long startTime = System.currentTimeMillis();
+//		                File f = new File(getURLWithContextPath(request) + "/resources/images/" + filename);
+//		                BufferedImage img = ImageIO.read(f); // load image
+//
+//		                //Quality indicate that the scaling implementation should do everything
+//		                 // create as nice of a result as possible , other options like speed
+//		                 // will return result as fast as possible
+//		              //Automatic mode will calculate the resultant dimensions according
+//		              //to image orientation .so resultant image may be size of 50*36.if you want
+//		              //fixed size like 50*50 then use FIT_EXACT
+//		              //other modes like FIT_TO_WIDTH..etc also available.
+//
+//		                BufferedImage thumbImg = Scalr.resize(img, Method.QUALITY,Mode.AUTOMATIC, 
+//		                           50,
+//		                                 50, Scalr.OP_ANTIALIAS);
+//		                 //convert bufferedImage to outpurstream 
+//		                ByteArrayOutputStream os = new ByteArrayOutputStream();
+//		                ImageIO.write(thumbImg,"jpg",os);
+//		                
+//		                
+//		                //or wrtite to a file
+//		                
+//		                File f2 = new File(getURLWithContextPath(request) + "/resources/images/" + randomUUIDFileName+"_thumb."+extension);
+//		                
+//		                
+//		                ImageIO.write(thumbImg, "jpg", f2);
+		                
+//		                System.out.println("time is : " +(System.currentTimeMillis()-startTime));
+		                
+		                //ResizeImage.resizeImage( this.getClass().getResourceAsStream(savePath + File.separator  + filename), 600, 400, "png","testResizeImage",savePathThumbnail+File.separator);
 		                
 		                
-		                //or wrtite to a file
+		                /*java.awt.Image img = null;
+		                BufferedImage tempJPG = null;
+		                File newFileJPG = null;
 		                
-		                File f2 = new File(getURLWithContextPath(request) + "/resources/images/" + randomUUIDFileName+"_thumb."+extension);
-		                
-		                
-		                ImageIO.write(thumbImg, "jpg", f2);
-		                
-		                System.out.println("time is : " +(System.currentTimeMillis()-startTime));
-		                
+		                img = ImageIO.read(new File(savePath + File.separator  + filename));
+		                tempJPG = resizeImage(img, 100, 100);
+		                newFileJPG = new File(savePath + File.separator + randomUUIDFileName+"_thumb."+ extension);
+		                ImageIO.write(tempJPG, "jpg", newFileJPG);
+*/
 		                
 		                System.out.println("MESSAGE ==> YOU HAVE BEEN UPLOADED " + savePath + File.separator + filename + " SUCCESSFULLY!");
 		                image.setTitle(filename);
@@ -109,7 +121,20 @@ public class UploadServiceImpl implements UploadService {
 	}
 
 	public static String getURLWithContextPath(HttpServletRequest request) {
-		   return request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
-		}
+	   return request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
+	}
+	
+	public static BufferedImage resizeImage(final java.awt.Image image, int width, int height) {
+        final BufferedImage bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+        final Graphics2D graphics2D = bufferedImage.createGraphics();
+        //graphics2D.setComposite(AlphaComposite.Src);
+        //below three lines are for RenderingHints for better image quality at cost of higher processing time
+        graphics2D.setRenderingHint(RenderingHints.KEY_INTERPOLATION,RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+        graphics2D.setRenderingHint(RenderingHints.KEY_RENDERING,RenderingHints.VALUE_RENDER_QUALITY);
+        graphics2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
+        graphics2D.drawImage(image, 0, 0, width, height, null);
+        graphics2D.dispose();
+        return bufferedImage;
+    }
 
 }
