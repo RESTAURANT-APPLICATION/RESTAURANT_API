@@ -25,7 +25,7 @@ public class TelephoneRepositoryImpl implements TelephoneRepository {
 							 , new Object[]{
 									 id,
 									 telephone.getRestaurant().getId(),
-									 telephone.getTelephone(),
+									 telephone.getTelephone().trim(),
 									 telephone.getStatus()
 							 });
 			if(result>0){
