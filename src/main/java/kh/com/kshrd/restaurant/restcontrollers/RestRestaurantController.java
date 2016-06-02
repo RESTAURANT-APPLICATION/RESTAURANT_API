@@ -315,9 +315,9 @@ public class RestRestaurantController {
 			@RequestParam(value="ADDRESS", defaultValue="ADDRESS", required=false) String address,
 			@RequestParam(value="IS_DELIVERY", defaultValue="0", required=true) String isDelivery,
 			@RequestParam(value="MENU_IMAGES", required=false) List<CommonsMultipartFile> menuImages,
-			@RequestParam(value="MENU_IMAGES_DELETED") List<Long> menuImagesDeleted,
+			@RequestParam(value="MENU_IMAGES_DELETED") String[] menuImagesDeleted,
 			@RequestParam(value="RESTAURANT_IMAGES",required=false) List<CommonsMultipartFile> restaurantImages,
-			@RequestParam(value="RESTAURANT_IMAGES_DELETED") List<Long> restaurantImagesDeleted,
+			@RequestParam(value="RESTAURANT_IMAGES_DELETED") String[] restaurantImagesDeleted,
 			@RequestParam(value="RESTAURANT_CATEGORY", required=false) String category,
 			@RequestParam(value="LATITUDE", defaultValue="12122323", required=true) String latitude,
 			@RequestParam(value="LONGITUDE", defaultValue="12121212", required=true) String longitude,
@@ -357,6 +357,8 @@ public class RestRestaurantController {
 		restaurant.setStatus(form.getStatus());
 		restaurant.setThumbnail("");
 		restaurant.setCategory(form.getRestaurantCategory());
+		restaurant.setRestaurantImagesDeleted(restaurantImagesDeleted);
+		restaurant.setMenuImagesDeleted(menuImagesDeleted);
 		String isThumbnail = "1";
 		
 		if(null!=form.getMenuImages()){

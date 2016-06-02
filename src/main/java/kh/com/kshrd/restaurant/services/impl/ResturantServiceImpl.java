@@ -2,6 +2,7 @@ package kh.com.kshrd.restaurant.services.impl;
 
 import java.util.List;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -121,7 +122,7 @@ public class ResturantServiceImpl implements RestaurantService {
 	public Boolean updateExistRestaurant(Restaurant restaurant) {
 		if(restaurantRepository.checkRestaurantExist(restaurant.getId())){
 			System.out.println("RESTAURANT IS EXIST.");
-			if(imageRepository.updateStatusByRestaurantId(restaurant.getId(), null)){
+			if(imageRepository.updateStatusByRestaurantId(restaurant.getId(), (String[])ArrayUtils.addAll(restaurant.getRestaurantImagesDeleted(), restaurant.getMenuImagesDeleted()))){
 				if(restaurantRepository.update(restaurant)){
 					System.out.println("RESTAURANT RESTAURANT SAVED SUCCESSFULLY.");
 				}else{
@@ -135,7 +136,7 @@ public class ResturantServiceImpl implements RestaurantService {
 				}else{
 					System.out.println("RESTAURANT RESTAURANT MENU(S) SAVED SUCCESSFULLY.");
 				}
-				
+					
 				if(imageRepository.save(restaurant.getRestaurantImages(), restaurant.getId())==null){
 					System.out.println("RESTAURANT IMAGE(S) NOT SAVED SUCCESSFULLY.");
 					throw new CustomGenericException("1004", "RESTAURANT IMAGE(S) NOT SAVED SUCCESSFULLY.");

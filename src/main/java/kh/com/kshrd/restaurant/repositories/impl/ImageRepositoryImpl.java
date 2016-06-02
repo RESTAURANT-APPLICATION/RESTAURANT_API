@@ -304,12 +304,13 @@ public class ImageRepositoryImpl implements ImageRepository{
 	}
 
 	@Override
-	public boolean updateStatusByRestaurantId(Long id, String[] restaurantImagesDeleted) {
+	public boolean updateStatusByRestaurantId(Long id, String[] strDeleted) {
 		
 		try{
 			int result = jdbcTemplate.update("UPDATE images "
 										   + "SET status = '0' "
-				 						   + "WHERE id IN("+ String.join(",", restaurantImagesDeleted)+") AND restaurant_id = ?"
+				 						   + "WHERE id IN("+ String.join(",", strDeleted)+") "
+				 						   + "AND restaurant_id = ?"
 						 					, new Object[]{
 						 							id
 							 				});
@@ -323,12 +324,13 @@ public class ImageRepositoryImpl implements ImageRepository{
 		return false;
 	}
 	
-//	public static void main(String[] args) {
-//		String [] restaurantImagesDeleted = {"1", "2", "3"};
-//		String sql = "UPDATE images "
-//				   + "SET status = '0' "
-//					   + "WHERE id IN("+ String.join(",", restaurantImagesDeleted)+") AND restaurant_id = ?";
-//		System.out.println(sql);
-//	}
+	public static void main(String[] args) {
+		String [] restaurantImagesDeleted = {"1", "2", "3"};
+		String sql = "UPDATE images "
+				   + "SET status = '0' "
+				   + "WHERE id IN("+ String.join(",", restaurantImagesDeleted)+") "
+				   + "AND restaurant_id = ?";
+		System.out.println(sql);
+	}
 
 }
