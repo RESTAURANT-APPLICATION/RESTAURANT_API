@@ -121,7 +121,7 @@ public class ResturantServiceImpl implements RestaurantService {
 	public Boolean updateExistRestaurant(Restaurant restaurant) {
 		if(restaurantRepository.checkRestaurantExist(restaurant.getId())){
 			System.out.println("RESTAURANT IS EXIST.");
-			if(imageRepository.updateStatusByRestaurantId(restaurant.getId())){
+			if(imageRepository.updateStatusByRestaurantId(restaurant.getId(), null)){
 				if(restaurantRepository.update(restaurant)){
 					System.out.println("RESTAURANT RESTAURANT SAVED SUCCESSFULLY.");
 				}else{

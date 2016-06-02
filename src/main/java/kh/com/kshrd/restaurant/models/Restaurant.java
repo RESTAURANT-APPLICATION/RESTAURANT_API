@@ -2,6 +2,7 @@ package kh.com.kshrd.restaurant.models;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -52,6 +53,12 @@ public class Restaurant implements Serializable{
 	
 	@JsonProperty("IMAGES")
 	private List<Image> restaurantImages = new ArrayList<Image>();
+	
+	@JsonIgnore
+	private String[] restaurantImagesDeleted;
+	
+	@JsonIgnore
+	private String[] menuImagesDeleted;
 	
 	//@JsonProperty("CATEGORIES")
 	@JsonIgnore
@@ -220,14 +227,42 @@ public class Restaurant implements Serializable{
 	public void setTelephone(Telephone telephone) {
 		this.telephone = telephone;
 	}
+	
+	public String[] getRestaurantImagesDeleted() {
+		return restaurantImagesDeleted;
+	}
+
+	public void setRestaurantImagesDeleted(String[] restaurantImagesDeleted) {
+		this.restaurantImagesDeleted = restaurantImagesDeleted;
+	}
+
+	public String[] getMenuImagesDeleted() {
+		return menuImagesDeleted;
+	}
+
+	public void setMenuImagesDeleted(String[] menuImagesDeleted) {
+		this.menuImagesDeleted = menuImagesDeleted;
+	}
 
 	@Override
 	public String toString() {
 		return "Restaurant [id=" + id + ", name=" + name + ", description=" + description + ", createdDate="
 				+ createdDate + ", updatedDate=" + updatedDate + ", createdBy=" + createdBy + ", updatedBy=" + updatedBy
 				+ ", status=" + status + ", address=" + address + ", isDelivery=" + isDelivery + ", thumbnail="
-				+ thumbnail + ", menus=" + menus + ", restaurantImages=" + restaurantImages + ", categories="
-				+ categories + ", category=" + category + ", location=" + location + ", telephone=" + telephone + "]";
+				+ thumbnail + ", menus=" + menus + ", restaurantImages=" + restaurantImages
+				+ ", restaurantImagesDeleted=" + Arrays.toString(restaurantImagesDeleted) + ", menuImagesDeleted="
+				+ Arrays.toString(menuImagesDeleted) + ", categories=" + categories + ", category=" + category
+				+ ", location=" + location + ", telephone=" + telephone + ", getId()=" + getId() + ", getName()="
+				+ getName() + ", getDescription()=" + getDescription() + ", getCreatedDate()=" + getCreatedDate()
+				+ ", getUpdatedDate()=" + getUpdatedDate() + ", getCreatedBy()=" + getCreatedBy() + ", getUpdatedBy()="
+				+ getUpdatedBy() + ", getStatus()=" + getStatus() + ", getAddress()=" + getAddress()
+				+ ", getIsDelivery()=" + getIsDelivery() + ", getThumbnail()=" + getThumbnail() + ", getMenus()="
+				+ getMenus() + ", getCategories()=" + getCategories() + ", getRestaurantImages()="
+				+ getRestaurantImages() + ", getLocation()=" + getLocation() + ", getCategory()=" + getCategory()
+				+ ", getTelephone()=" + getTelephone() + ", getRestaurantImagesDeleted()="
+				+ Arrays.toString(getRestaurantImagesDeleted()) + ", getMenuImagesDeleted()="
+				+ Arrays.toString(getMenuImagesDeleted()) + ", getClass()=" + getClass() + ", hashCode()=" + hashCode()
+				+ ", toString()=" + super.toString() + "]";
 	}
 
 }
