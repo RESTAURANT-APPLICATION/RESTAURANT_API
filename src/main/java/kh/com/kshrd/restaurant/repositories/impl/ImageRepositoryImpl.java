@@ -3,6 +3,7 @@ package kh.com.kshrd.restaurant.repositories.impl;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -325,12 +326,45 @@ public class ImageRepositoryImpl implements ImageRepository{
 	}
 	
 	public static void main(String[] args) {
-		String [] restaurantImagesDeleted = {"1", "2", "3"};
-		String sql = "UPDATE images "
-				   + "SET status = '0' "
-				   + "WHERE id IN("+ String.join(",", restaurantImagesDeleted)+") "
-				   + "AND restaurant_id = ?";
-		System.out.println(sql);
+		ArrayList<String> list1 = new ArrayList<>();
+		list1.add("Apple");
+		list1.add("Book");
+		list1.add("Car");
+		list1.add("Door");
+		list1.add("Eye");
+		list1.add("Flag");
+		list1.add("Girl");
+		list1.add("Hand");
+		list1.add("Ice");
+		list1.add("Jelly");
+		list1.add("Key");
+
+		
+		ArrayList<String> list2 = new ArrayList<>();
+		list2.add("Eye");
+		list2.add("Flag");
+		list2.add("Girl");
+		list2.add("Hand");
+		list2.add("Ice");
+		list2.add("Jelly");
+		list2.add("Key");
+		list2.add("1");
+		list2.add("2");
+		list2.add("3");
+		
+		ArrayList<String> temp = new ArrayList<>();
+	
+		ArrayList<String> inserted = new ArrayList<String>();
+		
+		for(String str : list2){
+			if(!list1.remove(str)){
+				inserted.add(str);
+			}
+		}
+		System.out.println(list1);
+		
+		System.out.println(inserted);
+		
 	}
 
 }

@@ -29,7 +29,9 @@ public class LocationRepositoryImpl implements LocationRepository{
 					   + "		 CONCAT(type, ' ', khmer_name) AS name, "
 					   + "		 parent_id "
 					   + "FROM locations "
-					   + "WHERE parent_id = ? AND type_code = ?";
+					   + "WHERE parent_id = ? "
+					   + "AND type_code = ? "
+					   + "ORDER BY 4";
 			return jdbcTemplate.query(sql, new Object[]{id, typeCode}, new RowMapper<Location>(){
 				@Override
 				public Location mapRow(ResultSet rs, int rowNum) throws SQLException {
