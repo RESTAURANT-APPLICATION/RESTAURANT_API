@@ -180,7 +180,6 @@ public class RestRestaurantController {
 			location.setLatitude(form.getLatitude());
 			location.setLongitude(form.getLongitude());
 			location.setId(1L);
-			restaurant.setLocation(location);
 			String addresses[] = form.getAddress().split("|");
 			try{
 				location.setProvince(Long.valueOf(addresses[0]));
@@ -192,6 +191,7 @@ public class RestRestaurantController {
 				System.out.println("LOCATION ERROR...");
 				ex.printStackTrace();
 			}
+			restaurant.setLocation(location);
 			Telephone telephone = new Telephone();
 			telephone.setTelephone(form.getTelephone());
 			restaurant.setTelephone(telephone);
