@@ -10,7 +10,7 @@ public interface CategoryService {
 
 	public boolean addNewCategory(Category category);
 	public boolean updateCategory(Category category);
-	public List<Category> getAllCategories(CategoryFilter filter, Pagination pagination);
+	public List<Category> getAllCategories(CategoryFilter filter);
 	public List<Category> getAllCategoriesByRestaurantId(Long id);
 	public Category getCategoryById(Long id);
 }

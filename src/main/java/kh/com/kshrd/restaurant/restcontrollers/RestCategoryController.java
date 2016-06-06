@@ -54,20 +54,16 @@ public class RestCategoryController {
 
 	@RequestMapping(method = RequestMethod.GET)
 	@ApiOperation("TO FIND ALL CATEGORIES WITH FILTER AND PAGINATION.")
-	public ResponseEntity<Map<String, Object>> findAllCategories(@RequestParam(name="name", defaultValue="", required=false) String name, 
-																@RequestParam(name="page", defaultValue="1", required=false) int page,
-																@RequestParam(name="limit", defaultValue="15", required=false) int limit){
-		Pagination pagination = new Pagination(page, limit);
+	public ResponseEntity<Map<String, Object>> findAllCategories(@RequestParam(name="name", defaultValue="", required=false) String name){
 		CategoryFilter filter = new CategoryFilter();
 		filter.setName(name);
 		
 		Map<String, Object> model = new HashMap<String, Object>();
-		List<Category> categories = categoryService.getAllCategories(filter, pagination);
+		List<Category> categories = categoryService.getAllCategories(filter);
 		if(categories!=null){
 			model.put("DATA", categories);
 			model.put("MESSAGE", "CATEGORIES HAS BEEN FIND SUCCESSFULLY.");
 			model.put("CODE", "0000");
-			model.put("PAGINATION", pagination);
 			return new ResponseEntity<Map<String, Object>>(model, HttpStatus.OK);
 		}
 		model.put("MESSAGE", "CATEGORIES HAVE NOT FOUND...");

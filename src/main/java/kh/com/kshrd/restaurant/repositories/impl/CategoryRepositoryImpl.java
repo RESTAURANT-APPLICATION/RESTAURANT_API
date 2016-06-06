@@ -22,7 +22,7 @@ public class CategoryRepositoryImpl implements CategoryRepository {
 	private JdbcTemplate jdbcTemplate;
 	
 	@Override
-	public List<Category> getAllCategories(CategoryFilter filter, Pagination pagination) {
+	public List<Category> getAllCategories(CategoryFilter filter) {
 		try{
 			String sql = "SELECT A.id, "
 					  + "	    A.name, "

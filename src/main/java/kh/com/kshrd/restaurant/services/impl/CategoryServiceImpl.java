@@ -28,9 +28,9 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 	
 	@Override
-	public List<Category> getAllCategories(CategoryFilter filter, Pagination pagination) {
+	public List<Category> getAllCategories(CategoryFilter filter) {
 		try{
-			return categoryRepository.getAllCategories(filter, pagination);
+			return categoryRepository.getAllCategories(filter);
 		}catch(Exception ex){
 			ex.printStackTrace();
 		}

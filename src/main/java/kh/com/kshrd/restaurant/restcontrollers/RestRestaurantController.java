@@ -186,12 +186,11 @@ public class RestRestaurantController {
 				location.setProvince(Long.valueOf(addresses[0]));
 				location.setDistrict(Long.valueOf(addresses[1]));
 				location.setCommune(Long.valueOf(addresses[2]));
-				location.setVillage(Long.valueOf(addresses[3]));
-				location.setStreet(addresses[4]);
-				location.setNo(addresses[5]);
-				location.setBranch(addresses[6]);
+				location.setStreet(addresses[3]);
+				location.setNo(addresses[4]);
 			}catch(Exception ex){
-				
+				System.out.println("LOCATION ERROR...");
+				ex.printStackTrace();
 			}
 			Telephone telephone = new Telephone();
 			telephone.setTelephone(form.getTelephone());

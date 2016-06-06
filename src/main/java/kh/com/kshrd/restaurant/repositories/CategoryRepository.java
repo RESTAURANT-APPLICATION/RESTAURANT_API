@@ -8,7 +8,7 @@ import kh.com.kshrd.restaurant.utilities.Pagination;
 
 public interface CategoryRepository {
 
-	public List<Category> getAllCategories(CategoryFilter filter, Pagination pagination);
+	public List<Category> getAllCategories(CategoryFilter filter);
 	public List<Category> getAllCategoriesByRestaurantId(Long id);
 	public Category getCategoryById(Long id);
 	public Long save(Category category);
