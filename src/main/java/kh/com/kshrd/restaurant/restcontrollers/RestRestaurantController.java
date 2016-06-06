@@ -181,6 +181,8 @@ public class RestRestaurantController {
 			location.setLongitude(form.getLongitude());
 			location.setId(1L);
 			String addresses[] = form.getAddress().split("|");
+			
+			System.err.println("ADDRESS ==> " + addresses + " ADDRESSS SIZE ==> " + addresses.length);
 			try{
 				location.setProvince(Long.valueOf(addresses[0]));
 				location.setDistrict(Long.valueOf(addresses[1]));
@@ -216,9 +218,9 @@ public class RestRestaurantController {
 			@RequestParam(value="MENU_IMAGES", required=false) List<CommonsMultipartFile> menuImages,
 			@RequestParam(value="RESTAURANT_IMAGES", required=false) List<CommonsMultipartFile> restaurantImages,
 			@RequestParam(value="RESTAURANT_CATEGORY", required=false) String category,
-			@RequestParam(value="LATITUDE", defaultValue="12122323", required=true) String latitude,
-			@RequestParam(value="LONGITUDE", defaultValue="12121212", required=true) String longitude,
-			@RequestParam(value="TELEPHONE", defaultValue="086961919", required=false) String phone,
+			@RequestParam(value="LATITUDE") String latitude,
+			@RequestParam(value="LONGITUDE") String longitude,
+			@RequestParam(value="TELEPHONE") String phone,
 			@RequestParam(value="STATUS", defaultValue="1", required=false) String status, 
 			HttpServletRequest request) {
 		System.out.println("RESTAURANT NAME ===>" + name);
@@ -289,6 +291,19 @@ public class RestRestaurantController {
 		location.setLatitude(form.getLatitude());
 		location.setLongitude(form.getLongitude());
 		location.setId(1L);
+		String addresses[] = form.getAddress().split("|");
+		
+		System.err.println("ADDRESS ==> " + addresses + " ADDRESSS SIZE ==> " + addresses.length);
+		try{
+			location.setProvince(Long.valueOf(addresses[0]));
+			location.setDistrict(Long.valueOf(addresses[1]));
+			location.setCommune(Long.valueOf(addresses[2]));
+			location.setStreet(addresses[3]);
+			location.setNo(addresses[4]);
+		}catch(Exception ex){
+			System.out.println("LOCATION ERROR...");
+			ex.printStackTrace();
+		}
 		restaurant.setLocation(location);
 		
 		Telephone telephone = new Telephone();
