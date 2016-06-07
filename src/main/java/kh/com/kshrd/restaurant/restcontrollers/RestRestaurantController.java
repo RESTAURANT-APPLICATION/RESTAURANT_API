@@ -295,7 +295,12 @@ public class RestRestaurantController {
 		String addresses[] = form.getAddress().split("|");
 		
 		System.err.println("ADDRESS ==> " + addresses + " ADDRESSS SIZE ==> " + addresses.length);
+		
+		for(String add : addresses){
+			System.err.println("LOCATION ==> " + add);
+		}
 		try{
+			
 			location.setProvince(Long.valueOf(addresses[0]));
 			location.setDistrict(Long.valueOf(addresses[1]));
 			location.setCommune(Long.valueOf(addresses[2]));
