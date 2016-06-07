@@ -72,6 +72,11 @@ public class RestaurantRepositoryImpl implements RestaurantRepository {
 									 + "      A.status,"
 									 + "      C.longitude,"
 									 + "      C.latitude,"
+									 + "	  C.province,"
+									 + "	  C.district,"
+									 + "	  C.commune,"
+									 + "	  C.street,"
+									 + "	  C.no,"
 									 + "      D.telephone "
 									 + "FROM restaurants A "
 									 + "LEFT JOIN images B ON A.id = B.restaurant_id AND B.is_thumbnail='1' AND B.status ='1'"
@@ -99,6 +104,11 @@ public class RestaurantRepositoryImpl implements RestaurantRepository {
 					RestaurantLocation location = new RestaurantLocation();
 					location.setLatitude(rs.getString("latitude"));
 					location.setLongitude(rs.getString("longitude"));
+					location.setProvince(rs.getLong("province"));
+					location.setProvince(rs.getLong("district"));
+					location.setProvince(rs.getLong("commune"));
+					location.setProvince(rs.getLong("street"));
+					location.setProvince(rs.getLong("no"));
 					restaurant.setLocation(location);
 					
 					Telephone telephone = new Telephone();
@@ -132,6 +142,11 @@ public class RestaurantRepositoryImpl implements RestaurantRepository {
 											 + "       A.status, "
 											 + "       C.longitude,"
 											 + "       C.latitude,"
+											 + "	   C.province,"
+											 + "	   C.district,"
+											 + "	   C.commune,"
+											 + "	   C.street,"
+											 + "	   C.no,"
 											 + "       D.telephone "
 											 + "FROM restaurants A "
 											 + "LEFT JOIN images B ON A.id = B.restaurant_id AND B.is_thumbnail='1' AND B.status ='1'"
@@ -155,6 +170,11 @@ public class RestaurantRepositoryImpl implements RestaurantRepository {
 					RestaurantLocation location = new RestaurantLocation();
 					location.setLatitude(rs.getString("latitude"));
 					location.setLongitude(rs.getString("longitude"));
+					location.setProvince(rs.getLong("province"));
+					location.setProvince(rs.getLong("district"));
+					location.setProvince(rs.getLong("commune"));
+					location.setProvince(rs.getLong("street"));
+					location.setProvince(rs.getLong("no"));
 					restaurant.setLocation(location);
 					
 					Telephone telephone = new Telephone();
