@@ -331,18 +331,18 @@ public class RestRestaurantController {
 	@ApiOperation("TO UPDATE RESTAURANT BY ID.")
 	public ResponseEntity<Map<String, Object>> updateRestaurant(
 			@PathVariable("id") Long id, 
-			@RequestParam(value="NAME", defaultValue="KA RESTAURANT NAME", required=true) String name,
-			@RequestParam(value="DESCRIPTION", defaultValue="DESCRIPTION", required=true) String description,
+			@RequestParam(value="NAME", defaultValue="KA RESTAURANT NAME", required=false) String name,
+			@RequestParam(value="DESCRIPTION", defaultValue="DESCRIPTION", required=false) String description,
 			@RequestParam(value="ADDRESS", defaultValue="ADDRESS", required=false) String address,
 			@RequestParam(value="IS_DELIVERY", defaultValue="0", required=true) String isDelivery,
 			@RequestParam(value="MENU_IMAGES", required=false) List<CommonsMultipartFile> menuImages,
-			@RequestParam(value="MENU_IMAGES_DELETED") String[] menuImagesDeleted,
+			@RequestParam(value="MENU_IMAGES_DELETED", required=false) String[] menuImagesDeleted,
 			@RequestParam(value="RESTAURANT_IMAGES",required=false) List<CommonsMultipartFile> restaurantImages,
-			@RequestParam(value="RESTAURANT_IMAGES_DELETED") String[] restaurantImagesDeleted,
+			@RequestParam(value="RESTAURANT_IMAGES_DELETED", required=false) String[] restaurantImagesDeleted,
 			@RequestParam(value="RESTAURANT_CATEGORY", required=false) String category,
-			@RequestParam(value="LATITUDE", defaultValue="12122323", required=true) String latitude,
-			@RequestParam(value="LONGITUDE", defaultValue="12121212", required=true) String longitude,
-			@RequestParam(value="TELEPHONE", defaultValue="086961919", required=false) String phone,
+			@RequestParam(value="LATITUDE", required=false) String latitude,
+			@RequestParam(value="LONGITUDE", required=false) String longitude,
+			@RequestParam(value="TELEPHONE", required=false) String phone,
 			@RequestParam(value="STATUS", defaultValue="1", required=false) String status, 
 			HttpServletRequest request) {
 		
