@@ -105,10 +105,10 @@ public class RestaurantRepositoryImpl implements RestaurantRepository {
 					location.setLatitude(rs.getString("latitude"));
 					location.setLongitude(rs.getString("longitude"));
 					location.setProvince(rs.getLong("province"));
-					location.setProvince(rs.getLong("district"));
-					location.setProvince(rs.getLong("commune"));
-					location.setProvince(rs.getLong("street"));
-					location.setProvince(rs.getLong("no"));
+					location.setDistrict(rs.getLong("district"));
+					location.setCommune(rs.getLong("commune"));
+					location.setStreet(rs.getString("street"));
+					location.setNo(rs.getString("no"));
 					restaurant.setLocation(location);
 					
 					Telephone telephone = new Telephone();
@@ -171,10 +171,10 @@ public class RestaurantRepositoryImpl implements RestaurantRepository {
 					location.setLatitude(rs.getString("latitude"));
 					location.setLongitude(rs.getString("longitude"));
 					location.setProvince(rs.getLong("province"));
-					location.setProvince(rs.getLong("district"));
-					location.setProvince(rs.getLong("commune"));
-					location.setProvince(rs.getLong("street"));
-					location.setProvince(rs.getLong("no"));
+					location.setDistrict(rs.getLong("district"));
+					location.setCommune(rs.getLong("commune"));
+					location.setStreet(rs.getString("street"));
+					location.setNo(rs.getString("no"));
 					restaurant.setLocation(location);
 					
 					Telephone telephone = new Telephone();
