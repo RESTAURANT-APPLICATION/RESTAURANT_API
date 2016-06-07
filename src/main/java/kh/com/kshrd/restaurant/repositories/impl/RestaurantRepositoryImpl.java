@@ -166,6 +166,7 @@ public class RestaurantRepositoryImpl implements RestaurantRepository {
 					restaurant.setStatus(rs.getString("status"));
 					restaurant.setCreatedDate(rs.getString("created_date"));
 					restaurant.setThumbnail(rs.getString("thumbnail"));
+					restaurant.setCategory(rs.getString("category"));
 					
 					RestaurantLocation location = new RestaurantLocation();
 					location.setLatitude(rs.getString("latitude"));
