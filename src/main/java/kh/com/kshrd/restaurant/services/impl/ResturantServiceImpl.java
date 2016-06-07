@@ -163,12 +163,12 @@ public class ResturantServiceImpl implements RestaurantService {
 					throw new CustomGenericException("1006", "RESTAURANT TELEPHONE NOT UPDATED SUCCESSFULLY.");
 				}
 			}
+			System.out.println("RESTAURANT HAS BEEN UPDATED SUCCESSFULLY.");
+			return true;
 		}else{
 			System.out.println("RESTAURANT IS NOT EXIST.");
 			throw new CustomGenericException("0001", "RESTAURANT IS NOT EXIST.");
 		}
-		System.out.println("RESTAURANT HAS BEEN UPDATED SUCCESSFULLY.");
-		return true;
 	}
 	
 	@Override
