@@ -45,7 +45,7 @@ public class RestaurantRepositoryImpl implements RestaurantRepository {
 									 		restaurant.getStatus(),
 									 		restaurant.getAddress(),
 									 		restaurant.getIsDelivery(),
-									 		restaurant.getCategory()
+									 		restaurant.getCategory().trim()
 							 				});
 			if(result>0){
 				System.out.println(id);
@@ -98,7 +98,7 @@ public class RestaurantRepositoryImpl implements RestaurantRepository {
 					restaurant.setIsDelivery(rs.getString("is_delivery"));
 					restaurant.setStatus(rs.getString("status"));
 					restaurant.setCreatedDate(rs.getString("created_date"));
-					restaurant.setCategory(rs.getString("category"));
+					restaurant.setCategory(rs.getString("category").trim());
 					restaurant.setThumbnail(rs.getString("thumbnail"));
 					
 					RestaurantLocation location = new RestaurantLocation();
@@ -166,7 +166,7 @@ public class RestaurantRepositoryImpl implements RestaurantRepository {
 					restaurant.setStatus(rs.getString("status"));
 					restaurant.setCreatedDate(rs.getString("created_date"));
 					restaurant.setThumbnail(rs.getString("thumbnail"));
-					restaurant.setCategory(rs.getString("category"));
+					restaurant.setCategory(rs.getString("category").trim());
 					
 					RestaurantLocation location = new RestaurantLocation();
 					location.setLatitude(rs.getString("latitude"));
@@ -235,7 +235,7 @@ public class RestaurantRepositoryImpl implements RestaurantRepository {
 									 		restaurant.getStatus(),
 									 		restaurant.getAddress(),
 									 		restaurant.getIsDelivery(),
-									 		restaurant.getCategory(),
+									 		restaurant.getCategory().trim(),
 									 		restaurant.getId()
 							 				});
 			if(result>0){
