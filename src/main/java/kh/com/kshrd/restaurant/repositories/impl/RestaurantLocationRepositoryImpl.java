@@ -54,8 +54,9 @@ public class RestaurantLocationRepositoryImpl implements RestaurantLocationRepos
 		try{
 			int result = jdbcTemplate.update("UPDATE restaurant_locations "
 												 + "SET longitude = ?, "
-						 						 + "	latitude = ?,"
+						 						 + "	latitude = ?, "
 						 						 + "	status =? "
+						 						 + ""
 						 						 + "WHERE restaurant_id = ?"
 							 , new Object[]{
 									 		location.getLongitude(),

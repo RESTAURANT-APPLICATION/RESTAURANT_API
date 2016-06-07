@@ -1,3 +1,4 @@
+
 package kh.com.kshrd.restaurant.restcontrollers;
 
 import java.util.ArrayList;
@@ -304,6 +305,7 @@ public class RestRestaurantController {
 			System.out.println("LOCATION ERROR...");
 			ex.printStackTrace();
 		}
+		System.err.println(location);
 		restaurant.setLocation(location);
 		
 		Telephone telephone = new Telephone();
