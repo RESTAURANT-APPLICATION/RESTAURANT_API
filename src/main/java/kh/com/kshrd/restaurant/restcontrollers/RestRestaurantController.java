@@ -413,6 +413,25 @@ public class RestRestaurantController {
 		location.setLatitude(form.getLatitude());
 		location.setLongitude(form.getLongitude());
 		location.setId(1L);
+		String addresses[] = form.getAddress().split("|");
+		
+		System.err.println("ADDRESS ==> " + addresses + " ADDRESSS SIZE ==> " + addresses.length);
+		
+		for(String add : addresses){
+			System.err.println("LOCATION ==> " + add);
+		}
+		try{
+			
+			location.setProvince(Long.valueOf(addresses[0]));
+			location.setDistrict(Long.valueOf(addresses[1]));
+			location.setCommune(Long.valueOf(addresses[2]));
+			location.setStreet(addresses[3]);
+			location.setNo(addresses[4]);
+		}catch(Exception ex){
+			System.out.println("LOCATION ERROR...");
+			ex.printStackTrace();
+		}
+		System.err.println(location);
 		restaurant.setLocation(location);
 		
 		Telephone telephone = new Telephone();

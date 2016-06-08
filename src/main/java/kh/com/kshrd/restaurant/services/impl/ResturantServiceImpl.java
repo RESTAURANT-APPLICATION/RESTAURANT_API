@@ -123,47 +123,52 @@ public class ResturantServiceImpl implements RestaurantService {
 		if(restaurantRepository.checkRestaurantExist(restaurant.getId())){
 			System.out.println("RESTAURANT IS EXIST.");
 			System.out.println("IMAGE ID TO DELETED ==> " + (String[])ArrayUtils.addAll(restaurant.getRestaurantImagesDeleted(), restaurant.getMenuImagesDeleted()));
-			if(imageRepository.updateStatusByRestaurantId(restaurant.getId(), (String[])ArrayUtils.addAll(restaurant.getRestaurantImagesDeleted(), restaurant.getMenuImagesDeleted()))){
-				if(restaurantRepository.update(restaurant)){
-					System.out.println("RESTAURANT RESTAURANT SAVED SUCCESSFULLY.");
-				}else{
-					System.out.println("RESTAURANT RESTAURANT NOT SAVED SUCCESSFULLY.");
-					throw new CustomGenericException("1002", "RESTAURANT RESTAURANT NOT SAVED SUCCESSFULLY.");
-				}
-				
-				if(imageRepository.save(restaurant.getMenus(), restaurant.getId())==null){
-					System.out.println("RESTAURANT RESTAURANT MENU(S) NOT SAVED SUCCESSFULLY.");
-					throw new CustomGenericException("1003", "RESTAURANT RESTAURANT MENU(S) NOT SAVED SUCCESSFULLY.");
-				}else{
-					System.out.println("RESTAURANT RESTAURANT MENU(S) SAVED SUCCESSFULLY.");
-				}
-					
-				if(imageRepository.save(restaurant.getRestaurantImages(), restaurant.getId())==null){
+	
+			if(restaurantRepository.update(restaurant)){
+				System.out.println("RESTAURANT RESTAURANT SAVED SUCCESSFULLY.");
+			}else{
+				System.out.println("RESTAURANT RESTAURANT NOT SAVED SUCCESSFULLY.");
+				throw new CustomGenericException("1002", "RESTAURANT RESTAURANT NOT SAVED SUCCESSFULLY.");
+			}
+			
+			if(imageRepository.save(restaurant.getMenus(), restaurant.getId())==null){
+				System.out.println("RESTAURANT RESTAURANT MENU(S) NOT SAVED SUCCESSFULLY.");
+				throw new CustomGenericException("1003", "RESTAURANT RESTAURANT MENU(S) NOT SAVED SUCCESSFULLY.");
+			}else{
+				System.out.println("RESTAURANT RESTAURANT MENU(S) SAVED SUCCESSFULLY.");
+			}
+			String strImages[] = (String[])ArrayUtils.addAll(restaurant.getRestaurantImagesDeleted(), restaurant.getMenuImagesDeleted());
+			if(strImages !=null){
+				if(!imageRepository.updateStatusByRestaurantId(restaurant.getId(), strImages)){
 					System.out.println("RESTAURANT IMAGE(S) NOT SAVED SUCCESSFULLY.");
 					throw new CustomGenericException("1004", "RESTAURANT IMAGE(S) NOT SAVED SUCCESSFULLY.");
-				}else{
-					System.out.println("RESTAURANT IMAGE(S) SAVED SUCCESSFULLY.");
-				}
-
-				restaurant.getLocation().setRestaurant(restaurant);
-				if(locationRepository.update(restaurant.getLocation())){
-					System.out.println("RESTAURANT LOCATION UPDATED SUCCESSFULLY.");
-				}else{
-					System.out.println("RESTAURANT LOCATION NOT UPDATED SUCCESSFULLY.");
-					throw new CustomGenericException("1005", "RESTAURANT LOCATION NOT UPDATED SUCCESSFULLY.");
-				}
-				
-				restaurant.getTelephone().setRestaurant(restaurant);
-				
-				if(telephoneRepository.update(restaurant.getTelephone())){
-					System.out.println("RESTAURANT TELEPHONE UPDATED SUCCESSFULLY.");
-					return true;
-				}else{
-					System.out.println("RESTAURANT TELEPHONE NOT UPDATED SUCCESSFULLY.");
-					throw new CustomGenericException("1006", "RESTAURANT TELEPHONE NOT UPDATED SUCCESSFULLY.");
-				}
+				}				
 			}
-			System.out.println("RESTAURANT HAS BEEN UPDATED SUCCESSFULLY.");
+				
+			if(imageRepository.save(restaurant.getRestaurantImages(), restaurant.getId())==null){
+				System.out.println("RESTAURANT IMAGE(S) NOT SAVED SUCCESSFULLY.");
+				throw new CustomGenericException("1004", "RESTAURANT IMAGE(S) NOT SAVED SUCCESSFULLY.");
+			}else{
+				System.out.println("RESTAURANT IMAGE(S) SAVED SUCCESSFULLY.");
+			}
+
+			restaurant.getLocation().setRestaurant(restaurant);
+			if(locationRepository.update(restaurant.getLocation())){
+				System.out.println("RESTAURANT LOCATION UPDATED SUCCESSFULLY.");
+			}else{
+				System.out.println("RESTAURANT LOCATION NOT UPDATED SUCCESSFULLY.");
+				throw new CustomGenericException("1005", "RESTAURANT LOCATION NOT UPDATED SUCCESSFULLY.");
+			}
+			
+			restaurant.getTelephone().setRestaurant(restaurant);
+			
+			if(telephoneRepository.update(restaurant.getTelephone())){
+				System.out.println("RESTAURANT TELEPHONE UPDATED SUCCESSFULLY.");
+			}else{
+				System.out.println("RESTAURANT TELEPHONE NOT UPDATED SUCCESSFULLY.");
+				throw new CustomGenericException("1006", "RESTAURANT TELEPHONE NOT UPDATED SUCCESSFULLY.");
+			}
+			//System.out.println("RESTAURANT HAS BEEN UPDATED SUCCESSFULLY.");
 			return true;
 		}else{
 			System.out.println("RESTAURANT IS NOT EXIST.");

@@ -115,18 +115,5 @@ public class RestaurantLocation {
 	public void setBranch(String branch) {
 		this.branch = branch;
 	}
-	@Override
-	public String toString() {
-		return "RestaurantLocation [id=" + id + ", longitude=" + longitude + ", latitude=" + latitude + ", country="
-				+ country + ", province=" + province + ", district=" + district + ", commune=" + commune + ", village="
-				+ village + ", street=" + street + ", no=" + no + ", branch=" + branch + ", status=" + status
-				+ ", restaurant=" + restaurant + ", getId()=" + getId() + ", getLongitude()=" + getLongitude()
-				+ ", getLatitude()=" + getLatitude() + ", getStatus()=" + getStatus() + ", getRestaurant()="
-				+ getRestaurant() + ", getCountry()=" + getCountry() + ", getProvince()=" + getProvince()
-				+ ", getDistrict()=" + getDistrict() + ", getCommune()=" + getCommune() + ", getVillage()="
-				+ getVillage() + ", getStreet()=" + getStreet() + ", getNo()=" + getNo() + ", getBranch()="
-				+ getBranch() + ", getClass()=" + getClass() + ", hashCode()=" + hashCode() + ", toString()="
-				+ super.toString() + "]";
-	}
 	
 }
