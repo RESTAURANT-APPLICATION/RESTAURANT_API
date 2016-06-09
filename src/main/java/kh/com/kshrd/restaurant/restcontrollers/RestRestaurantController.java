@@ -293,7 +293,7 @@ public class RestRestaurantController {
 		location.setLatitude(form.getLatitude());
 		location.setLongitude(form.getLongitude());
 		location.setId(1L);
-		String addresses[] = form.getAddress().split("|");
+		String addresses[] = form.getAddress().split("\\|");
 		
 		System.err.println("ADDRESS ==> " + addresses + " ADDRESSS SIZE ==> " + addresses.length);
 		
@@ -301,7 +301,6 @@ public class RestRestaurantController {
 			System.err.println("LOCATION ==> " + add);
 		}
 		try{
-			
 			location.setProvince(Long.valueOf(addresses[0]));
 			location.setDistrict(Long.valueOf(addresses[1]));
 			location.setCommune(Long.valueOf(addresses[2]));
@@ -416,7 +415,7 @@ public class RestRestaurantController {
 		location.setLatitude(form.getLatitude());
 		location.setLongitude(form.getLongitude());
 		location.setId(1L);
-		String addresses[] = form.getAddress().split("|");
+		String addresses[] = form.getAddress().split("\\|");
 		
 		System.err.println("ADDRESS ==> " + addresses + " ADDRESSS SIZE ==> " + addresses.length);
 		
@@ -581,5 +580,5 @@ public class RestRestaurantController {
 		CustomGenericMessage message = new CustomGenericMessage("9999", ex.getMessage());
 		return new ResponseEntity<CustomGenericMessage>(message, HttpStatus.OK);
 	}
-
+	
 }

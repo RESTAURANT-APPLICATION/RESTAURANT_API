@@ -45,7 +45,7 @@ public class RestaurantRepositoryImpl implements RestaurantRepository {
 									 		restaurant.getStatus(),
 									 		restaurant.getAddress(),
 									 		restaurant.getIsDelivery(),
-									 		restaurant.getCategory()
+									 		restaurant.getCategory().trim()
 							 				});
 			if(result>0){
 				System.out.println(id);
