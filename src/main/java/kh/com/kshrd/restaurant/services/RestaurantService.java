@@ -16,7 +16,7 @@ public interface RestaurantService {
 	public Restaurant findRestaurantById(Long id);
 	
 	//TODO: TO REGISTER A NEW RESTAURANT
-	public Boolean addNewRestaurant(Restaurant restaurant);
+	public Long addNewRestaurant(Restaurant restaurant);
 	
 	//TODO: TO UPDATE AN EXIST RESTAURANT
 	public Boolean updateExistRestaurant(Restaurant restaurant);

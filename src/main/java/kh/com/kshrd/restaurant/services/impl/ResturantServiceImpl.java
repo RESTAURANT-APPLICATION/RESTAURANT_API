@@ -74,7 +74,7 @@ public class ResturantServiceImpl implements RestaurantService {
 
 	@Override
 	@Transactional
-	public Boolean addNewRestaurant(Restaurant restaurant) {
+	public Long addNewRestaurant(Restaurant restaurant) {
 		try{
 			Long restaurantId = restaurantRepository.save(restaurant);
 			restaurant.setId(restaurantId);
@@ -110,11 +110,11 @@ public class ResturantServiceImpl implements RestaurantService {
 				}
 			}
 			System.out.println("RESTAURANT HAS BEEN SAVED SUCCESSFULLY.");
-			return true;
+			return restaurantId;
 		}catch(Exception ex){
 			ex.printStackTrace();
 		}
-		return false;
+		return null;
 	}
 
 	@Override

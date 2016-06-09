@@ -198,9 +198,10 @@ public class RestRestaurantController {
 			Telephone telephone = new Telephone();
 			telephone.setTelephone(form.getTelephone());
 			restaurant.setTelephone(telephone);
-			
-			if(restaurantService.addNewRestaurant(restaurant)){
+			Long restaurantId = restaurantService.addNewRestaurant(restaurant);
+			if(restaurantId!=null){
 				model.put("MESSAGE", "RESTAURANT HAS BEEN REGISTERED SUCCESSFULLY.");
+				model.put("RESTUAURANT_ID", restaurantId);
 				model.put("CODE", "0000");
 				return new ResponseEntity<Map<String, Object>>(model, HttpStatus.OK);
 			}
@@ -317,8 +318,10 @@ public class RestRestaurantController {
 		telephone.setTelephone(form.getTelephone());
 		restaurant.setTelephone(telephone);
 		
-		if(restaurantService.addNewRestaurant(restaurant)){
+		Long restaurantId = restaurantService.addNewRestaurant(restaurant);
+		if(restaurantId!=null){
 			model.put("MESSAGE", "RESTAURANT HAS BEEN REGISTERED SUCCESSFULLY.");
+			model.put("RESTUAURANT_ID", restaurantId);
 			model.put("CODE", "0000");
 			return new ResponseEntity<Map<String, Object>>(model, HttpStatus.OK);
 		}
