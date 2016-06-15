@@ -2,6 +2,7 @@ package kh.com.kshrd.restaurant.models;
 
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class User implements Serializable{
@@ -17,7 +18,7 @@ public class User implements Serializable{
 	@JsonProperty("SSID")
 	private String ssid;
 	
-	@JsonProperty("STATUS")
+	@JsonIgnore
 	private String status;
 
 	public Long getId() {

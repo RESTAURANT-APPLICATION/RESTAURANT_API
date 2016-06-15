@@ -83,10 +83,12 @@ public class RestRestaurantController {
 	})
 	@ApiOperation("TO FIND ALL RESTAURANTS BY FILTER AND PAGINATION.")
 	public ResponseEntity<Map<String, Object>> findAllRestaurants(RestaurantFilter filter, 
+																  @RequestParam(name="user", required=false) Long id,
 																  @RequestParam(name="page", defaultValue="1", required=false) int page,
 																  @RequestParam(name="limit", defaultValue="15", required=false) int limit
 																  ) {
 		Pagination pagination = new Pagination(page, limit);
+		filter.setUserId(id);
 		Map<String, Object> model = new HashMap<String, Object>();
 		List<Restaurant> restaurants = restaurantService.findAllRestaurants(filter, pagination);
 		if(restaurants!=null){
@@ -223,7 +225,7 @@ public class RestRestaurantController {
 			@RequestParam(value="LATITUDE") String latitude,
 			@RequestParam(value="LONGITUDE") String longitude,
 			@RequestParam(value="TELEPHONE") String phone,
-			@RequestParam(value="SSID", required=false) String ssid,
+			@RequestParam(value="USER_ID", required=false) Long userId,
 			@RequestParam(value="STATUS", defaultValue="1", required=false) String status, 
 			HttpServletRequest request) {
 		System.out.println("RESTAURANT NAME ===>" + name);
@@ -253,7 +255,8 @@ public class RestRestaurantController {
 		Restaurant restaurant = new Restaurant();
 		restaurant.setName(form.getName());
 		restaurant.setAddress(form.getAddress());
-		User user = userService.findUserBySSID(ssid);
+		User user = new User();
+		user.setId(userId);
 		restaurant.setCreatedBy(user);
 		restaurant.setDescription(form.getDescription());
 		restaurant.setIsDelivery(form.getIsDelivery());
@@ -345,7 +348,7 @@ public class RestRestaurantController {
 			@RequestParam(value="LATITUDE", required=false) String latitude,
 			@RequestParam(value="LONGITUDE", required=false) String longitude,
 			@RequestParam(value="TELEPHONE", required=false) String phone,
-			@RequestParam(value="SSID", required=false) String ssid,
+			@RequestParam(value="USER_ID", required=false) Long userId,
 			@RequestParam(value="STATUS", defaultValue="1", required=false) String status, 
 			HttpServletRequest request) {
 		
@@ -373,7 +376,8 @@ public class RestRestaurantController {
 		restaurant.setId(id);
 		restaurant.setName(form.getName());
 		restaurant.setAddress(form.getAddress());
-		User user = userService.findUserBySSID(ssid);
+		User user = new User();
+		user.setId(userId);
 		restaurant.setUpdatedBy(user);
 		restaurant.setDescription(form.getDescription());
 		restaurant.setIsDelivery(form.getIsDelivery());

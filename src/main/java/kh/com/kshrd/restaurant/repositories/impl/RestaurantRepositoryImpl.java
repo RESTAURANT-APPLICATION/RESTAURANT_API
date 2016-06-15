@@ -69,7 +69,7 @@ public class RestaurantRepositoryImpl implements RestaurantRepository {
 									 + "      A.is_delivery, "
 									 + "      A.created_date, "
 									 + "      A.created_by, "
-									 + "      (SELECT B.url FROM images B WHERE B.restaurant_id=A.id AND status='1' ORDER BY created_date LIMIT 1) AS thumbnail, "	
+									 + "      (SELECT url FROM images WHERE restaurant_id=A.id AND status='1' ORDER BY created_date LIMIT 1) AS thumbnail, "	
 									 + "	  A.category, "
 									 + "      A.status,"
 									 + "      C.longitude,"
@@ -84,11 +84,15 @@ public class RestaurantRepositoryImpl implements RestaurantRepository {
 //									 + "LEFT JOIN images B ON A.id = B.restaurant_id AND B.is_thumbnail='1' AND B.status ='1' "
 									 + "LEFT JOIN restaurant_locations C ON A.id = C.restaurant_id AND C.status = '1' "
 									 + "LEFT JOIN telephones D ON A.id= D.restaurant_id AND D.status = '1' "
-									 + "WHERE A.status = '1' "
+									 + "WHERE A.created_by = ? "
+									 + "AND A.status = '1' "
 									 + "ORDER BY created_date DESC "
 									 + "LIMIT ? "
 									 + "OFFSET ? "									 
-									,new Object[]{ pagination.getLimit(), pagination.offset() }
+									,new Object[]{
+										filter.getUserId(),
+										pagination.getLimit(), 
+										pagination.offset() }
 									,new RowMapper<Restaurant>(){
 				@Override
 				public Restaurant mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -141,7 +145,7 @@ public class RestaurantRepositoryImpl implements RestaurantRepository {
 											 + "       A.is_delivery, "
 											 + "       A.created_date, "
 											 + "       A.created_by, "
-											 + "      (SELECT B.url FROM images B WHERE B.restaurant_id=A.id AND status='1' ORDER BY created_date LIMIT 1) AS thumbnail, "	
+											 + "      (SELECT url FROM images WHERE restaurant_id=A.id AND status='1' ORDER BY created_date LIMIT 1) AS thumbnail, "	
 											 + "	   A.category, "
 											 + "       A.status, "
 											 + "       C.longitude,"
@@ -201,7 +205,12 @@ public class RestaurantRepositoryImpl implements RestaurantRepository {
 	@Override
 	public int count(RestaurantFilter filter) {
 		try{
-			return jdbcTemplate.queryForObject("SELECT COUNT(1) FROM restaurants WHERE status ='1'",  new Object[]{}, Integer.class);
+			return jdbcTemplate.queryForObject(
+					  "SELECT COUNT(1) "
+					+ "FROM restaurants "
+					+ "WHERE status ='1' ",  
+					new Object[]{}, 
+					Integer.class);
 		}catch(Exception ex){
 			ex.printStackTrace();
 		}
@@ -212,7 +221,11 @@ public class RestaurantRepositoryImpl implements RestaurantRepository {
 	@Override
 	public boolean checkRestaurantExist(Long restaurantId) {
 		try{
-			return jdbcTemplate.queryForObject("SELECT COUNT(1) FROM restaurants WHERE id = ? AND status ='1'",  new Object[]{ restaurantId}, Integer.class) > 0;
+			return jdbcTemplate.queryForObject(
+					  "SELECT COUNT(1) "
+					+ "FROM restaurants "
+					+ "WHERE id = ? "
+					+ "AND status ='1'",  new Object[]{ restaurantId}, Integer.class) > 0;
 		}catch(Exception ex){
 			ex.printStackTrace();
 		}
