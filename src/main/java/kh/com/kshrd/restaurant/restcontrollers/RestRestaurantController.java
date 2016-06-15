@@ -17,14 +17,12 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.WebRequest;
@@ -33,7 +31,6 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
-import com.wordnik.swagger.annotations.ApiParam;
 import com.wordnik.swagger.annotations.ApiResponse;
 import com.wordnik.swagger.annotations.ApiResponses;
 
@@ -43,12 +40,13 @@ import kh.com.kshrd.restaurant.forms.RestaurantForm;
 import kh.com.kshrd.restaurant.forms.RestaurantFormMultipart;
 import kh.com.kshrd.restaurant.locales.MessageSourceService;
 import kh.com.kshrd.restaurant.models.Image;
-import kh.com.kshrd.restaurant.models.RestaurantLocation;
 import kh.com.kshrd.restaurant.models.Restaurant;
+import kh.com.kshrd.restaurant.models.RestaurantLocation;
 import kh.com.kshrd.restaurant.models.Telephone;
 import kh.com.kshrd.restaurant.models.User;
 import kh.com.kshrd.restaurant.services.RestaurantService;
 import kh.com.kshrd.restaurant.services.UploadService;
+import kh.com.kshrd.restaurant.services.UserService;
 import kh.com.kshrd.restaurant.utilities.Pagination;
 import kh.com.kshrd.restaurant.validations.RestaurantValidation;
 import kh.com.restaurant.exceptions.CustomGenericException;
@@ -74,6 +72,9 @@ public class RestRestaurantController {
 	
 	@Autowired
 	private RestaurantValidation validation;
+	
+	@Autowired
+	private UserService userService;
 	
 	@RequestMapping(method = RequestMethod.GET)
 	@ApiResponses(value = {
@@ -137,8 +138,7 @@ public class RestRestaurantController {
 			restaurant.setName(form.getName());
 				
 			restaurant.setAddress(form.getAddress());
-			User user = new User();
-			user.setId(1L);
+			User user = userService.findUserBySSID(form.getSsid());
 			restaurant.setCreatedBy(user);
 			restaurant.setDescription(form.getDescription());
 			restaurant.setIsDelivery(form.getIsDelivery());
@@ -223,6 +223,7 @@ public class RestRestaurantController {
 			@RequestParam(value="LATITUDE") String latitude,
 			@RequestParam(value="LONGITUDE") String longitude,
 			@RequestParam(value="TELEPHONE") String phone,
+			@RequestParam(value="SSID", required=false) String ssid,
 			@RequestParam(value="STATUS", defaultValue="1", required=false) String status, 
 			HttpServletRequest request) {
 		System.out.println("RESTAURANT NAME ===>" + name);
@@ -252,8 +253,7 @@ public class RestRestaurantController {
 		Restaurant restaurant = new Restaurant();
 		restaurant.setName(form.getName());
 		restaurant.setAddress(form.getAddress());
-		User user = new User();
-		user.setId(1L);
+		User user = userService.findUserBySSID(ssid);
 		restaurant.setCreatedBy(user);
 		restaurant.setDescription(form.getDescription());
 		restaurant.setIsDelivery(form.getIsDelivery());
@@ -345,6 +345,7 @@ public class RestRestaurantController {
 			@RequestParam(value="LATITUDE", required=false) String latitude,
 			@RequestParam(value="LONGITUDE", required=false) String longitude,
 			@RequestParam(value="TELEPHONE", required=false) String phone,
+			@RequestParam(value="SSID", required=false) String ssid,
 			@RequestParam(value="STATUS", defaultValue="1", required=false) String status, 
 			HttpServletRequest request) {
 		
@@ -372,8 +373,7 @@ public class RestRestaurantController {
 		restaurant.setId(id);
 		restaurant.setName(form.getName());
 		restaurant.setAddress(form.getAddress());
-		User user = new User();
-		user.setId(1L);
+		User user = userService.findUserBySSID(ssid);
 		restaurant.setUpdatedBy(user);
 		restaurant.setDescription(form.getDescription());
 		restaurant.setIsDelivery(form.getIsDelivery());

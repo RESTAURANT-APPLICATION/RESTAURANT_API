@@ -35,6 +35,7 @@ import kh.com.kshrd.restaurant.locales.MessageSourceService;
 import kh.com.kshrd.restaurant.models.Category;
 import kh.com.kshrd.restaurant.models.User;
 import kh.com.kshrd.restaurant.services.CategoryService;
+import kh.com.kshrd.restaurant.services.UserService;
 import kh.com.kshrd.restaurant.utilities.Pagination;
 import kh.com.restaurant.exceptions.ErrorResource;
 import kh.com.restaurant.exceptions.FieldErrorResource;
@@ -52,6 +53,9 @@ public class RestCategoryController {
 	@Qualifier("fileMessageSourceService")
 	private MessageSourceService messageSource;
 
+	@Autowired
+	private UserService userService;
+	
 	@RequestMapping(method = RequestMethod.GET)
 	@ApiOperation("TO FIND ALL CATEGORIES WITH FILTER AND PAGINATION.")
 	public ResponseEntity<Map<String, Object>> findAllCategories(@RequestParam(name="name", defaultValue="", required=false) String name){

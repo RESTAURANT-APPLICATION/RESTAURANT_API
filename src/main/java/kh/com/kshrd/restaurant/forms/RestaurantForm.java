@@ -70,6 +70,9 @@ public class RestaurantForm implements Serializable {
 	@NotEmpty
 	private String telephone;
 	
+	@JsonProperty(value="SSID")
+	private String ssid;
+	
 	public Long getId() {
 		return id;
 	}
@@ -143,12 +146,19 @@ public class RestaurantForm implements Serializable {
 	public void setTelephone(String telephone) {
 		this.telephone = telephone;
 	}
+	public String getSsid() {
+		return ssid;
+	}
+	public void setSsid(String ssid) {
+		this.ssid = ssid;
+	}
 	@Override
 	public String toString() {
 		return "RestaurantForm [id=" + id + ", name=" + name + ", description=" + description + ", address=" + address
 				+ ", isDelivery=" + isDelivery + ", status=" + status + ", menuImages=" + menuImages
 				+ ", restaurantImages=" + restaurantImages + ", restaurantCategory=" + restaurantCategory
-				+ ", latitude=" + latitude + ", longitude=" + longitude + ", telephone=" + telephone + "]";
+				+ ", latitude=" + latitude + ", longitude=" + longitude + ", telephone=" + telephone + ", ssid=" + ssid
+				+ "]";
 	}
 	
 }
