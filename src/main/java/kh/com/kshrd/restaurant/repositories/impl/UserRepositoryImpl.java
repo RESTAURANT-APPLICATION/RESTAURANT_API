@@ -24,6 +24,7 @@ public class UserRepositoryImpl implements UserRepository{
 							 + "VALUES(?, ?, '1')"
 							 , new Object[]{
 								id,
+								user.getSsid()
 							 });
 			if(result>0){
 				return id;
@@ -37,7 +38,7 @@ public class UserRepositoryImpl implements UserRepository{
 	@Override
 	public Long findBySSID(String ssid) {
 		try{
-			return jdbcTemplate.queryForObject("SELECT id FROM users WHERE ssid = ? ",  new Object[]{ ssid}, Long.class);
+			return jdbcTemplate.queryForObject("SELECT id FROM users WHERE ssid = ? LIMIT 1",  new Object[]{ ssid}, Long.class);
 		}catch(Exception ex){
 			ex.printStackTrace();
 		}
