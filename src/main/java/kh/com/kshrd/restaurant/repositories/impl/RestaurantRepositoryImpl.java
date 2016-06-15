@@ -208,7 +208,7 @@ public class RestaurantRepositoryImpl implements RestaurantRepository {
 			return jdbcTemplate.queryForObject(
 					  "SELECT COUNT(1) "
 					+ "FROM restaurants "
-					+ "WHERE A.created_by = ? status ='1' ",  
+					+ "WHERE created_by = ? AND status ='1' ",  
 					new Object[]{
 						filter.getUserId()
 					}, 
