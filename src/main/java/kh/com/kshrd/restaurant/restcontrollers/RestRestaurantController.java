@@ -382,7 +382,7 @@ public class RestRestaurantController {
 		restaurant.setCategory(form.getRestaurantCategory());
 		restaurant.setRestaurantImagesDeleted(restaurantImagesDeleted);
 		restaurant.setMenuImagesDeleted(menuImagesDeleted);
-		String isThumbnail = "1";
+		String isThumbnail = "0";
 		
 		if(null!=form.getMenuImages()){
 			List<Image> menus = uploadService.uploadMultipart(form.getMenuImages(), request);
