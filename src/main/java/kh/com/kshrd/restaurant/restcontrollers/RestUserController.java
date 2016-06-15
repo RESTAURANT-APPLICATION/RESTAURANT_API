@@ -26,14 +26,12 @@ public class RestUserController {
 	public ResponseEntity<Map<String, Object>> authentication(@RequestBody UserForm form){
 		Map<String, Object> model = new HashMap<String, Object>();
 		User user = userService.findUserBySSID(form.getSsid());
-		if(user!=null){
-			model.put("DATA", user);
-			model.put("MESSAGE", "USER HAS BEEN LOGGED IN SUCCESSFULLY.");
-			model.put("CODE", "0000");
-			return new ResponseEntity<Map<String, Object>>(model, HttpStatus.OK);
+		if(user==null){
+			user = userService.save(form.getSsid());
 		}
-		model.put("MESSAGE", "USER HAS BEEN LOGGED IN FAILURE.");
-		model.put("CODE", "9999");
-		return new ResponseEntity<Map<String, Object>>(model, HttpStatus.NOT_FOUND);
+		model.put("DATA", user);
+		model.put("MESSAGE", "USER HAS BEEN LOGGED IN SUCCESSFULLY.");
+		model.put("CODE", "0000");
+		return new ResponseEntity<Map<String, Object>>(model, HttpStatus.OK);
 	}
 }

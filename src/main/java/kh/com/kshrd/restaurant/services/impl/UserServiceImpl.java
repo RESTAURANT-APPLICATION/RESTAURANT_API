@@ -1,6 +1,7 @@
 package kh.com.kshrd.restaurant.services.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import kh.com.kshrd.restaurant.models.User;
@@ -15,16 +16,18 @@ public class UserServiceImpl implements UserService{
 	
 	@Override
 	public User findUserBySSID(String ssid) {
+		User user = new User();
 		try{
 			Long id = userRepository.findBySSID(ssid);
+			user.setSsid(ssid);
 			if(id != null){
-				User user = new User();
 				user.setId(id);
-				user.setSsid(ssid);
 				return user;					
 			}
+		}catch(EmptyResultDataAccessException ex){
+			ex.printStackTrace();
 		}catch(Exception ex){
-			
+			ex.printStackTrace();
 		}
 		return null;
 	}
@@ -33,16 +36,11 @@ public class UserServiceImpl implements UserService{
 	public User save(String ssid) {
 		User user = new User();
 		try{
-			Long id = userRepository.findBySSID(ssid);
-			if(id != null){
-				user.setId(id);
-			}else{
-				user.setSsid(ssid);
-				userRepository.save(user);
-			}
+			user.setSsid(ssid);
+			user.setId(userRepository.save(user));
 			return user;					
 		}catch(Exception ex){
-			
+			ex.printStackTrace();
 		}
 		return null;
 	}
