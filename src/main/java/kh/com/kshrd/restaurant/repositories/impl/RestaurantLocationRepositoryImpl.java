@@ -55,12 +55,26 @@ public class RestaurantLocationRepositoryImpl implements RestaurantLocationRepos
 			int result = jdbcTemplate.update("UPDATE restaurant_locations "
 												 + "SET longitude = ?, "
 						 						 + "	latitude = ?, "
+												 + "	province = ?, "
+												 + "	district = ?, "
+												 + "	commune = ?, "
+												 + "	street = ?, "
+												 + "	no = ?, "
+												 + "	branch = ?, "
+												 + "	village = ?, "
 						 						 + "	status =? "
 						 						 + ""
 						 						 + "WHERE restaurant_id = ?"
 							 , new Object[]{
 									 		location.getLongitude(),
 									 		location.getLatitude(),
+									 		location.getProvince(),
+									 		location.getDistrict(),
+									 		location.getCommune(),
+									 		location.getStreet(),
+									 		location.getNo(),
+									 		location.getBranch(),
+									 		location.getVillage(),
 									 		location.getStatus(),
 									 		location.getRestaurant().getId()
 							 				});
