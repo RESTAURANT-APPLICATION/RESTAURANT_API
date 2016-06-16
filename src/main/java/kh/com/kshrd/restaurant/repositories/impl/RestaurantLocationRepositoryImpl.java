@@ -53,22 +53,15 @@ public class RestaurantLocationRepositoryImpl implements RestaurantLocationRepos
 	public boolean update(RestaurantLocation location) {
 		try{
 			int result = jdbcTemplate.update("UPDATE restaurant_locations "
-												 + "SET longitude = COALESCE(?, longitude), "
-						 						 + "	latitude = COALESCE(?, latitude) "
-												 + "	province = ?, "
-												 + "	district = ?, "
+												 + "SET district = ?, "
 												 + "	commune = ?, "
 												 + "	street = ?, "
 												 + "	no = ?, "
 												 + "	branch = ?, "
 												 + "	village = ?, "
 						 						 + "	status =? "
-						 						 + ""
 						 						 + "WHERE restaurant_id = ?"
 							 , new Object[]{
-									 		location.getLongitude(),
-									 		location.getLatitude(),
-									 		location.getProvince(),
 									 		location.getDistrict(),
 									 		location.getCommune(),
 									 		location.getStreet(),
