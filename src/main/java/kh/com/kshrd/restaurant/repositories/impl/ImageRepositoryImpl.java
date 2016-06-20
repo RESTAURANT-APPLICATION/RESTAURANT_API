@@ -34,18 +34,20 @@ public class ImageRepositoryImpl implements ImageRepository{
 												  + "title, "
 												  + "description, "
 												  + "url, "
+												  + "thumbnail_url, "
 												  + "type, "
 												  + "status, "
 												  + "created_date, "
 												  + "created_by, "
 												  + "is_thumbnail) "
-							 + "VALUES(?, ?, ?, ?, ?, ?, ?, TO_CHAR(NOW(),'YYYYMMDDHH24MMSS'), ?, ?)",
+							 + "VALUES(?, ?, ?, ?, ?, ?,?, ?, TO_CHAR(NOW(),'YYYYMMDDHH24MMSS'), ?, ?)",
 								new Object[]{
 									id,
 									image.getRestaurant().getId(),
 									image.getTitle(),
 									image.getDescription(),
 									image.getUrl(),
+									image.getThumbnailUrl(),
 									(image.getType().ordinal()+1)+"",
 									image.getStatus(),
 									image.getCreatedBy().getId(),
@@ -86,12 +88,13 @@ public class ImageRepositoryImpl implements ImageRepository{
 												  + "title, "
 												  + "description, "
 												  + "url, "
+												  + "thumbnail_url, "
 												  + "type, "
 												  + "status, "
 												  + "created_date, "
 												  + "created_by, "
 												  + "is_thumbnail) "
-						 + "VALUES(?, ?, ?, ?, ?, ?, TO_CHAR(NOW(),'YYYYMMDDHH24MMSS'), ?, ?);";
+						 + "VALUES(?, ?, ?, ?, ?, ? , ?, TO_CHAR(NOW(),'YYYYMMDDHH24MMSS'), ?, ?);";
 			int results[]= jdbcTemplate.batchUpdate(sql,new BatchPreparedStatementSetter() {
 				    @Override
 				    public void setValues(PreparedStatement ps, int i) throws SQLException {
@@ -99,10 +102,11 @@ public class ImageRepositoryImpl implements ImageRepository{
 				        ps.setString(2, images.get(i).getTitle());
 				        ps.setString(3, images.get(i).getDescription());
 				        ps.setString(4, images.get(i).getUrl());
-				        ps.setString(5, (images.get(i).getType().ordinal()+1)+"");
-				        ps.setString(6, images.get(i).getStatus());
-				        ps.setLong(7, images.get(i).getCreatedBy().getId());
-				        ps.setString(8, images.get(i).getIsThumbnail());
+				        ps.setString(5, images.get(i).getThumbnailUrl());
+				        ps.setString(6, (images.get(i).getType().ordinal()+1)+"");
+				        ps.setString(7, images.get(i).getStatus());
+				        ps.setLong(8, images.get(i).getCreatedBy().getId());
+				        ps.setString(9, images.get(i).getIsThumbnail());
 				    }
 				    
 				    @Override

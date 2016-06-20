@@ -44,6 +44,9 @@ public class Image implements Serializable {
 	@JsonIgnore
 	private Integer index;
 	
+	@JsonProperty("THUMBNAIL_URL")
+	private String thumbnailUrl;
+	
 	@JsonIgnore
 	private String isThumbnail;
 	
@@ -110,15 +113,23 @@ public class Image implements Serializable {
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
+	public Integer getIndex() {
+		return index;
+	}
+	public void setIndex(Integer index) {
+		this.index = index;
+	}
+	public String getThumbnailUrl() {
+		return thumbnailUrl;
+	}
+	public void setThumbnailUrl(String thumbnailUrl) {
+		this.thumbnailUrl = thumbnailUrl;
+	}
 	@Override
 	public String toString() {
 		return "Image [id=" + id + ", title=" + title + ", description=" + description + ", restaurant=" + restaurant
 				+ ", url=" + url + ", type=" + type + ", status=" + status + ", createdDate=" + createdDate
-				+ ", createdBy=" + createdBy + ", isThumbnail=" + isThumbnail + "]";
+				+ ", createdBy=" + createdBy + ", index=" + index + ", thumbnailUrl=" + thumbnailUrl + ", isThumbnail="
+				+ isThumbnail + "]";
 	}
-	
-	public static void main(String[] args) {
-		System.out.println(ImageType.MENU.getValue());
-	}
-	
 }
