@@ -81,7 +81,6 @@ public class RestaurantRepositoryImpl implements RestaurantRepository {
 									 + "	  C.no,"
 									 + "      D.telephone "
 									 + "FROM restaurants A "
-//									 + "LEFT JOIN images B ON A.id = B.restaurant_id AND B.is_thumbnail='1' AND B.status ='1' "
 									 + "LEFT JOIN restaurant_locations C ON A.id = C.restaurant_id AND C.status = '1' "
 									 + "LEFT JOIN telephones D ON A.id= D.restaurant_id AND D.status = '1' "
 									 + "WHERE A.created_by = ? "
@@ -238,15 +237,15 @@ public class RestaurantRepositoryImpl implements RestaurantRepository {
 	public boolean update(Restaurant restaurant) {
 		try{
 			int result = jdbcTemplate.update("UPDATE restaurants "
-												 + "SET name = ?, "
-						 						 + "	description = ?, "
-						 						 + "	updated_date = TO_CHAR(NOW(),'YYYYMMDDHH24MISS'), "
-						 						 + "	updated_by = ?, "
-						 						 + "	status = ?, "
-						 						 + "	address = ?, "
-						 						 + "	is_delivery = ?, "
-						 						 + "	category = ? "
-						 						 + "WHERE id = ?"
+											 + "SET name = ?, "
+					 						 + "	description = ?, "
+					 						 + "	updated_date = TO_CHAR(NOW(),'YYYYMMDDHH24MISS'), "
+					 						 + "	updated_by = ?, "
+					 						 + "	status = ?, "
+					 						 + "	address = ?, "
+					 						 + "	is_delivery = ?, "
+					 						 + "	category = ? "
+					 						 + "WHERE id = ?"
 				 						 , new Object[]{
 									 		restaurant.getName(),
 									 		restaurant.getDescription(),

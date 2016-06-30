@@ -1,9 +1,7 @@
 package kh.com.restaurant.exceptions;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-@JsonIgnoreProperties(ignoreUnknown = true)
 public class FieldErrorResource {
 	@JsonProperty("RESOURCE")
     private String resource;

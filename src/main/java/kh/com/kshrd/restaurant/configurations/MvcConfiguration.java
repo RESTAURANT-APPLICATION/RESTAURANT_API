@@ -1,6 +1,5 @@
 package kh.com.kshrd.restaurant.configurations;
 
-import java.util.List;
 import java.util.Locale;
 
 import javax.sql.DataSource;
@@ -14,8 +13,6 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.core.env.Environment;
-import org.springframework.http.converter.HttpMessageConverter;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -35,8 +32,6 @@ import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.resource.GzipResourceResolver;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zaxxer.hikari.HikariDataSource;
 
 @Configuration
@@ -120,18 +115,18 @@ public class MvcConfiguration extends WebMvcConfigurerAdapter {
 		return multipartResolver;
 	}
 
-	@Override
+	/*@Override
 	public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
 		converters.add(mappingJackson2HttpMessageConverter());
-	}
+	}*/
 
-	@Bean
+	/*@Bean
 	public MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter() {
 		MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
 		converter.setObjectMapper(
 				new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false));
 		return converter;
-	}
+	}*/
 
 	@Bean
 	public MessageSource messageSource() {
